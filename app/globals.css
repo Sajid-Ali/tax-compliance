@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+:root {
+  /* Surfaces — warm sage/parchment neutrals, not cool gray */
+  --background: #ece8db;
+  --surface: #f7f5ea;
+  --surface-secondary: #efece0;
+  --border: #ddd8c5;
+  --border-subtle: #e6e2d2;
+
+  /* Text */
+  --foreground: #1c1b17;
+  --muted-foreground: #706c5c;
+
+  /* Brand */
+  --primary: #3b4fee;
+  --primary-hover: #2d3fd1;
+  --primary-foreground: #ffffff;
+  --ring: #3b4fee;
+
+  /* Soft pill accent — used for section-label badges (Summary, To-do List) */
+  --pill-bg: #f2e6ea;
+  --pill-fg: #1c1b17;
+
+  /* Status */
+  --success: #1c9a53;
+  --success-bg: #e7f5eb;
+  --success-border: #bfe3cb;
+  --warning: #b5760a;
+  --warning-bg: #faf0da;
+  --warning-border: #eed7a3;
+  --danger: #c8433a;
+  --danger-bg: #fbeae8;
+  --danger-border: #f0c8c2;
+  --info: #3e64e0;
+  --info-bg: #e9eefd;
+  --info-border: #c7d5fa;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px 0 rgb(28 27 23 / 0.05);
+  --shadow-md: 0 8px 24px -6px rgb(28 27 23 / 0.10), 0 2px 6px -2px rgb(28 27 23 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #17160f;
+    --surface: #201e16;
+    --surface-secondary: #27251a;
+    --border: #37341f;
+    --border-subtle: #2b2919;
+
+    --foreground: #ede9dc;
+    --muted-foreground: #a6a18b;
+
+    --primary: #5c74ff;
+    --primary-hover: #7c92ff;
+    --primary-foreground: #ffffff;
+    --ring: #7c92ff;
+
+    --pill-bg: #2d2129;
+    --pill-fg: #ede9dc;
+
+    --success: #37d391;
+    --success-bg: #0f2a1d;
+    --success-border: #17402c;
+    --warning: #f0b64a;
+    --warning-bg: #2e2408;
+    --warning-border: #493a10;
+    --danger: #ee8479;
+    --danger-bg: #2d1512;
+    --danger-border: #49211a;
+    --info: #7c92ff;
+    --info-bg: #171e35;
+    --info-border: #253158;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.35);
+    --shadow-md: 0 8px 28px -6px rgb(0 0 0 / 0.55), 0 2px 8px -2px rgb(0 0 0 / 0.4);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+
+  --color-pill-bg: var(--pill-bg);
+  --color-pill-fg: var(--pill-fg);
+
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+
+  --shadow-elevation-sm: var(--shadow-sm);
+  --shadow-elevation-md: var(--shadow-md);
+
+  /* Static — radius doesn't switch between light/dark, so no :root
+     indirection here (that indirection previously caused an accidental
+     var(--radius-sm) self-reference; keeping these declared only once,
+     only here, avoids that class of bug entirely). */
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus rings are applied per-component via Tailwind's focus-visible:ring-*
+   utilities (see components/ui/*) rather than a single global CSS rule —
+   box-shadow-based rings resolve theme colors at build time and compose
+   cleanly, instead of stacking with each element's own border. */
+:focus-visible {
+  outline: none;
+}
