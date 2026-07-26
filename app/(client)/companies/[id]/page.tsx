@@ -2,7 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarClock, ClipboardList, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import type { AgmRecord, Company, CompanyDirector, FilingDeadline, FilingStatus } from "@/lib/types";
+import type {
+  AgmRecord,
+  Company,
+  CompanyDirector,
+  FilingDeadline,
+  FilingStatus,
+} from "@/lib/types";
 import { addDirector, setAgmRecord } from "../actions";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { Field, Input } from "@/components/ui/input";
@@ -34,7 +40,11 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
       .select("*")
       .eq("company_id", id)
       .order("created_at", { ascending: true }),
-    supabase.from("agm_records").select("*").eq("company_id", id).order("agm_date", { ascending: false }),
+    supabase
+      .from("agm_records")
+      .select("*")
+      .eq("company_id", id)
+      .order("agm_date", { ascending: false }),
     supabase
       .from("filing_deadlines")
       .select("*, compliance_rules(label)")
@@ -45,7 +55,9 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
   const typedCompany = company as Company;
   const typedDirectors = (directors ?? []) as CompanyDirector[];
   const typedAgm = (agmRecords ?? []) as AgmRecord[];
-  const typedDeadlines = (deadlines ?? []) as Array<FilingDeadline & { compliance_rules: { label: string } | null }>;
+  const typedDeadlines = (deadlines ?? []) as Array<
+    FilingDeadline & { compliance_rules: { label: string } | null }
+  >;
 
   const boundAddDirector = addDirector.bind(null, id);
   const boundSetAgm = setAgmRecord.bind(null, id);
@@ -61,9 +73,12 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
           Back to dashboard
         </Link>
         <div>
-          <h1 className="text-xl font-semibold tracking-tight text-foreground">{typedCompany.name}</h1>
+          <h1 className="text-xl font-semibold tracking-tight text-foreground">
+            {typedCompany.name}
+          </h1>
           <p className="text-sm text-muted-foreground">
-            SECP #{typedCompany.secp_registration_no} · Incorporated {typedCompany.incorporation_date}
+            SECP #{typedCompany.secp_registration_no} · Incorporated{" "}
+            {typedCompany.incorporation_date}
           </p>
         </div>
       </div>
@@ -100,8 +115,8 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <CardDescription>
-            Form A/29 is due 30 days after the AGM. Record the AGM date (past or scheduled) to get an
-            exact due date and reminder cascade.
+            Form A/29 is due 30 days after the AGM. Record the AGM date (past or scheduled) to get
+            an exact due date and reminder cascade.
           </CardDescription>
           {typedAgm[0] && (
             <p className="text-sm text-foreground">

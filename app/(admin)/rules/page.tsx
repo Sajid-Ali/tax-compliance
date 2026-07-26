@@ -19,7 +19,9 @@ export default async function RulesPage() {
         description={
           <>
             These drive the deadline calendar — edit here when a rule changes, no deploy needed. See{" "}
-            <code className="rounded bg-surface-secondary px-1 py-0.5 text-xs">lib/rules-engine.ts</code>{" "}
+            <code className="rounded bg-surface-secondary px-1 py-0.5 text-xs">
+              lib/rules-engine.ts
+            </code>{" "}
             for how offset_from/offset_days are applied.
           </>
         }
@@ -33,7 +35,12 @@ export default async function RulesPage() {
                 <div className="flex items-center justify-between">
                   <p className="font-medium text-foreground">{rule.label}</p>
                   <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <input type="checkbox" name="active" defaultChecked={rule.active} className="accent-primary" />
+                    <input
+                      type="checkbox"
+                      name="active"
+                      defaultChecked={rule.active}
+                      className="accent-primary"
+                    />
                     active
                   </label>
                 </div>
@@ -75,11 +82,20 @@ export default async function RulesPage() {
         <Card className="max-w-md">
           <CardContent className="pt-5">
             <form action={createRule} className="flex flex-col gap-4">
-              <Field label="Rule key (unique)" htmlFor="rule_key" hint="e.g. fbr_income_tax_deadline">
+              <Field
+                label="Rule key (unique)"
+                htmlFor="rule_key"
+                hint="e.g. fbr_income_tax_deadline"
+              >
                 <Input id="rule_key" name="rule_key" required />
               </Field>
               <Field label="Company type" htmlFor="company_type">
-                <Input id="company_type" name="company_type" defaultValue="private_limited" required />
+                <Input
+                  id="company_type"
+                  name="company_type"
+                  defaultValue="private_limited"
+                  required
+                />
               </Field>
               <Field label="Label" htmlFor="label">
                 <Input id="label" name="label" required />

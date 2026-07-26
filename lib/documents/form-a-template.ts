@@ -68,7 +68,13 @@ export async function generateFormADraft(params: {
 
   drawSubheading(`Directors (${directors.length})`);
   if (directors.length === 0) {
-    page.drawText("No directors recorded yet.", { x: margin, y, size: 10, font, color: rgb(0.6, 0, 0) });
+    page.drawText("No directors recorded yet.", {
+      x: margin,
+      y,
+      size: 10,
+      font,
+      color: rgb(0.6, 0, 0),
+    });
     y -= 16;
   } else {
     for (const d of directors) {

@@ -16,7 +16,14 @@ const company: Company = {
 };
 
 const directors: CompanyDirector[] = [
-  { id: "d1", company_id: "company-1", name: "Jane Doe", cnic: "42101-1234567-1", designation: "Director", created_at: "" },
+  {
+    id: "d1",
+    company_id: "company-1",
+    name: "Jane Doe",
+    cnic: "42101-1234567-1",
+    designation: "Director",
+    created_at: "",
+  },
 ];
 
 const deadline: FilingDeadline = {

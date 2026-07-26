@@ -38,7 +38,7 @@
 
   /* Elevation */
   --shadow-sm: 0 1px 2px 0 rgb(28 27 23 / 0.05);
-  --shadow-md: 0 8px 24px -6px rgb(28 27 23 / 0.10), 0 2px 6px -2px rgb(28 27 23 / 0.06);
+  --shadow-md: 0 8px 24px -6px rgb(28 27 23 / 0.1), 0 2px 6px -2px rgb(28 27 23 / 0.06);
 }
 
 @media (prefers-color-scheme: dark) {

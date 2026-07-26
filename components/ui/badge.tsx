@@ -1,4 +1,12 @@
-import { CheckCircle2, Circle, FileEdit, Send, ShieldCheck, AlertTriangle, Clock } from "lucide-react";
+import {
+  CheckCircle2,
+  Circle,
+  FileEdit,
+  Send,
+  ShieldCheck,
+  AlertTriangle,
+  Clock,
+} from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { FilingStatus } from "@/lib/types";
 
@@ -12,7 +20,15 @@ const toneClasses: Record<Tone, string> = {
   danger: "bg-danger-bg text-danger border-danger-border",
 };
 
-export function Badge({ tone = "neutral", className, children }: { tone?: Tone; className?: string; children: React.ReactNode }) {
+export function Badge({
+  tone = "neutral",
+  className,
+  children,
+}: {
+  tone?: Tone;
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
     <span
       className={cn(
@@ -26,7 +42,10 @@ export function Badge({ tone = "neutral", className, children }: { tone?: Tone; 
   );
 }
 
-const STATUS_CONFIG: Record<FilingStatus, { label: string; tone: Tone; icon: React.ComponentType<{ className?: string }> }> = {
+const STATUS_CONFIG: Record<
+  FilingStatus,
+  { label: string; tone: Tone; icon: React.ComponentType<{ className?: string }> }
+> = {
   upcoming: { label: "Upcoming", tone: "neutral", icon: Circle },
   reminder_sent: { label: "Reminder sent", tone: "info", icon: Clock },
   draft_ready: { label: "Draft ready", tone: "warning", icon: FileEdit },

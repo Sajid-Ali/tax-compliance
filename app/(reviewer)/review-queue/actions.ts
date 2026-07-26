@@ -10,7 +10,11 @@ async function requireReviewer() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
   if (profile?.role !== "reviewer" && profile?.role !== "admin") throw new Error("Not authorized");
   return { supabase, userId: user.id };
 }
@@ -50,10 +54,12 @@ export async function requestChanges(deadlineId: string, formData: FormData) {
   const { supabase, userId } = await requireReviewer();
   const notes = String(formData.get("notes") ?? "").trim();
 
-  const { error: filingErr } = await supabase.from("filings").upsert(
-    { filing_deadline_id: deadlineId, reviewer_id: userId, reviewer_notes: notes || null },
-    { onConflict: "filing_deadline_id" }
-  );
+  const { error: filingErr } = await supabase
+    .from("filings")
+    .upsert(
+      { filing_deadline_id: deadlineId, reviewer_id: userId, reviewer_notes: notes || null },
+      { onConflict: "filing_deadline_id" }
+    );
   if (filingErr) throw filingErr;
 
   // Back to draft_ready so the admin sees it needs a regenerated/corrected draft.

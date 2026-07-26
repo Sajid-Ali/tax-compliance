@@ -21,10 +21,17 @@ export default async function FilingQueuePage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="Filing queue" description="Generate drafts, route them for review, and mark filings complete." />
+      <PageHeader
+        title="Filing queue"
+        description="Generate drafts, route them for review, and mark filings complete."
+      />
 
       {rows.length === 0 ? (
-        <EmptyState icon={Inbox} title="All caught up" description="Nothing pending — everything is filed or upcoming." />
+        <EmptyState
+          icon={Inbox}
+          title="All caught up"
+          description="Nothing pending — everything is filed or upcoming."
+        />
       ) : (
         <div className="flex flex-col gap-3">
           {rows.map((row) => (
@@ -43,7 +50,9 @@ export default async function FilingQueuePage() {
               </div>
 
               <div className="flex shrink-0 items-center gap-2">
-                {(row.status === "upcoming" || row.status === "reminder_sent" || row.status === "overdue") && (
+                {(row.status === "upcoming" ||
+                  row.status === "reminder_sent" ||
+                  row.status === "overdue") && (
                   <form action={generateDraft.bind(null, row.id)}>
                     <Button type="submit" variant="outline" size="sm">
                       Generate draft

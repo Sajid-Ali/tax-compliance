@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck, test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          # Build-time placeholders only — never real secrets. Every route that
+          # reads these calls cookies() (lib/supabase/server.ts), which forces
+          # dynamic rendering, so Next.js doesn't execute this code path during
+          # a static build. These exist purely so a client-instantiation call
+          # can't crash the build on `undefined`.
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          SUPABASE_SERVICE_ROLE_KEY: placeholder-service-role-key
+          RESEND_API_KEY: placeholder-resend-key
+          REMINDERS_FROM_EMAIL: "CI <ci@example.com>"
+          CRON_SECRET: placeholder-cron-secret
+
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Non-blocking: the current 12 high-severity findings are transitive
+      # (postcss/sharp bundled inside next@16.2.12 itself; minimatch pulled in
+      # by eslint-config-next's peer deps requiring eslint <10). Fixing them
+      # for real means either Next.js shipping a patch or a deliberate eslint
+      # v9→v10 major upgrade — both tracked separately in SECURITY.md, not
+      # something a `--force` here should silently downgrade next to v9 to
+      # "fix". This job stays as a visible, non-blocking signal so a fix
+      # doesn't get missed once one becomes available upstream.
+      - run: npm audit --audit-level=high
+        continue-on-error: true

@@ -17,7 +17,10 @@ export default function NewCompanyPage() {
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to dashboard
         </Link>
-        <PageHeader title="Add a company" description="We'll use this to compute your Form A deadline." />
+        <PageHeader
+          title="Add a company"
+          description="We'll use this to compute your Form A deadline."
+        />
       </div>
 
       <Card className="max-w-lg">
@@ -27,7 +30,12 @@ export default function NewCompanyPage() {
               <Input id="name" name="name" required placeholder="Acme Pvt Ltd" />
             </Field>
             <Field label="SECP registration number" htmlFor="secp_registration_no">
-              <Input id="secp_registration_no" name="secp_registration_no" required placeholder="0123456" />
+              <Input
+                id="secp_registration_no"
+                name="secp_registration_no"
+                required
+                placeholder="0123456"
+              />
             </Field>
             <Field label="Incorporation date" htmlFor="incorporation_date">
               <Input id="incorporation_date" type="date" name="incorporation_date" required />
@@ -37,7 +45,13 @@ export default function NewCompanyPage() {
               htmlFor="paid_up_capital"
               hint="Under PKR 1,000,000 means no mandatory auditor yet."
             >
-              <Input id="paid_up_capital" type="number" name="paid_up_capital" min={0} defaultValue={0} />
+              <Input
+                id="paid_up_capital"
+                type="number"
+                name="paid_up_capital"
+                min={0}
+                defaultValue={0}
+              />
             </Field>
             <Button type="submit" className="mt-2 self-start">
               Add company

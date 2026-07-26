@@ -23,10 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       {/* suppressHydrationWarning: Grammarly (and similar extensions) injects
           data-new-gr-c-s-check-loaded / data-gr-ext-installed onto <body>
           before React hydrates. That's an extension mutating the DOM, not a

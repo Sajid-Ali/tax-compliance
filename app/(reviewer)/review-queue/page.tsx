@@ -36,10 +36,17 @@ export default async function ReviewQueuePage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="Pending your review" description="Approve or send back drafts before they're filed." />
+      <PageHeader
+        title="Pending your review"
+        description="Approve or send back drafts before they're filed."
+      />
 
       {rowsWithUrls.length === 0 ? (
-        <EmptyState icon={FileCheck2} title="Nothing to review" description="You're all caught up." />
+        <EmptyState
+          icon={FileCheck2}
+          title="Nothing to review"
+          description="You're all caught up."
+        />
       ) : (
         <div className="flex flex-col gap-4">
           {rowsWithUrls.map(({ row, url }) => (
@@ -71,7 +78,10 @@ export default async function ReviewQueuePage() {
                       Approve
                     </Button>
                   </form>
-                  <form action={requestChanges.bind(null, row.id)} className="flex items-center gap-2">
+                  <form
+                    action={requestChanges.bind(null, row.id)}
+                    className="flex items-center gap-2"
+                  >
                     <Input name="notes" placeholder="What needs to change?" className="h-8 w-56" />
                     <Button type="submit" variant="outline" size="sm">
                       Request changes

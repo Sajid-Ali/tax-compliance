@@ -5,12 +5,9 @@ type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 type Size = "sm" | "md";
 
 const variantClasses: Record<Variant, string> = {
-  primary:
-    "bg-primary text-primary-foreground hover:bg-primary-hover shadow-elevation-sm",
-  secondary:
-    "bg-surface-secondary text-foreground hover:bg-border border border-border",
-  outline:
-    "bg-surface text-foreground border border-border hover:bg-surface-secondary",
+  primary: "bg-primary text-primary-foreground hover:bg-primary-hover shadow-elevation-sm",
+  secondary: "bg-surface-secondary text-foreground hover:bg-border border border-border",
+  outline: "bg-surface text-foreground border border-border hover:bg-surface-secondary",
   ghost: "text-foreground hover:bg-surface-secondary",
   danger: "bg-danger text-white hover:opacity-90 shadow-elevation-sm",
 };

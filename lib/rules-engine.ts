@@ -3,9 +3,7 @@ import type { AgmRecord, Company, ComplianceRule } from "./types";
 
 export class MissingBaseDateError extends Error {
   constructor(ruleKey: string, offsetFrom: string) {
-    super(
-      `Cannot compute due date for rule "${ruleKey}": no ${offsetFrom} available yet.`
-    );
+    super(`Cannot compute due date for rule "${ruleKey}": no ${offsetFrom} available yet.`);
     this.name = "MissingBaseDateError";
   }
 }
@@ -82,7 +80,8 @@ export function computeApplicableDeadlines(
           {
             rule_key: rule.rule_key,
             due_date: computeDueDateISO(rule, company, latestAgmRecord),
-            source_agm_record_id: rule.offset_from === "incorporation_date" ? null : latestAgmRecord?.id ?? null,
+            source_agm_record_id:
+              rule.offset_from === "incorporation_date" ? null : (latestAgmRecord?.id ?? null),
           },
         ];
       } catch (err) {
@@ -96,7 +95,10 @@ export function computeApplicableDeadlines(
  * Reminder cascade dates for a given due date, e.g. [T-30, T-14, T-7, T-1].
  * Product/ops decision, intentionally separate from the legal rule itself.
  */
-export function reminderDatesFor(dueDateISO: string, offsetsDaysBefore: readonly number[]): string[] {
+export function reminderDatesFor(
+  dueDateISO: string,
+  offsetsDaysBefore: readonly number[]
+): string[] {
   const due = parseISO(dueDateISO);
   return offsetsDaysBefore
     .slice()

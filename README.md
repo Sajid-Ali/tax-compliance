@@ -19,15 +19,18 @@ update public.profiles set role = 'reviewer' where id = '<ca-auth-user-id>';
 
 ## Local setup
 
+0. **Node 22+** is required (`@supabase/supabase-js` drops support for older versions) — see `engines` in `package.json`.
 1. **Create a Supabase project** at supabase.com (free tier is enough for V1).
 2. Copy `.env.local.example` to `.env.local` and fill in the four Supabase/Resend/cron values from Project Settings → API.
 3. Run the migrations against your project (Supabase SQL editor, in order, or via the Supabase CLI):
    - `supabase/migrations/0001_init.sql` — schema, RLS
    - `supabase/migrations/0002_seed_rules.sql` — seeds the one Form A rule
    - `supabase/migrations/0003_storage.sql` — private `filings` storage bucket
+   - `supabase/migrations/0004_owner_can_sync_deadlines.sql`
 4. `npm install`
 5. `npm run dev` — http://localhost:3000
 6. `npm test` — rules engine + PDF generation unit tests (no Supabase needed for these)
+7. Before committing: `npm run lint`, `npm run format:check`, `npm run typecheck` — all four (plus `npm run build`) run in CI on every PR via `.github/workflows/ci.yml` and must pass before merge.
 
 ## Deploying
 

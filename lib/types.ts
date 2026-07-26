@@ -5,13 +5,7 @@
 export type UserRole = "client" | "reviewer" | "admin";
 
 export type FilingStatus =
-  | "upcoming"
-  | "reminder_sent"
-  | "draft_ready"
-  | "in_review"
-  | "approved"
-  | "filed"
-  | "overdue";
+  "upcoming" | "reminder_sent" | "draft_ready" | "in_review" | "approved" | "filed" | "overdue";
 
 export type ReminderChannel = "email" | "sms" | "whatsapp";
 

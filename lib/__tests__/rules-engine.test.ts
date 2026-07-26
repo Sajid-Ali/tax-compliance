@@ -81,7 +81,11 @@ describe("computeApplicableDeadlines", () => {
   });
 
   it("skips rules for a different company_type", () => {
-    const publicRule: ComplianceRule = { ...formARule, rule_key: "other_rule", company_type: "public_limited" };
+    const publicRule: ComplianceRule = {
+      ...formARule,
+      rule_key: "other_rule",
+      company_type: "public_limited",
+    };
     const result = computeApplicableDeadlines([publicRule], company, agmRecord);
     expect(result).toEqual([]);
   });

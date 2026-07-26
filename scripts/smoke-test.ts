@@ -27,7 +27,10 @@ function loadEnvLocal() {
     const eq = trimmed.indexOf("=");
     if (eq === -1) continue;
     const key = trimmed.slice(0, eq).trim();
-    const value = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
+    const value = trimmed
+      .slice(eq + 1)
+      .trim()
+      .replace(/^["']|["']$/g, "");
     if (!(key in process.env)) process.env[key] = value;
   }
 }
@@ -38,11 +41,15 @@ const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !anonKey || !serviceKey) {
-  console.error("Missing NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY / SUPABASE_SERVICE_ROLE_KEY — check .env.local");
+  console.error(
+    "Missing NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY / SUPABASE_SERVICE_ROLE_KEY — check .env.local"
+  );
   process.exit(1);
 }
 
-const admin = createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } });
+const admin = createClient(url, serviceKey, {
+  auth: { autoRefreshToken: false, persistSession: false },
+});
 
 async function main() {
   const testEmail = `smoke-test-${Date.now()}@example.com`;
@@ -125,10 +132,14 @@ async function main() {
       throw new Error(`due_date mismatch: expected ${expectedDueDate}, got ${deadline.due_date}`);
     }
     if (deadline.rule_key !== "secp_form_a_deadline") {
-      throw new Error(`Unexpected rule_key: ${deadline.rule_key} — is 0002_seed_rules.sql applied?`);
+      throw new Error(
+        `Unexpected rule_key: ${deadline.rule_key} — is 0002_seed_rules.sql applied?`
+      );
     }
 
-    console.log(`   OK deadline correct: rule=${deadline.rule_key} due_date=${deadline.due_date} status=${deadline.status}`);
+    console.log(
+      `   OK deadline correct: rule=${deadline.rule_key} due_date=${deadline.due_date} status=${deadline.status}`
+    );
     console.log("\nSMOKE TEST PASSED\n");
   } finally {
     if (userId) {

@@ -58,7 +58,8 @@ export default function LoginPage() {
               <div>
                 <p className="text-sm font-medium text-foreground">Check your inbox</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  We sent a sign-in link to <span className="font-medium text-foreground">{email}</span>
+                  We sent a sign-in link to{" "}
+                  <span className="font-medium text-foreground">{email}</span>
                 </p>
               </div>
             </div>
