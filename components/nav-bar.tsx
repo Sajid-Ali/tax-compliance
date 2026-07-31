@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut, Menu } from "lucide-react";
 import { Logo } from "@/components/logo";
+import { Avatar } from "@/components/ui/avatar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/cn";
@@ -12,11 +13,13 @@ import { cn } from "@/lib/cn";
 export function NavBar({
   links,
   email,
+  avatarUrl,
   roleLabel,
   homeHref,
 }: {
   links: { href: string; label: string }[];
   email?: string | null;
+  avatarUrl?: string | null;
   roleLabel?: string;
   homeHref: string;
 }) {
@@ -54,10 +57,18 @@ export function NavBar({
 
         <div className="flex items-center gap-1.5">
           {email && (
-            <div className="mr-1.5 hidden flex-col items-end leading-tight sm:flex">
-              <span className="text-xs font-medium text-foreground">{email}</span>
-              {roleLabel && <span className="text-[11px] text-muted-foreground">{roleLabel}</span>}
-            </div>
+            <Link
+              href="/profile"
+              className="mr-1 hidden items-center gap-2 rounded-md px-1.5 py-1 transition-colors hover:bg-surface-secondary sm:flex"
+            >
+              <div className="flex flex-col items-end leading-tight">
+                <span className="text-xs font-medium text-foreground">{email}</span>
+                {roleLabel && (
+                  <span className="text-[11px] text-muted-foreground">{roleLabel}</span>
+                )}
+              </div>
+              <Avatar src={avatarUrl} email={email} size="sm" />
+            </Link>
           )}
 
           <ThemeToggle />
@@ -72,7 +83,7 @@ export function NavBar({
             </button>
           </form>
 
-          {links.length > 0 && (
+          {(links.length > 0 || email) && (
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <button
@@ -103,14 +114,33 @@ export function NavBar({
                       {link.label}
                     </Link>
                   ))}
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                      isActive("/profile")
+                        ? "bg-surface-secondary text-foreground"
+                        : "text-muted-foreground hover:bg-surface-secondary hover:text-foreground"
+                    )}
+                  >
+                    Profile
+                  </Link>
                 </nav>
                 {email && (
-                  <div className="mt-auto flex flex-col gap-0.5 border-t border-border-subtle pt-4">
-                    <span className="text-xs font-medium text-foreground">{email}</span>
-                    {roleLabel && (
-                      <span className="text-[11px] text-muted-foreground">{roleLabel}</span>
-                    )}
-                  </div>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileOpen(false)}
+                    className="mt-auto flex items-center gap-2 border-t border-border-subtle pt-4"
+                  >
+                    <Avatar src={avatarUrl} email={email} size="sm" />
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-xs font-medium text-foreground">{email}</span>
+                      {roleLabel && (
+                        <span className="text-[11px] text-muted-foreground">{roleLabel}</span>
+                      )}
+                    </div>
+                  </Link>
                 )}
               </SheetContent>
             </Sheet>
