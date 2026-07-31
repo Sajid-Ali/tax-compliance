@@ -9,9 +9,9 @@ import { cn } from "@/lib/cn";
 
 const fieldBase =
   "w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors " +
-  "focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 " +
+  "focus:border-primary " +
   "disabled:cursor-not-allowed disabled:opacity-50 " +
-  "aria-invalid:border-danger aria-invalid:focus:border-danger aria-invalid:focus-visible:ring-danger/30";
+  "aria-invalid:border-danger aria-invalid:focus:border-danger";
 
 export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={cn(fieldBase, className)} {...props} />;
