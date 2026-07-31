@@ -28,7 +28,12 @@ export function CreateRuleForm() {
         hint="e.g. fbr_income_tax_deadline"
         error={state?.fieldErrors?.rule_key}
       >
-        <Input id="rule_key" name="rule_key" required aria-invalid={!!state?.fieldErrors?.rule_key} />
+        <Input
+          id="rule_key"
+          name="rule_key"
+          required
+          aria-invalid={!!state?.fieldErrors?.rule_key}
+        />
       </Field>
       <Field label="Company type" htmlFor="company_type" error={state?.fieldErrors?.company_type}>
         <Input id="company_type" name="company_type" defaultValue="private_limited" required />

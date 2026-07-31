@@ -82,10 +82,7 @@ export async function updateRule(
     .eq("id", ruleId)
     .single();
 
-  const { error } = await supabase
-    .from("compliance_rules")
-    .update(parsed.data)
-    .eq("id", ruleId);
+  const { error } = await supabase.from("compliance_rules").update(parsed.data).eq("id", ruleId);
   if (error) return { error: error.message };
 
   await logAudit(supabase, {

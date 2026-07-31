@@ -52,9 +52,7 @@ export async function GET(request: NextRequest) {
           passwordFlagErr.message
         );
       } else if (passwordFlag && !passwordFlag.has_password) {
-        return NextResponse.redirect(
-          `${origin}/set-password?next=${encodeURIComponent(landing)}`
-        );
+        return NextResponse.redirect(`${origin}/set-password?next=${encodeURIComponent(landing)}`);
       }
 
       return NextResponse.redirect(`${origin}${landing}`);

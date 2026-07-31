@@ -17,6 +17,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated design-sync tooling caches (component preview bundler +
+    // vendored React for it) — not hand-authored source, shouldn't be linted.
+    ".ds-sync/**",
+    ".design-sync/**",
+    "ds-bundle/**",
   ]),
 ]);
 

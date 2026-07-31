@@ -83,7 +83,9 @@ export function FileDropzone({
       }}
       className={cn(
         "flex cursor-pointer items-center gap-2 rounded-md border border-dashed px-2.5 py-1.5 text-xs text-muted-foreground transition-colors",
-        dragging ? "border-primary bg-primary/5 text-primary" : "border-border hover:border-primary/40",
+        dragging
+          ? "border-primary bg-primary/5 text-primary"
+          : "border-border hover:border-primary/40",
         className
       )}
     >

@@ -21,9 +21,7 @@ export function DashboardSummary({
   const inProgress = deadlines.filter((d) =>
     ["draft_ready", "in_review", "approved"].includes(d.status)
   ).length;
-  const upcoming = deadlines.filter((d) =>
-    ["upcoming", "reminder_sent"].includes(d.status)
-  ).length;
+  const upcoming = deadlines.filter((d) => ["upcoming", "reminder_sent"].includes(d.status)).length;
   const filed = deadlines.filter((d) => d.status === "filed").length;
 
   const tiles = [
