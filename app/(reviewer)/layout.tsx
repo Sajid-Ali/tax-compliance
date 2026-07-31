@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { AppShell } from "@/components/app-shell";
+import { getRoleNavConfig } from "@/lib/role-nav";
 
 export default async function ReviewerLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentProfile();
@@ -11,15 +12,11 @@ export default async function ReviewerLayout({ children }: { children: React.Rea
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const nav = getRoleNavConfig("reviewer");
+  const avatarUrl = (user?.user_metadata?.avatar_url as string | undefined) ?? null;
 
   return (
-    <AppShell
-      links={[]}
-      email={user?.email}
-      roleLabel="CA reviewer"
-      homeHref="/review-queue"
-      maxWidth="max-w-4xl"
-    >
+    <AppShell {...nav} email={user?.email} avatarUrl={avatarUrl} maxWidth="max-w-4xl">
       {children}
     </AppShell>
   );
