@@ -1,4 +1,4 @@
-import { Select } from '../../components/ui/input';
+import { Select } from "../../components/ui/input";
 
 export function Default() {
   return (
