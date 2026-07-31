@@ -6,19 +6,31 @@ import { toast } from "sonner";
 import { Camera, Loader2 } from "lucide-react";
 import { updateAvatar, type AvatarActionState } from "@/app/profile/actions";
 import { Avatar } from "@/components/ui/avatar";
+import { cn } from "@/lib/cn";
 
-function ChangePhotoOverlay() {
+/**
+ * Purely decorative — `pointer-events-none` so clicks pass through to the
+ * <label> underneath instead of being swallowed by this overlay. It used to
+ * be a `type="submit"` button covering the whole avatar, which intercepted
+ * every click before the label could open the file picker: clicking the
+ * photo just silently submitted an empty form instead of doing anything.
+ */
+function ChangePhotoBadge() {
   const { pending } = useFormStatus();
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 text-transparent transition-colors hover:bg-black/40 hover:text-white disabled:cursor-not-allowed"
+    <span
+      className={cn(
+        "pointer-events-none absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full border-2 border-surface bg-primary text-primary-foreground shadow-elevation-sm transition-transform",
+        "group-hover:scale-110"
+      )}
       aria-hidden
-      tabIndex={-1}
     >
-      {pending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Camera className="h-5 w-5" />}
-    </button>
+      {pending ? (
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+      ) : (
+        <Camera className="h-3.5 w-3.5" />
+      )}
+    </span>
   );
 }
 
@@ -33,7 +45,6 @@ export function AvatarUploadForm({
 }) {
   const [state, formAction] = useActionState<AvatarActionState, FormData>(updateAvatar, null);
   const formRef = useRef<HTMLFormElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // Derived directly from state during render rather than copied into local
   // state via an effect — state.avatarUrl already IS the latest value once
@@ -51,20 +62,19 @@ export function AvatarUploadForm({
 
   return (
     <div className="flex items-center gap-4">
-      <form ref={formRef} action={formAction} className="relative">
-        <label htmlFor="avatar" className="group relative block cursor-pointer">
+      <form ref={formRef} action={formAction}>
+        <label htmlFor="avatar" className="group relative block w-fit cursor-pointer">
           <Avatar src={displayUrl} name={name} email={email} size="lg" />
-          <ChangePhotoOverlay />
+          <ChangePhotoBadge />
+          <input
+            id="avatar"
+            name="avatar"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            className="sr-only"
+            onChange={() => formRef.current?.requestSubmit()}
+          />
         </label>
-        <input
-          ref={inputRef}
-          id="avatar"
-          name="avatar"
-          type="file"
-          accept="image/png,image/jpeg,image/webp,image/gif"
-          className="hidden"
-          onChange={() => formRef.current?.requestSubmit()}
-        />
       </form>
       <div className="flex flex-col gap-1">
         <p className="text-sm font-medium text-foreground">Profile photo</p>
