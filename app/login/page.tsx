@@ -158,17 +158,25 @@ function LoginCard() {
   const authError = searchParams.get("error");
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+      {/* Hero glow — the one bold moment on this screen. Two overlapping
+          blurred color fields (indigo + violet, matching the primary
+          gradient) rather than a single flat blob, for real depth. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-[-10%] h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-primary/25 blur-[120px]" />
+        <div className="absolute left-[62%] top-[8%] h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-primary-glow/20 blur-[110px]" />
+      </div>
+
       <div className="flex w-full max-w-sm flex-col gap-8">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <Logo />
-          <div className="flex flex-col gap-1.5">
-            <h1 className="text-lg font-semibold tracking-tight text-foreground">Welcome back</h1>
+        <div className="flex flex-col items-center gap-7 text-center">
+          <Logo size="lg" />
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
             <p className="text-sm text-muted-foreground">Sign in to Compliance Reminders.</p>
           </div>
         </div>
 
-        <div className="flex flex-col gap-5 rounded-lg border border-border bg-surface p-6 shadow-elevation-md">
+        <div className="flex flex-col gap-5 rounded-xl border border-border bg-surface p-6 shadow-elevation-lg">
           <div
             role="tablist"
             className="grid grid-cols-2 gap-1 rounded-md bg-surface-secondary p-1 text-sm"
