@@ -11,23 +11,30 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      if (redirectTo) return NextResponse.redirect(`${origin}${redirectTo}`);
-
       const {
         data: { user },
       } = await supabase.auth.getUser();
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, has_password")
         .eq("id", user?.id)
         .single();
 
       const landing =
-        profile?.role === "admin"
+        redirectTo ??
+        (profile?.role === "admin"
           ? "/admin/filing-queue"
           : profile?.role === "reviewer"
             ? "/review-queue"
-            : "/dashboard";
+            : "/dashboard");
+
+      // First login via magic link: prompt to set a password so future
+      // sign-ins don't require waiting on another email.
+      if (profile && !profile.has_password) {
+        return NextResponse.redirect(
+          `${origin}/set-password?next=${encodeURIComponent(landing)}`
+        );
+      }
 
       return NextResponse.redirect(`${origin}${landing}`);
     }
