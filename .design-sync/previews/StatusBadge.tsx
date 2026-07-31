@@ -1,4 +1,4 @@
-import { StatusBadge } from '../../components/ui/badge';
+import { StatusBadge } from "../../components/ui/badge";
 
 export function AllStatuses() {
   return (
