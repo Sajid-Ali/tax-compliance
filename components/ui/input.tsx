@@ -4,12 +4,14 @@ import {
   type SelectHTMLAttributes,
   type TextareaHTMLAttributes,
 } from "react";
+import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const fieldBase =
   "w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors " +
   "focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 " +
-  "disabled:cursor-not-allowed disabled:opacity-50";
+  "disabled:cursor-not-allowed disabled:opacity-50 " +
+  "aria-invalid:border-danger aria-invalid:focus:border-danger aria-invalid:focus-visible:ring-danger/30";
 
 export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={cn(fieldBase, className)} {...props} />;
@@ -30,12 +32,15 @@ export function Label({ className, ...props }: LabelHTMLAttributes<HTMLLabelElem
 export function Field({
   label,
   hint,
+  error,
   htmlFor,
   className,
   children,
 }: {
   label: string;
   hint?: string;
+  /** Inline validation message — sets aria-invalid styling context and announces via role="alert". */
+  error?: string;
   htmlFor?: string;
   className?: string;
   children: React.ReactNode;
@@ -44,7 +49,14 @@ export function Field({
     <div className={cn("flex flex-col gap-1.5", className)}>
       <Label htmlFor={htmlFor}>{label}</Label>
       {children}
-      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+      {error ? (
+        <p role="alert" className="flex items-center gap-1 text-xs font-medium text-danger">
+          <AlertCircle className="h-3 w-3 shrink-0" />
+          {error}
+        </p>
+      ) : (
+        hint && <p className="text-xs text-muted-foreground">{hint}</p>
+      )}
     </div>
   );
 }
