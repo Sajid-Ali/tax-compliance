@@ -1,64 +1,64 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
-  /* Surfaces — warm sage/parchment neutrals, not cool gray */
-  --background: #ece8db;
-  --surface: #f7f5ea;
-  --surface-secondary: #efece0;
-  --border: #ddd8c5;
-  --border-subtle: #e6e2d2;
+  /* Surfaces — crisp, precise neutrals. A compliance/governance product
+     reads as trustworthy through precision, not coziness: a barely-warm
+     page ground with pure-white cards layered on top (the same trick
+     Linear/Stripe use), not a beige "notebook" background. */
+  --background: #f6f6f4;
+  --surface: #ffffff;
+  --surface-secondary: #f0f0ee;
+  --border: #e3e3df;
+  --border-subtle: #ececea;
 
-  /* Text */
-  --foreground: #1c1b17;
-  --muted-foreground: #706c5c;
+  /* Text — cool near-black, not warm brown-black */
+  --foreground: #0b0d12;
+  --muted-foreground: #62676f;
 
-  /* Brand */
+  /* Brand — kept: already a confident, non-generic accent */
   --primary: #3b4fee;
   --primary-hover: #2d3fd1;
   --primary-foreground: #ffffff;
   --ring: #3b4fee;
 
-  /* Soft pill accent — used for section-label badges (Summary, To-do List) */
-  --pill-bg: #f2e6ea;
-  --pill-fg: #1c1b17;
-
   /* Status */
-  --success: #1c9a53;
-  --success-bg: #e7f5eb;
-  --success-border: #bfe3cb;
-  --warning: #b5760a;
-  --warning-bg: #faf0da;
-  --warning-border: #eed7a3;
+  --success: #15803d;
+  --success-bg: #eafaf0;
+  --success-border: #bfe8d0;
+  --warning: #a1650a;
+  --warning-bg: #fdf3e0;
+  --warning-border: #f2ddac;
   --danger: #c8433a;
-  --danger-bg: #fbeae8;
-  --danger-border: #f0c8c2;
+  --danger-bg: #fceeec;
+  --danger-border: #f2cec9;
   --info: #3e64e0;
-  --info-bg: #e9eefd;
-  --info-border: #c7d5fa;
+  --info-bg: #eaf0fe;
+  --info-border: #cbdafb;
 
-  /* Elevation */
-  --shadow-sm: 0 1px 2px 0 rgb(28 27 23 / 0.05);
-  --shadow-md: 0 8px 24px -6px rgb(28 27 23 / 0.1), 0 2px 6px -2px rgb(28 27 23 / 0.06);
+  /* Elevation — hairline borders do most of the work; shadows stay light
+     and tight so cards read as precise panels, not soft cushions. */
+  --shadow-sm: 0 1px 2px 0 rgb(11 13 18 / 0.04);
+  --shadow-md: 0 6px 16px -4px rgb(11 13 18 / 0.08), 0 2px 4px -2px rgb(11 13 18 / 0.04);
+  --shadow-lg: 0 24px 48px -12px rgb(11 13 18 / 0.18), 0 8px 16px -4px rgb(11 13 18 / 0.08);
+  --overlay: rgb(11 13 18 / 0.36);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #17160f;
-    --surface: #201e16;
-    --surface-secondary: #27251a;
-    --border: #37341f;
-    --border-subtle: #2b2919;
+  :root:not([data-theme="light"]) {
+    --background: #0a0a0c;
+    --surface: #131318;
+    --surface-secondary: #1b1b21;
+    --border: #26262e;
+    --border-subtle: #1e1e24;
 
-    --foreground: #ede9dc;
-    --muted-foreground: #a6a18b;
+    --foreground: #f2f2f0;
+    --muted-foreground: #9a9ca5;
 
     --primary: #5c74ff;
     --primary-hover: #7c92ff;
     --primary-foreground: #ffffff;
     --ring: #7c92ff;
-
-    --pill-bg: #2d2129;
-    --pill-fg: #ede9dc;
 
     --success: #37d391;
     --success-bg: #0f2a1d;
@@ -73,9 +73,74 @@
     --info-bg: #171e35;
     --info-border: #253158;
 
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.35);
-    --shadow-md: 0 8px 28px -6px rgb(0 0 0 / 0.55), 0 2px 8px -2px rgb(0 0 0 / 0.4);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-md: 0 8px 24px -6px rgb(0 0 0 / 0.5), 0 2px 6px -2px rgb(0 0 0 / 0.35);
+    --shadow-lg: 0 32px 64px -12px rgb(0 0 0 / 0.65), 0 12px 24px -4px rgb(0 0 0 / 0.5);
+    --overlay: rgb(0 0 0 / 0.55);
   }
+}
+
+/* Manual override via the theme toggle (components/ui/theme-toggle.tsx) — a
+   data-theme attribute on <html> wins in both directions over the OS
+   preference above, so a user's explicit choice always sticks. */
+:root[data-theme="dark"] {
+  --background: #0a0a0c;
+  --surface: #131318;
+  --surface-secondary: #1b1b21;
+  --border: #26262e;
+  --border-subtle: #1e1e24;
+  --foreground: #f2f2f0;
+  --muted-foreground: #9a9ca5;
+  --primary: #5c74ff;
+  --primary-hover: #7c92ff;
+  --primary-foreground: #ffffff;
+  --ring: #7c92ff;
+  --success: #37d391;
+  --success-bg: #0f2a1d;
+  --success-border: #17402c;
+  --warning: #f0b64a;
+  --warning-bg: #2e2408;
+  --warning-border: #493a10;
+  --danger: #ee8479;
+  --danger-bg: #2d1512;
+  --danger-border: #49211a;
+  --info: #7c92ff;
+  --info-bg: #171e35;
+  --info-border: #253158;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 8px 24px -6px rgb(0 0 0 / 0.5), 0 2px 6px -2px rgb(0 0 0 / 0.35);
+  --shadow-lg: 0 32px 64px -12px rgb(0 0 0 / 0.65), 0 12px 24px -4px rgb(0 0 0 / 0.5);
+  --overlay: rgb(0 0 0 / 0.55);
+}
+
+:root[data-theme="light"] {
+  --background: #f6f6f4;
+  --surface: #ffffff;
+  --surface-secondary: #f0f0ee;
+  --border: #e3e3df;
+  --border-subtle: #ececea;
+  --foreground: #0b0d12;
+  --muted-foreground: #62676f;
+  --primary: #3b4fee;
+  --primary-hover: #2d3fd1;
+  --primary-foreground: #ffffff;
+  --ring: #3b4fee;
+  --success: #15803d;
+  --success-bg: #eafaf0;
+  --success-border: #bfe8d0;
+  --warning: #a1650a;
+  --warning-bg: #fdf3e0;
+  --warning-border: #f2ddac;
+  --danger: #c8433a;
+  --danger-bg: #fceeec;
+  --danger-border: #f2cec9;
+  --info: #3e64e0;
+  --info-bg: #eaf0fe;
+  --info-border: #cbdafb;
+  --shadow-sm: 0 1px 2px 0 rgb(11 13 18 / 0.04);
+  --shadow-md: 0 6px 16px -4px rgb(11 13 18 / 0.08), 0 2px 4px -2px rgb(11 13 18 / 0.04);
+  --shadow-lg: 0 24px 48px -12px rgb(11 13 18 / 0.18), 0 8px 16px -4px rgb(11 13 18 / 0.08);
+  --overlay: rgb(11 13 18 / 0.36);
 }
 
 @theme inline {
@@ -93,9 +158,6 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-ring: var(--ring);
 
-  --color-pill-bg: var(--pill-bg);
-  --color-pill-fg: var(--pill-fg);
-
   --color-success: var(--success);
   --color-success-bg: var(--success-bg);
   --color-success-border: var(--success-border);
@@ -111,15 +173,19 @@
 
   --shadow-elevation-sm: var(--shadow-sm);
   --shadow-elevation-md: var(--shadow-md);
+  --shadow-elevation-lg: var(--shadow-lg);
+  --color-overlay: var(--overlay);
 
   /* Static — radius doesn't switch between light/dark, so no :root
      indirection here (that indirection previously caused an accidental
      var(--radius-sm) self-reference; keeping these declared only once,
-     only here, avoids that class of bug entirely). */
-  --radius-sm: 0.625rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.5rem;
+     only here, avoids that class of bug entirely).
+     Tightened from the previous scale (.625/.875/1.25/1.5rem) — sharper,
+     more precise corners read as enterprise-grade rather than consumer-soft. */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -133,7 +199,22 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Focus rings are applied per-component via Tailwind's focus-visible:ring-*
