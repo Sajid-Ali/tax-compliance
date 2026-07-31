@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { NavBar } from "@/components/nav-bar";
+import { AppShell } from "@/components/app-shell";
 
 export default async function ReviewerLayout({ children }: { children: React.ReactNode }) {
   const profile = await getCurrentProfile();
@@ -13,9 +13,14 @@ export default async function ReviewerLayout({ children }: { children: React.Rea
   } = await supabase.auth.getUser();
 
   return (
-    <div className="min-h-screen bg-background">
-      <NavBar links={[]} email={user?.email} roleLabel="CA reviewer" homeHref="/review-queue" />
-      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6">{children}</main>
-    </div>
+    <AppShell
+      links={[]}
+      email={user?.email}
+      roleLabel="CA reviewer"
+      homeHref="/review-queue"
+      maxWidth="max-w-4xl"
+    >
+      {children}
+    </AppShell>
   );
 }
