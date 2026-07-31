@@ -137,7 +137,7 @@ export function DataTable<TData, TValue>({
                 </td>
               </tr>
             ) : (
-              rows.map((row) => {
+              rows.map((row, i) => {
                 const href = getRowHref?.(row.original);
                 return (
                   <tr
@@ -152,8 +152,10 @@ export function DataTable<TData, TValue>({
                           }
                         : undefined
                     }
+                    style={{ animationDelay: `${Math.min(i, 8) * 35}ms` }}
                     className={cn(
-                      "border-b border-border-subtle last:border-0 transition-colors",
+                      "animate-in fade-in slide-in-from-bottom-1 border-b border-border-subtle duration-300 ease-out last:border-0 fill-mode-backwards",
+                      "transition-colors",
                       href &&
                         "cursor-pointer hover:bg-surface-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/50"
                     )}
