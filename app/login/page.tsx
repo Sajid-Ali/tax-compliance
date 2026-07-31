@@ -187,7 +187,7 @@ function LoginCard() {
               aria-selected={mode === "magic-link"}
               onClick={() => setMode("magic-link")}
               className={cn(
-                "rounded-[calc(var(--radius-md)-4px)] px-3 py-1.5 font-medium transition-colors",
+                "cursor-pointer rounded-[calc(var(--radius-md)-4px)] px-3 py-1.5 font-medium transition-colors",
                 mode === "magic-link"
                   ? "bg-surface text-foreground shadow-elevation-sm"
                   : "text-muted-foreground hover:text-foreground"
@@ -201,7 +201,7 @@ function LoginCard() {
               aria-selected={mode === "password"}
               onClick={() => setMode("password")}
               className={cn(
-                "rounded-[calc(var(--radius-md)-4px)] px-3 py-1.5 font-medium transition-colors",
+                "cursor-pointer rounded-[calc(var(--radius-md)-4px)] px-3 py-1.5 font-medium transition-colors",
                 mode === "password"
                   ? "bg-surface text-foreground shadow-elevation-sm"
                   : "text-muted-foreground hover:text-foreground"
