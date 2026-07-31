@@ -5,13 +5,7 @@ import { useEffect, useRef, useState } from "react";
 const easeOutQuad = (t: number) => t * (2 - t);
 
 /** Counts up from 0 to `value` on mount — respects prefers-reduced-motion. */
-export function AnimatedNumber({
-  value,
-  duration = 600,
-}: {
-  value: number;
-  duration?: number;
-}) {
+export function AnimatedNumber({ value, duration = 600 }: { value: number; duration?: number }) {
   const [display, setDisplay] = useState(0);
   const frameRef = useRef<number | undefined>(undefined);
 
