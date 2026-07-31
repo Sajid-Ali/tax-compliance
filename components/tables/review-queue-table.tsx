@@ -40,7 +40,11 @@ function RequestChangesForm({ deadlineId }: { deadlineId: string }) {
   );
 }
 
-export function ReviewQueueTable({ rowsWithUrls }: { rowsWithUrls: { row: Row; url: string | null }[] }) {
+export function ReviewQueueTable({
+  rowsWithUrls,
+}: {
+  rowsWithUrls: { row: Row; url: string | null }[];
+}) {
   const columns = useMemo<ColumnDef<{ row: Row; url: string | null }>[]>(
     () => [
       {
@@ -105,7 +109,11 @@ export function ReviewQueueTable({ rowsWithUrls }: { rowsWithUrls: { row: Row; u
       data={rowsWithUrls}
       searchPlaceholder="Search by company…"
       emptyState={
-        <EmptyState icon={FileCheck2} title="Nothing to review" description="You're all caught up." />
+        <EmptyState
+          icon={FileCheck2}
+          title="Nothing to review"
+          description="You're all caught up."
+        />
       }
     />
   );
