@@ -32,7 +32,13 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const protectedPrefixes = ["/dashboard", "/companies", "/review-queue", "/admin"];
+  const protectedPrefixes = [
+    "/dashboard",
+    "/companies",
+    "/review-queue",
+    "/admin",
+    "/set-password",
+  ];
   const isProtected = protectedPrefixes.some((p) => request.nextUrl.pathname.startsWith(p));
 
   if (!user && isProtected) {
