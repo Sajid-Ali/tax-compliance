@@ -72,7 +72,15 @@ async function deleteExistingDemoUsers() {
   const targets = data.users.filter((u) => DEMO_USERS.some((d) => d.email === u.email));
   for (const u of targets) {
     await admin.from("companies").delete().eq("owner_user_id", u.id);
-    await admin.auth.admin.deleteUser(u.id);
+    // audit_log.actor_user_id -> auth.users has no ON DELETE CASCADE
+    // (intentional — a real audit trail must survive the user who made it).
+    // These are disposable demo accounts, so wiping their trail on reseed
+    // is fine; without this, deleteUser fails with a foreign-key violation
+    // as soon as any demo-account action (approve, edit, upload...) has
+    // been exercised once.
+    await admin.from("audit_log").delete().eq("actor_user_id", u.id);
+    const { error: deleteErr } = await admin.auth.admin.deleteUser(u.id);
+    if (deleteErr) throw new Error(`Couldn't delete ${u.email}: ${deleteErr.message}`);
   }
   if (targets.length > 0) console.log(`Removed ${targets.length} previous demo user(s).`);
 }
