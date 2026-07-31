@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { createCompany } from "../actions";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent } from "@/components/ui/card";
-import { Field, Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { AddCompanyForm } from "@/components/forms/add-company-form";
 
 export default function NewCompanyPage() {
   return (
@@ -25,38 +23,7 @@ export default function NewCompanyPage() {
 
       <Card className="max-w-lg">
         <CardContent className="pt-5">
-          <form action={createCompany} className="flex flex-col gap-4">
-            <Field label="Company name" htmlFor="name">
-              <Input id="name" name="name" required placeholder="Acme Pvt Ltd" />
-            </Field>
-            <Field label="SECP registration number" htmlFor="secp_registration_no">
-              <Input
-                id="secp_registration_no"
-                name="secp_registration_no"
-                required
-                placeholder="0123456"
-              />
-            </Field>
-            <Field label="Incorporation date" htmlFor="incorporation_date">
-              <Input id="incorporation_date" type="date" name="incorporation_date" required />
-            </Field>
-            <Field
-              label="Paid-up capital (PKR)"
-              htmlFor="paid_up_capital"
-              hint="Under PKR 1,000,000 means no mandatory auditor yet."
-            >
-              <Input
-                id="paid_up_capital"
-                type="number"
-                name="paid_up_capital"
-                min={0}
-                defaultValue={0}
-              />
-            </Field>
-            <Button type="submit" className="mt-2 self-start">
-              Add company
-            </Button>
-          </form>
+          <AddCompanyForm />
         </CardContent>
       </Card>
     </div>
