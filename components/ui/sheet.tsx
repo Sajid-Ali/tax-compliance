@@ -29,7 +29,7 @@ export function SheetContent({ className, children, ...props }: RadixDialog.Dial
       >
         {children}
         <RadixDialog.Close
-          className="absolute right-4 top-4 rounded-md p-1 text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+          className="absolute right-4 top-4 rounded-md p-1 text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground"
           aria-label="Close menu"
         >
           <X className="h-4 w-4" />
