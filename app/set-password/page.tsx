@@ -51,12 +51,10 @@ function SetPasswordForm() {
         <div className="flex flex-col items-center gap-6 text-center">
           <Logo />
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-lg font-semibold tracking-tight text-foreground">
-              Set a password
-            </h1>
+            <h1 className="text-lg font-semibold tracking-tight text-foreground">Set a password</h1>
             <p className="text-sm text-muted-foreground">
-              You&apos;re in — set a password so next time you can sign in with your email instead of
-              waiting on a link.
+              You&apos;re in — set a password so next time you can sign in with your email instead
+              of waiting on a link.
             </p>
           </div>
         </div>
