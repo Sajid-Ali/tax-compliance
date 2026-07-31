@@ -61,7 +61,9 @@ export function ChangePasswordForm({
     }
 
     await markPasswordSet();
-    toast.success(hasPassword ? "Password updated." : "Password set — you can sign in with it next time.");
+    toast.success(
+      hasPassword ? "Password updated." : "Password set — you can sign in with it next time."
+    );
     setCurrentPassword("");
     setPassword("");
     setConfirm("");
