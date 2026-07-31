@@ -16,9 +16,12 @@
   --foreground: #0b0d12;
   --muted-foreground: #62676f;
 
-  /* Brand — kept: already a confident, non-generic accent */
+  /* Brand — indigo kept as the anchor; violet added as its gradient
+     partner for hero moments and primary actions (buttons, glows,
+     underline accents) — confident and rich rather than a single flat hue. */
   --primary: #3b4fee;
   --primary-hover: #2d3fd1;
+  --primary-glow: #8b5cf6;
   --primary-foreground: #ffffff;
   --ring: #3b4fee;
 
@@ -36,12 +39,15 @@
   --info-bg: #eaf0fe;
   --info-border: #cbdafb;
 
-  /* Elevation — hairline borders do most of the work; shadows stay light
-     and tight so cards read as precise panels, not soft cushions. */
-  --shadow-sm: 0 1px 2px 0 rgb(11 13 18 / 0.04);
-  --shadow-md: 0 6px 16px -4px rgb(11 13 18 / 0.08), 0 2px 4px -2px rgb(11 13 18 / 0.04);
-  --shadow-lg: 0 24px 48px -12px rgb(11 13 18 / 0.18), 0 8px 16px -4px rgb(11 13 18 / 0.08);
-  --overlay: rgb(11 13 18 / 0.36);
+  /* Elevation — deep, soft, layered shadows so cards read as lifted
+     surfaces with real weight, not flat panels with a hairline. */
+  --shadow-sm: 0 2px 6px -2px rgb(11 13 18 / 0.08), 0 1px 2px rgb(11 13 18 / 0.05);
+  --shadow-md: 0 16px 32px -8px rgb(11 13 18 / 0.16), 0 6px 12px -4px rgb(11 13 18 / 0.08);
+  --shadow-lg: 0 40px 80px -16px rgb(11 13 18 / 0.32), 0 16px 32px -8px rgb(11 13 18 / 0.16);
+  /* Colored glow — reserved for hero surfaces and primary CTAs, the one
+     place per screen that's allowed to be loud. */
+  --shadow-glow: 0 12px 40px -8px rgb(59 79 238 / 0.4), 0 4px 12px -2px rgb(139 92 246 / 0.25);
+  --overlay: rgb(11 13 18 / 0.4);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -57,6 +63,7 @@
 
     --primary: #5c74ff;
     --primary-hover: #7c92ff;
+    --primary-glow: #a78bfa;
     --primary-foreground: #ffffff;
     --ring: #7c92ff;
 
@@ -73,10 +80,11 @@
     --info-bg: #171e35;
     --info-border: #253158;
 
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
-    --shadow-md: 0 8px 24px -6px rgb(0 0 0 / 0.5), 0 2px 6px -2px rgb(0 0 0 / 0.35);
-    --shadow-lg: 0 32px 64px -12px rgb(0 0 0 / 0.65), 0 12px 24px -4px rgb(0 0 0 / 0.5);
-    --overlay: rgb(0 0 0 / 0.55);
+    --shadow-sm: 0 2px 6px -2px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 6px 14px -4px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 44px 88px -16px rgb(0 0 0 / 0.75), 0 18px 36px -8px rgb(0 0 0 / 0.55);
+    --shadow-glow: 0 12px 44px -6px rgb(92 116 255 / 0.5), 0 4px 14px -2px rgb(167 139 250 / 0.35);
+    --overlay: rgb(0 0 0 / 0.6);
   }
 }
 
@@ -93,6 +101,7 @@
   --muted-foreground: #9a9ca5;
   --primary: #5c74ff;
   --primary-hover: #7c92ff;
+  --primary-glow: #a78bfa;
   --primary-foreground: #ffffff;
   --ring: #7c92ff;
   --success: #37d391;
@@ -107,10 +116,11 @@
   --info: #7c92ff;
   --info-bg: #171e35;
   --info-border: #253158;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
-  --shadow-md: 0 8px 24px -6px rgb(0 0 0 / 0.5), 0 2px 6px -2px rgb(0 0 0 / 0.35);
-  --shadow-lg: 0 32px 64px -12px rgb(0 0 0 / 0.65), 0 12px 24px -4px rgb(0 0 0 / 0.5);
-  --overlay: rgb(0 0 0 / 0.55);
+  --shadow-sm: 0 2px 6px -2px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 6px 14px -4px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 44px 88px -16px rgb(0 0 0 / 0.75), 0 18px 36px -8px rgb(0 0 0 / 0.55);
+  --shadow-glow: 0 12px 44px -6px rgb(92 116 255 / 0.5), 0 4px 14px -2px rgb(167 139 250 / 0.35);
+  --overlay: rgb(0 0 0 / 0.6);
 }
 
 :root[data-theme="light"] {
@@ -123,6 +133,7 @@
   --muted-foreground: #62676f;
   --primary: #3b4fee;
   --primary-hover: #2d3fd1;
+  --primary-glow: #8b5cf6;
   --primary-foreground: #ffffff;
   --ring: #3b4fee;
   --success: #15803d;
@@ -137,10 +148,11 @@
   --info: #3e64e0;
   --info-bg: #eaf0fe;
   --info-border: #cbdafb;
-  --shadow-sm: 0 1px 2px 0 rgb(11 13 18 / 0.04);
-  --shadow-md: 0 6px 16px -4px rgb(11 13 18 / 0.08), 0 2px 4px -2px rgb(11 13 18 / 0.04);
-  --shadow-lg: 0 24px 48px -12px rgb(11 13 18 / 0.18), 0 8px 16px -4px rgb(11 13 18 / 0.08);
-  --overlay: rgb(11 13 18 / 0.36);
+  --shadow-sm: 0 2px 6px -2px rgb(11 13 18 / 0.08), 0 1px 2px rgb(11 13 18 / 0.05);
+  --shadow-md: 0 16px 32px -8px rgb(11 13 18 / 0.16), 0 6px 12px -4px rgb(11 13 18 / 0.08);
+  --shadow-lg: 0 40px 80px -16px rgb(11 13 18 / 0.32), 0 16px 32px -8px rgb(11 13 18 / 0.16);
+  --shadow-glow: 0 12px 40px -8px rgb(59 79 238 / 0.4), 0 4px 12px -2px rgb(139 92 246 / 0.25);
+  --overlay: rgb(11 13 18 / 0.4);
 }
 
 @theme inline {
@@ -155,6 +167,7 @@
 
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-primary-glow: var(--primary-glow);
   --color-primary-foreground: var(--primary-foreground);
   --color-ring: var(--ring);
 
@@ -174,14 +187,13 @@
   --shadow-elevation-sm: var(--shadow-sm);
   --shadow-elevation-md: var(--shadow-md);
   --shadow-elevation-lg: var(--shadow-lg);
+  --shadow-elevation-glow: var(--shadow-glow);
   --color-overlay: var(--overlay);
 
   /* Static — radius doesn't switch between light/dark, so no :root
      indirection here (that indirection previously caused an accidental
      var(--radius-sm) self-reference; keeping these declared only once,
-     only here, avoids that class of bug entirely).
-     Tightened from the previous scale (.625/.875/1.25/1.5rem) — sharper,
-     more precise corners read as enterprise-grade rather than consumer-soft. */
+     only here, avoids that class of bug entirely). */
   --radius-sm: 0.5rem;
   --radius-md: 0.625rem;
   --radius-lg: 0.75rem;
@@ -204,6 +216,15 @@ body {
   transition:
     background-color 200ms ease,
     color 200ms ease;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
