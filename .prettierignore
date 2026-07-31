@@ -6,3 +6,7 @@ coverage/
 next-env.d.ts
 tsconfig.tsbuildinfo
 public/
+# Generated design-sync tooling caches — not hand-authored source.
+.ds-sync/
+.design-sync/
+ds-bundle/

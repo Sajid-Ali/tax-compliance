@@ -30,8 +30,8 @@ export function ErrorState({
       <div className="flex flex-col gap-1">
         <p className="text-sm font-medium text-foreground">{title}</p>
         <p className="max-w-sm text-sm text-muted-foreground">
-          This page hit an unexpected error loading its data. Try again — if it keeps happening,
-          the underlying issue has already been logged.
+          This page hit an unexpected error loading its data. Try again — if it keeps happening, the
+          underlying issue has already been logged.
         </p>
       </div>
       <Button type="button" variant="outline" size="sm" onClick={reset} className="mt-1">

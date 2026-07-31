@@ -42,9 +42,7 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !serviceKey) {
-  console.error(
-    "Missing NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY — check .env.local"
-  );
+  console.error("Missing NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY — check .env.local");
   process.exit(1);
 }
 
@@ -56,7 +54,11 @@ const DEMO_PASSWORD = "Demo1234!";
 
 const DEMO_USERS = [
   { email: "admin@demo.test", role: "admin" as const, full_name: "Ayesha Khan (Admin)" },
-  { email: "reviewer@demo.test", role: "reviewer" as const, full_name: "Bilal Ahmed, ACA (Reviewer)" },
+  {
+    email: "reviewer@demo.test",
+    role: "reviewer" as const,
+    full_name: "Bilal Ahmed, ACA (Reviewer)",
+  },
   { email: "client@demo.test", role: "client" as const, full_name: "Sana Malik" },
 ];
 
@@ -234,7 +236,9 @@ async function main() {
       { name: "Fatima Sheikh", cnic: "42101-7654321-2", designation: "CEO / Director" },
     ],
     agmDate: isoDaysFromNow(-410),
-    deadlines: [{ rule_key: "secp_form_a_deadline", due_date: isoDaysFromNow(-40), status: "overdue" }],
+    deadlines: [
+      { rule_key: "secp_form_a_deadline", due_date: isoDaysFromNow(-40), status: "overdue" },
+    ],
   });
 
   const meridian = await createCompany({
@@ -248,7 +252,9 @@ async function main() {
       { name: "Ayesha Tariq", cnic: "35202-1122334-5", designation: "Director" },
     ],
     agmDate: isoDaysFromNow(-25),
-    deadlines: [{ rule_key: "secp_form_a_deadline", due_date: isoDaysFromNow(5), status: "in_review" }],
+    deadlines: [
+      { rule_key: "secp_form_a_deadline", due_date: isoDaysFromNow(5), status: "in_review" },
+    ],
   });
   const { data: meridianDirectors } = await admin
     .from("company_directors")
@@ -291,7 +297,9 @@ async function main() {
     paid_up_capital: 750000,
     directors: [{ name: "Zainab Hussain", cnic: "42101-3344556-7", designation: "Director" }],
     agmDate: isoDaysFromNow(-15),
-    deadlines: [{ rule_key: "secp_form_a_deadline", due_date: isoDaysFromNow(15), status: "approved" }],
+    deadlines: [
+      { rule_key: "secp_form_a_deadline", due_date: isoDaysFromNow(15), status: "approved" },
+    ],
   });
 
   await createCompany({
@@ -310,7 +318,7 @@ async function main() {
     console.log(`  ${spec.role.padEnd(8)} ${spec.email}`);
   }
   console.log(`  password  ${DEMO_PASSWORD}`);
-  console.log("\nSign in at /login → \"Password\" tab.\n");
+  console.log('\nSign in at /login → "Password" tab.\n');
 }
 
 main().catch((err) => {
