@@ -9,17 +9,18 @@ Fonts and color tokens are both loaded globally via `styles.css` (already wired 
 This kit is styled with Tailwind v4 utility classes, where the color/radius/shadow utilities resolve to CSS custom properties (light/dark aware) rather than fixed Tailwind defaults. Always reach for these semantic utilities instead of raw hex values or arbitrary Tailwind palette classes (`bg-blue-600`, `text-gray-500`, etc.) — the semantic ones automatically adapt between light and dark mode.
 
 **Color utilities** (`bg-*`, `text-*`, `border-*`):
-| Token | Use for |
-|---|---|
-| `background` / `surface` / `surface-secondary` | Page background, card/panel surface, secondary/nested surface |
-| `border` / `border-subtle` | Default border, lighter separator (e.g. inside a card footer) |
-| `foreground` / `muted-foreground` | Primary text, secondary/caption text |
+
+| Token                                              | Use for                                                                            |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `background` / `surface` / `surface-secondary`     | Page background, card/panel surface, secondary/nested surface                      |
+| `border` / `border-subtle`                         | Default border, lighter separator (e.g. inside a card footer)                      |
+| `foreground` / `muted-foreground`                  | Primary text, secondary/caption text                                               |
 | `primary` / `primary-hover` / `primary-foreground` | Brand accent (buttons, links, active states), its hover shade, and text-on-primary |
-| `pill-bg` / `pill-fg` | The soft pill/badge background used for section-label chips (see `PillHeader`) |
-| `success` / `success-bg` / `success-border` | Positive status (e.g. "Filed") |
-| `warning` / `warning-bg` / `warning-border` | Caution status (e.g. "Draft ready", "Due soon") |
-| `danger` / `danger-bg` / `danger-border` | Destructive action or overdue/error status |
-| `info` / `info-bg` / `info-border` | Neutral informational status (e.g. "In review") |
+| `pill-bg` / `pill-fg`                              | The soft pill/badge background used for section-label chips (see `PillHeader`)     |
+| `success` / `success-bg` / `success-border`        | Positive status (e.g. "Filed")                                                     |
+| `warning` / `warning-bg` / `warning-border`        | Caution status (e.g. "Draft ready", "Due soon")                                    |
+| `danger` / `danger-bg` / `danger-border`           | Destructive action or overdue/error status                                         |
+| `info` / `info-bg` / `info-border`                 | Neutral informational status (e.g. "In review")                                    |
 
 **Radius**: `rounded-sm` / `rounded-md` / `rounded-lg` / `rounded-xl` (maps to `--radius-sm` … `--radius-xl`). Buttons and pills use fully-rounded (`rounded-full`); cards typically use `rounded-xl`.
 
@@ -44,8 +45,12 @@ This kit is styled with Tailwind v4 utility classes, where the color/radius/shad
     <StatusBadge status="in_review" />
   </CardContent>
   <CardFooter>
-    <Button size="sm" variant="primary">Approve</Button>
-    <Button size="sm" variant="outline">View draft</Button>
+    <Button size="sm" variant="primary">
+      Approve
+    </Button>
+    <Button size="sm" variant="outline">
+      View draft
+    </Button>
   </CardFooter>
 </Card>
 ```

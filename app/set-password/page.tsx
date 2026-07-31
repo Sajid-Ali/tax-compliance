@@ -106,7 +106,7 @@ function SetPasswordForm() {
             <button
               type="button"
               onClick={() => router.push(next)}
-              className="text-center text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="cursor-pointer text-center text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               Skip for now
             </button>

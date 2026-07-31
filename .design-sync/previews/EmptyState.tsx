@@ -1,6 +1,6 @@
-import { EmptyState } from '../../components/ui/empty-state';
-import { ShieldCheck } from 'lucide-react';
-import { Button } from '../../components/ui/button';
+import { EmptyState } from "../../components/ui/empty-state";
+import { ShieldCheck } from "lucide-react";
+import { Button } from "../../components/ui/button";
 
 export function NoUpcomingFilings() {
   return (

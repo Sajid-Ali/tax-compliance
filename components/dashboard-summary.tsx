@@ -57,7 +57,7 @@ export function DashboardSummary({
             "animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards flex flex-col gap-4 rounded-xl p-5 duration-500 ease-out",
             "transition-[box-shadow,transform] hover:-translate-y-0.5",
             tile.tone === "hero"
-              ? "bg-[linear-gradient(135deg,var(--color-primary)_0%,var(--color-primary-glow)_100%)] shadow-elevation-glow"
+              ? "bg-[linear-gradient(135deg,var(--color-primary-btn-from)_0%,var(--color-primary-btn-to)_100%)] shadow-elevation-glow"
               : cn(
                   "border bg-surface shadow-elevation-sm hover:shadow-elevation-md",
                   tile.tone === "danger" && overdue > 0 ? "border-danger-border" : "border-border"
@@ -84,7 +84,7 @@ export function DashboardSummary({
             <p
               className={cn(
                 "text-xs font-medium",
-                tile.tone === "hero" ? "text-white/70" : "text-muted-foreground"
+                tile.tone === "hero" ? "text-white/90" : "text-muted-foreground"
               )}
             >
               {tile.label}

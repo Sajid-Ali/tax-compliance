@@ -1,4 +1,4 @@
-import { Timeline, TimelineItem } from '../../components/ui/timeline';
+import { Timeline, TimelineItem } from "../../components/ui/timeline";
 
 export function States() {
   return (

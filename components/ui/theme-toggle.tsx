@@ -39,8 +39,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         applyTheme(next);
       }}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+        "flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground",
         className
       )}
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}

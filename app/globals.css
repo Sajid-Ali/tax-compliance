@@ -25,6 +25,14 @@
   --primary-foreground: #ffffff;
   --ring: #3b4fee;
 
+  /* Gradient stops for surfaces that carry white text/icons (buttons, the
+     hero KPI tile) — deliberately deeper than --primary-glow. That token
+     only needs to clear WCAG's 3:1 non-text bar (ambient blobs, icon
+     badges); anything with actual text on it needs 4.5:1 at BOTH gradient
+     stops, and --primary-glow's #8b5cf6 only clears 4.23:1 with white text. */
+  --primary-btn-from: #3b4fee;
+  --primary-btn-to: #7c3aed;
+
   /* Status */
   --success: #15803d;
   --success-bg: #eafaf0;
@@ -67,6 +75,11 @@
     --primary-foreground: #ffffff;
     --ring: #7c92ff;
 
+    /* Deeper than light mode's — dark mode's brighter --primary (#5c74ff)
+       only gives white text 3.89:1, below AA. */
+    --primary-btn-from: #4f46e5;
+    --primary-btn-to: #6d28d9;
+
     --success: #37d391;
     --success-bg: #0f2a1d;
     --success-border: #17402c;
@@ -104,6 +117,8 @@
   --primary-glow: #a78bfa;
   --primary-foreground: #ffffff;
   --ring: #7c92ff;
+  --primary-btn-from: #4f46e5;
+  --primary-btn-to: #6d28d9;
   --success: #37d391;
   --success-bg: #0f2a1d;
   --success-border: #17402c;
@@ -136,6 +151,8 @@
   --primary-glow: #8b5cf6;
   --primary-foreground: #ffffff;
   --ring: #3b4fee;
+  --primary-btn-from: #3b4fee;
+  --primary-btn-to: #7c3aed;
   --success: #15803d;
   --success-bg: #eafaf0;
   --success-border: #bfe8d0;
@@ -168,6 +185,8 @@
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-glow: var(--primary-glow);
+  --color-primary-btn-from: var(--primary-btn-from);
+  --color-primary-btn-to: var(--primary-btn-to);
   --color-primary-foreground: var(--primary-foreground);
   --color-ring: var(--ring);
 
@@ -238,10 +257,19 @@ body {
   }
 }
 
-/* Focus rings are applied per-component via Tailwind's focus-visible:ring-*
-   utilities (see components/ui/*) rather than a single global CSS rule —
-   box-shadow-based rings resolve theme colors at build time and compose
-   cleanly, instead of stacking with each element's own border. */
+/* One global outline-based focus indicator for every focusable element,
+   rather than a per-component focus-visible:ring-* opt-in. Two real bugs
+   forced this: (1) outline: none here with no ring declared elsewhere left
+   several interactive elements (e.g. the login mode tabs) with zero visible
+   focus indicator — an easy thing to forget per-component; (2) box-shadow
+   ring utilities lose a CSS property fight against any element that also
+   carries its own permanent shadow-elevation-* utility (both compose
+   through the single `box-shadow` property — Tailwind's ring layers ended
+   up zeroed out on the primary button, which also has shadow-elevation-glow).
+   `outline` is a fully separate rendering layer from box-shadow, so it can
+   never lose that fight, and modern browsers already round it to match the
+   element's border-radius automatically. */
 :focus-visible {
-  outline: none;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }

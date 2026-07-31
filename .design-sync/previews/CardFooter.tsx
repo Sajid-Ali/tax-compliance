@@ -1,5 +1,5 @@
-import { Card, CardContent, CardFooter } from '../../components/ui/card';
-import { Button } from '../../components/ui/button';
+import { Card, CardContent, CardFooter } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
 
 export function Default() {
   return (
@@ -9,7 +9,9 @@ export function Default() {
       </CardContent>
       <CardFooter>
         <Button size="sm">Approve</Button>
-        <Button size="sm" variant="outline">Request changes</Button>
+        <Button size="sm" variant="outline">
+          Request changes
+        </Button>
       </CardFooter>
     </Card>
   );

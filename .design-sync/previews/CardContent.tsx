@@ -1,5 +1,5 @@
-import { Card, CardContent } from '../../components/ui/card';
-import { StatusBadge } from '../../components/ui/badge';
+import { Card, CardContent } from "../../components/ui/card";
+import { StatusBadge } from "../../components/ui/badge";
 
 export function Default() {
   return (
