@@ -12,7 +12,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ChevronsUpDown, Search } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronsUpDown,
+  Search,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -99,7 +106,7 @@ export function DataTable<TData, TValue>({
                         <button
                           type="button"
                           onClick={header.column.getToggleSortingHandler()}
-                          className="inline-flex items-center gap-1 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded"
+                          className="inline-flex cursor-pointer items-center gap-1 rounded transition-colors hover:text-foreground"
                         >
                           {flexRender(header.column.columnDef.header, header.getContext())}
                           {sortState === "asc" ? (
@@ -149,8 +156,7 @@ export function DataTable<TData, TValue>({
                     className={cn(
                       "animate-in fade-in slide-in-from-bottom-1 border-b border-border-subtle duration-300 ease-out last:border-0 fill-mode-backwards",
                       "transition-colors",
-                      href &&
-                        "cursor-pointer hover:bg-surface-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/50"
+                      href && "cursor-pointer hover:bg-surface-secondary/60"
                     )}
                   >
                     {row.getVisibleCells().map((cell) => (
