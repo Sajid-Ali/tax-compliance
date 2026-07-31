@@ -6,7 +6,11 @@ export type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 type Size = "sm" | "md";
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary-hover shadow-elevation-sm",
+  // Gradient fill + colored glow — the primary action is the one place per
+  // screen that's allowed to be loud; everything else stays quiet by
+  // comparison so this keeps reading as an accent, not noise.
+  primary:
+    "bg-[linear-gradient(135deg,var(--color-primary)_0%,var(--color-primary-glow)_100%)] text-primary-foreground shadow-elevation-glow hover:brightness-110",
   secondary: "bg-surface-secondary text-foreground hover:bg-border border border-border",
   outline: "bg-surface text-foreground border border-border hover:bg-surface-secondary",
   ghost: "text-foreground hover:bg-surface-secondary",
@@ -21,9 +25,9 @@ const sizeClasses: Record<Size, string> = {
 export function buttonVariants(opts: { variant?: Variant; size?: Size; className?: string } = {}) {
   const { variant = "primary", size = "md", className } = opts;
   return cn(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-colors duration-150 cursor-pointer",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[background-color,color,transform,box-shadow,filter] duration-150 cursor-pointer active:scale-[0.97]",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
+    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
     variantClasses[variant],
     sizeClasses[size],
     className
