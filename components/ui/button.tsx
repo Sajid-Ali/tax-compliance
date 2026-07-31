@@ -1,7 +1,8 @@
-import { type ButtonHTMLAttributes } from "react";
+import { forwardRef, type ButtonHTMLAttributes } from "react";
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
+export type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 type Size = "sm" | "md";
 
 const variantClasses: Record<Variant, string> = {
@@ -20,9 +21,9 @@ const sizeClasses: Record<Size, string> = {
 export function buttonVariants(opts: { variant?: Variant; size?: Size; className?: string } = {}) {
   const { variant = "primary", size = "md", className } = opts;
   return cn(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-full font-medium transition-colors",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-colors duration-150 cursor-pointer",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-    "disabled:pointer-events-none disabled:opacity-50",
+    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
     variantClasses[variant],
     sizeClasses[size],
     className
@@ -32,8 +33,24 @@ export function buttonVariants(opts: { variant?: Variant; size?: Size; className
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
+  /** Shows a spinner and disables the button — for actions without native form-status pending (e.g. onClick handlers). */
+  loading?: boolean;
 }
 
-export function Button({ variant, size, className, ...props }: ButtonProps) {
-  return <button className={buttonVariants({ variant, size, className })} {...props} />;
-}
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { variant, size, className, loading, disabled, children, ...props },
+  ref
+) {
+  return (
+    <button
+      ref={ref}
+      className={buttonVariants({ variant, size, className })}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      {...props}
+    >
+      {loading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
+      {children}
+    </button>
+  );
+});
