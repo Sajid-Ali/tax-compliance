@@ -38,6 +38,7 @@ export async function updateSession(request: NextRequest) {
     "/review-queue",
     "/admin",
     "/set-password",
+    "/profile",
   ];
   const isProtected = protectedPrefixes.some((p) => request.nextUrl.pathname.startsWith(p));
 
