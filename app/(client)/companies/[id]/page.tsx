@@ -11,11 +11,13 @@ import type {
 } from "@/lib/types";
 import { addDirector, setAgmRecord } from "../actions";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
-import { Field, Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/badge";
-import { PillHeader } from "@/components/ui/pill-header";
+import { SectionLabel } from "@/components/ui/section-label";
 import { Timeline, TimelineItem } from "@/components/ui/timeline";
+import { DirectorsTable } from "@/components/tables/directors-table";
+import { AgmTable } from "@/components/tables/agm-table";
+import { DirectorForm } from "@/components/forms/director-form";
+import { AgmForm } from "@/components/forms/agm-form";
 
 const TIMELINE_STATE: Record<FilingStatus, "done" | "current" | "upcoming" | "danger"> = {
   upcoming: "upcoming",
@@ -85,7 +87,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
 
       <Card>
         <CardHeader>
-          <PillHeader icon={ClipboardList} label="Filing deadlines" />
+          <SectionLabel icon={ClipboardList} label="Filing deadlines" />
         </CardHeader>
         <CardContent>
           {typedDeadlines.length === 0 ? (
@@ -111,67 +113,30 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
 
       <Card>
         <CardHeader className="gap-3">
-          <PillHeader icon={CalendarClock} label="AGM record" />
+          <SectionLabel icon={CalendarClock} label="AGM records" />
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <CardDescription>
             Form A/29 is due 30 days after the AGM. Record the AGM date (past or scheduled) to get
             an exact due date and reminder cascade.
           </CardDescription>
-          {typedAgm[0] && (
-            <p className="text-sm text-foreground">
-              Latest recorded AGM: <span className="font-medium">{typedAgm[0].agm_date}</span>
-            </p>
-          )}
-          <form action={boundSetAgm} className="flex max-w-sm flex-col gap-4">
-            <Field label="AGM date" htmlFor="agm_date">
-              <Input id="agm_date" type="date" name="agm_date" required />
-            </Field>
-            <Field label="Financial year end (optional)" htmlFor="financial_year_end">
-              <Input id="financial_year_end" type="date" name="financial_year_end" />
-            </Field>
-            <Button type="submit" size="sm" className="self-start">
-              Save AGM date
-            </Button>
-          </form>
+          <AgmTable companyId={id} records={typedAgm} />
+          <div className="border-t border-border-subtle pt-4">
+            <AgmForm action={boundSetAgm} />
+          </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="gap-3">
-          <PillHeader icon={UserRound} label="Directors" />
+          <SectionLabel icon={UserRound} label="Directors" />
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <CardDescription>Needed to pre-fill your Form A draft.</CardDescription>
-          {typedDirectors.length > 0 && (
-            <ul className="flex flex-col gap-2">
-              {typedDirectors.map((director) => (
-                <li
-                  key={director.id}
-                  className="rounded-lg border border-border-subtle bg-surface-secondary/40 px-3 py-2.5 text-sm text-foreground"
-                >
-                  <span className="font-medium">{director.name}</span>{" "}
-                  <span className="text-muted-foreground">
-                    · {director.designation} · CNIC {director.cnic}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <form action={boundAddDirector} className="flex max-w-sm flex-col gap-4">
-            <Field label="Name" htmlFor="director_name">
-              <Input id="director_name" name="name" required />
-            </Field>
-            <Field label="CNIC" htmlFor="cnic">
-              <Input id="cnic" name="cnic" required placeholder="42101-1234567-1" />
-            </Field>
-            <Field label="Designation" htmlFor="designation">
-              <Input id="designation" name="designation" defaultValue="Director" />
-            </Field>
-            <Button type="submit" variant="outline" size="sm" className="self-start">
-              Add director
-            </Button>
-          </form>
+          <DirectorsTable companyId={id} directors={typedDirectors} />
+          <div className="border-t border-border-subtle pt-4">
+            <DirectorForm action={boundAddDirector} />
+          </div>
         </CardContent>
       </Card>
     </div>
