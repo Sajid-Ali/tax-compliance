@@ -8,7 +8,13 @@ import { deleteAgmRecord, updateAgmRecord } from "@/app/(client)/companies/actio
 import { DataTable } from "@/components/ui/data-table";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { ConfirmSubmitButton } from "@/components/ui/confirm-submit";
 import { AgmForm } from "@/components/forms/agm-form";
 
