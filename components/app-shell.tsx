@@ -10,6 +10,7 @@ import { cn } from "@/lib/cn";
 export function AppShell({
   links,
   email,
+  avatarUrl,
   roleLabel,
   homeHref,
   maxWidth = "max-w-3xl",
@@ -17,6 +18,7 @@ export function AppShell({
 }: {
   links: { href: string; label: string }[];
   email?: string | null;
+  avatarUrl?: string | null;
   roleLabel?: string;
   homeHref: string;
   maxWidth?: string;
@@ -24,7 +26,13 @@ export function AppShell({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <NavBar links={links} email={email} roleLabel={roleLabel} homeHref={homeHref} />
+      <NavBar
+        links={links}
+        email={email}
+        avatarUrl={avatarUrl}
+        roleLabel={roleLabel}
+        homeHref={homeHref}
+      />
       <main className={cn("mx-auto px-4 py-10 sm:px-6", maxWidth)}>{children}</main>
     </div>
   );
