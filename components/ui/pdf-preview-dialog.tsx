@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { ExternalLink, FileText } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 /**
@@ -38,7 +44,11 @@ export function PdfPreviewDialog({
         <FileText className="h-3.5 w-3.5" />
         {triggerLabel}
       </Button>
-      <DialogContent size="lg" className="flex h-[85vh] flex-col" onClick={(e) => e.stopPropagation()}>
+      <DialogContent
+        size="lg"
+        className="flex h-[85vh] flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
