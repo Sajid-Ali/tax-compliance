@@ -17,6 +17,7 @@ export interface Profile {
   id: string;
   full_name: string | null;
   role: UserRole;
+  has_password: boolean;
   created_at: string;
 }
 
