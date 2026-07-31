@@ -38,7 +38,11 @@ export function EditRuleForm({ rule }: { rule: ComplianceRule }) {
           due {rule.offset_days}d after {rule.offset_from}
         </Badge>
       </div>
-      <Field label="Offset days" htmlFor={`offset_days_${rule.id}`} error={state?.fieldErrors?.offset_days}>
+      <Field
+        label="Offset days"
+        htmlFor={`offset_days_${rule.id}`}
+        error={state?.fieldErrors?.offset_days}
+      >
         <Input
           id={`offset_days_${rule.id}`}
           type="number"
