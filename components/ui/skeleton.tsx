@@ -4,7 +4,12 @@ export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEl
   return (
     <div
       aria-hidden
-      className={cn("animate-pulse rounded-md bg-surface-secondary", className)}
+      className={cn(
+        "rounded-md bg-surface-secondary bg-[length:200%_100%]",
+        "bg-[linear-gradient(100deg,var(--color-surface-secondary)_35%,var(--color-border-subtle)_50%,var(--color-surface-secondary)_65%)]",
+        "animate-[shimmer_1.8s_ease-in-out_infinite]",
+        className
+      )}
       {...props}
     />
   );
