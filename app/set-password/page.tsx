@@ -46,22 +46,25 @@ function SetPasswordForm() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-[-10%] h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-primary/25 blur-[120px]" />
+        <div className="absolute left-[62%] top-[8%] h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-primary-glow/20 blur-[110px]" />
+      </div>
+
       <div className="flex w-full max-w-sm flex-col gap-8">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <Logo />
-          <div className="flex flex-col gap-1.5">
-            <h1 className="text-lg font-semibold tracking-tight text-foreground">
-              Set a password
-            </h1>
+        <div className="flex flex-col items-center gap-7 text-center">
+          <Logo size="lg" />
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Set a password</h1>
             <p className="text-sm text-muted-foreground">
-              You&apos;re in — set a password so next time you can sign in with your email instead of
-              waiting on a link.
+              You&apos;re in — set a password so next time you can sign in with your email instead
+              of waiting on a link.
             </p>
           </div>
         </div>
 
-        <div className="rounded-lg border border-border bg-surface p-6 shadow-elevation-md">
+        <div className="rounded-xl border border-border bg-surface p-6 shadow-elevation-lg">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Field label="New password" htmlFor="password">
               <div className="relative">
