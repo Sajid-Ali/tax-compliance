@@ -76,7 +76,7 @@ export function NavBar({
           <form action="/auth/signout" method="post">
             <button
               type="submit"
-              className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground"
               title="Sign out"
             >
               <LogOut className="h-4 w-4" />
@@ -88,7 +88,7 @@ export function NavBar({
               <SheetTrigger asChild>
                 <button
                   type="button"
-                  className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground sm:hidden"
+                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-secondary hover:text-foreground sm:hidden"
                   aria-label="Open menu"
                 >
                   <Menu className="h-4 w-4" />
