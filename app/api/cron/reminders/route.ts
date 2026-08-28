@@ -1,6 +1,7 @@
 import { formatISO } from "date-fns";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import twilio from "twilio";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { syncDeadlinesForCompany } from "@/lib/deadlines";
 import { isOverdue, reminderDatesFor } from "@/lib/rules-engine";
@@ -52,53 +53,110 @@ export async function GET(request: Request) {
 
   const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
+  // SMS is a fast-follow channel alongside email — safe no-op until
+  // TWILIO_ACCOUNT_SID/TWILIO_AUTH_TOKEN/TWILIO_FROM_NUMBER are set, same
+  // pattern as `resend` above.
+  const twilioClient =
+    process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
+      ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+      : null;
+
   let remindersSent = 0;
+  let remindersFailed = 0;
   let overdueFlagged = 0;
 
   type DeadlineWithCompany = FilingDeadline & {
     companies: Pick<Company, "id" | "name" | "owner_user_id">;
   };
 
+  // Has a reminder already gone out on this channel for this deadline today?
+  // Checked per-channel (not once for the whole deadline) so email and SMS
+  // are independent — a client with both configured gets both today, and a
+  // retry after a mid-run failure doesn't re-send the channel that already
+  // succeeded.
+  async function alreadySentToday(deadlineId: string, channel: "email" | "sms") {
+    const { data } = await supabase
+      .from("reminders_log")
+      .select("id")
+      .eq("filing_deadline_id", deadlineId)
+      .eq("channel", channel)
+      .gte("sent_at", `${today}T00:00:00Z`)
+      .limit(1)
+      .maybeSingle();
+    return !!data;
+  }
+
   for (const row of (deadlines ?? []) as DeadlineWithCompany[]) {
     const scheduledDates = reminderDatesFor(row.due_date, REMINDER_OFFSETS_DAYS);
 
     if (scheduledDates.includes(today)) {
-      const { data: alreadySentToday } = await supabase
-        .from("reminders_log")
-        .select("id")
-        .eq("filing_deadline_id", row.id)
-        .gte("sent_at", `${today}T00:00:00Z`)
-        .limit(1)
-        .maybeSingle();
+      const [{ data: ownerUser }, { data: ownerProfile }] = await Promise.all([
+        supabase.auth.admin.getUserById(row.companies.owner_user_id),
+        supabase
+          .from("profiles")
+          .select("phone")
+          .eq("id", row.companies.owner_user_id)
+          .maybeSingle(),
+      ]);
+      const email = ownerUser?.user?.email;
+      const phone = ownerProfile?.phone ?? null;
+      const dashboardUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/companies/${row.company_id}`;
+      let sentAny = false;
 
-      if (!alreadySentToday) {
-        const { data: ownerUser } = await supabase.auth.admin.getUserById(
-          row.companies.owner_user_id
-        );
-        const email = ownerUser?.user?.email;
-
-        if (resend && email) {
+      // Each channel is try/caught independently: a bad phone number or a
+      // Resend/Twilio outage for one company must not abort the loop and
+      // skip reminders (and overdue-flagging) for every company after it.
+      if (resend && email && !(await alreadySentToday(row.id, "email"))) {
+        try {
           await resend.emails.send({
             from: process.env.REMINDERS_FROM_EMAIL ?? "reminders@example.com",
             to: email,
             subject: `${row.companies.name}: SECP Form A due ${row.due_date}`,
-            text: `Reminder: ${row.companies.name}'s SECP Form A/29 annual return is due on ${row.due_date}. Log in to confirm director details so we can prepare the draft: ${process.env.NEXT_PUBLIC_APP_URL ?? ""}/companies/${row.company_id}`,
+            text: `Reminder: ${row.companies.name}'s SECP Form A/29 annual return is due on ${row.due_date}. Log in to confirm director details so we can prepare the draft: ${dashboardUrl}`,
           });
+          await supabase.from("reminders_log").insert({
+            filing_deadline_id: row.id,
+            channel: "email",
+            recipient: email,
+          });
+          remindersSent++;
+          sentAny = true;
+        } catch (err) {
+          console.error(`Email reminder failed for deadline ${row.id}:`, err);
+          remindersFailed++;
         }
+      }
 
-        await supabase.from("reminders_log").insert({
-          filing_deadline_id: row.id,
-          channel: "email",
-          recipient: email ?? null,
-        });
-        remindersSent++;
-
-        if (row.status === "upcoming") {
-          await supabase
-            .from("filing_deadlines")
-            .update({ status: "reminder_sent" })
-            .eq("id", row.id);
+      if (
+        twilioClient &&
+        phone &&
+        process.env.TWILIO_FROM_NUMBER &&
+        !(await alreadySentToday(row.id, "sms"))
+      ) {
+        try {
+          await twilioClient.messages.create({
+            from: process.env.TWILIO_FROM_NUMBER,
+            to: phone,
+            body: `${row.companies.name}: SECP Form A due ${row.due_date}. Log in to confirm director details: ${dashboardUrl}`,
+          });
+          await supabase.from("reminders_log").insert({
+            filing_deadline_id: row.id,
+            channel: "sms",
+            recipient: phone,
+          });
+          remindersSent++;
+          sentAny = true;
+        } catch (err) {
+          console.error(`SMS reminder failed for deadline ${row.id}:`, err);
+          remindersFailed++;
         }
+      }
+
+      if (sentAny && row.status === "upcoming") {
+        await supabase
+          .from("filing_deadlines")
+          .update({ status: "reminder_sent" })
+          .eq("id", row.id);
       }
     }
 
@@ -113,6 +171,7 @@ export async function GET(request: Request) {
     deadlinesCreated,
     deadlinesUpdated,
     remindersSent,
+    remindersFailed,
     overdueFlagged,
   });
 }

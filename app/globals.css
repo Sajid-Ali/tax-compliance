@@ -18,20 +18,24 @@
 
   /* Brand — indigo kept as the anchor; violet added as its gradient
      partner for hero moments and primary actions (buttons, glows,
-     underline accents) — confident and rich rather than a single flat hue. */
-  --primary: #3b4fee;
-  --primary-hover: #2d3fd1;
-  --primary-glow: #8b5cf6;
+     underline accents) — confident and rich rather than a single flat hue.
+     2026 rebrand: pushed more saturated/electric and widened the gradient's
+     hue swing (indigo → violet, not indigo → near-indigo) for a punchier,
+     more "bold modern SaaS" read. Contrast re-verified below, same 4.5:1
+     text-on-gradient bar as before. */
+  --primary: #4133f0;
+  --primary-hover: #2e21d9;
+  --primary-glow: #a855f7;
   --primary-foreground: #ffffff;
-  --ring: #3b4fee;
+  --ring: #4133f0;
 
   /* Gradient stops for surfaces that carry white text/icons (buttons, the
      hero KPI tile) — deliberately deeper than --primary-glow. That token
      only needs to clear WCAG's 3:1 non-text bar (ambient blobs, icon
      badges); anything with actual text on it needs 4.5:1 at BOTH gradient
-     stops, and --primary-glow's #8b5cf6 only clears 4.23:1 with white text. */
-  --primary-btn-from: #3b4fee;
-  --primary-btn-to: #7c3aed;
+     stops. #4133f0 clears 7.10:1, #9022e8 clears 5.87:1 with white text. */
+  --primary-btn-from: #4133f0;
+  --primary-btn-to: #9022e8;
 
   /* Status */
   --success: #15803d;
@@ -53,8 +57,10 @@
   --shadow-md: 0 16px 32px -8px rgb(11 13 18 / 0.16), 0 6px 12px -4px rgb(11 13 18 / 0.08);
   --shadow-lg: 0 40px 80px -16px rgb(11 13 18 / 0.32), 0 16px 32px -8px rgb(11 13 18 / 0.16);
   /* Colored glow — reserved for hero surfaces and primary CTAs, the one
-     place per screen that's allowed to be loud. */
-  --shadow-glow: 0 12px 40px -8px rgb(59 79 238 / 0.4), 0 4px 12px -2px rgb(139 92 246 / 0.25);
+     place per screen that's allowed to be loud. Deepened alongside the
+     brand hue push above (rgb equivalents of --primary / --primary-glow),
+     with a touch more spread for a more confident glow. */
+  --shadow-glow: 0 14px 44px -8px rgb(65 51 240 / 0.45), 0 5px 14px -2px rgb(168 85 247 / 0.3);
   --overlay: rgb(11 13 18 / 0.4);
 }
 
@@ -69,16 +75,17 @@
     --foreground: #f2f2f0;
     --muted-foreground: #9a9ca5;
 
-    --primary: #5c74ff;
-    --primary-hover: #7c92ff;
-    --primary-glow: #a78bfa;
+    --primary: #7c6fff;
+    --primary-hover: #9b90ff;
+    --primary-glow: #b98cfa;
     --primary-foreground: #ffffff;
-    --ring: #7c92ff;
+    --ring: #9b90ff;
 
-    /* Deeper than light mode's — dark mode's brighter --primary (#5c74ff)
-       only gives white text 3.89:1, below AA. */
-    --primary-btn-from: #4f46e5;
-    --primary-btn-to: #6d28d9;
+    /* Deeper than the raw --primary above, same reason as before: dark
+       mode's brighter accent doesn't clear 4.5:1 with white text on its
+       own. #5a3ef0 clears 6.21:1, #8f2ae0 clears 5.87:1. */
+    --primary-btn-from: #5a3ef0;
+    --primary-btn-to: #8f2ae0;
 
     --success: #37d391;
     --success-bg: #0f2a1d;
@@ -96,7 +103,7 @@
     --shadow-sm: 0 2px 6px -2px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.3);
     --shadow-md: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 6px 14px -4px rgb(0 0 0 / 0.4);
     --shadow-lg: 0 44px 88px -16px rgb(0 0 0 / 0.75), 0 18px 36px -8px rgb(0 0 0 / 0.55);
-    --shadow-glow: 0 12px 44px -6px rgb(92 116 255 / 0.5), 0 4px 14px -2px rgb(167 139 250 / 0.35);
+    --shadow-glow: 0 14px 48px -6px rgb(124 111 255 / 0.55), 0 5px 16px -2px rgb(185 140 250 / 0.4);
     --overlay: rgb(0 0 0 / 0.6);
   }
 }
@@ -112,13 +119,13 @@
   --border-subtle: #1e1e24;
   --foreground: #f2f2f0;
   --muted-foreground: #9a9ca5;
-  --primary: #5c74ff;
-  --primary-hover: #7c92ff;
-  --primary-glow: #a78bfa;
+  --primary: #7c6fff;
+  --primary-hover: #9b90ff;
+  --primary-glow: #b98cfa;
   --primary-foreground: #ffffff;
-  --ring: #7c92ff;
-  --primary-btn-from: #4f46e5;
-  --primary-btn-to: #6d28d9;
+  --ring: #9b90ff;
+  --primary-btn-from: #5a3ef0;
+  --primary-btn-to: #8f2ae0;
   --success: #37d391;
   --success-bg: #0f2a1d;
   --success-border: #17402c;
@@ -134,7 +141,7 @@
   --shadow-sm: 0 2px 6px -2px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.3);
   --shadow-md: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 6px 14px -4px rgb(0 0 0 / 0.4);
   --shadow-lg: 0 44px 88px -16px rgb(0 0 0 / 0.75), 0 18px 36px -8px rgb(0 0 0 / 0.55);
-  --shadow-glow: 0 12px 44px -6px rgb(92 116 255 / 0.5), 0 4px 14px -2px rgb(167 139 250 / 0.35);
+  --shadow-glow: 0 14px 48px -6px rgb(124 111 255 / 0.55), 0 5px 16px -2px rgb(185 140 250 / 0.4);
   --overlay: rgb(0 0 0 / 0.6);
 }
 
@@ -146,13 +153,13 @@
   --border-subtle: #ececea;
   --foreground: #0b0d12;
   --muted-foreground: #62676f;
-  --primary: #3b4fee;
-  --primary-hover: #2d3fd1;
-  --primary-glow: #8b5cf6;
+  --primary: #4133f0;
+  --primary-hover: #2e21d9;
+  --primary-glow: #a855f7;
   --primary-foreground: #ffffff;
-  --ring: #3b4fee;
-  --primary-btn-from: #3b4fee;
-  --primary-btn-to: #7c3aed;
+  --ring: #4133f0;
+  --primary-btn-from: #4133f0;
+  --primary-btn-to: #9022e8;
   --success: #15803d;
   --success-bg: #eafaf0;
   --success-border: #bfe8d0;
@@ -168,7 +175,7 @@
   --shadow-sm: 0 2px 6px -2px rgb(11 13 18 / 0.08), 0 1px 2px rgb(11 13 18 / 0.05);
   --shadow-md: 0 16px 32px -8px rgb(11 13 18 / 0.16), 0 6px 12px -4px rgb(11 13 18 / 0.08);
   --shadow-lg: 0 40px 80px -16px rgb(11 13 18 / 0.32), 0 16px 32px -8px rgb(11 13 18 / 0.16);
-  --shadow-glow: 0 12px 40px -8px rgb(59 79 238 / 0.4), 0 4px 12px -2px rgb(139 92 246 / 0.25);
+  --shadow-glow: 0 14px 44px -8px rgb(65 51 240 / 0.45), 0 5px 14px -2px rgb(168 85 247 / 0.3);
   --overlay: rgb(11 13 18 / 0.4);
 }
 
@@ -220,6 +227,13 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Snap easing — a sharper, more confident curve than plain ease-out for
+     hover/press feedback (fast start, gentle settle) on interactive
+     surfaces. Generates the `ease-snap` utility. Kept separate from the
+     default `ease-out` used on layout/theme transitions, which should stay
+     unremarkable. */
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {

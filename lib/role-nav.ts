@@ -14,6 +14,7 @@ export function getRoleNavConfig(role: UserRole): RoleNavConfig {
         links: [
           { href: "/admin/filing-queue", label: "Filing queue" },
           { href: "/admin/rules", label: "Rules" },
+          { href: "/admin/billing", label: "Billing" },
         ],
         roleLabel: "Admin",
         homeHref: "/admin/filing-queue",

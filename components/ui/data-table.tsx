@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      <div className="overflow-x-auto rounded-lg border border-border bg-surface shadow-elevation-sm">
+      <div className="overflow-x-auto rounded-lg bg-surface shadow-elevation-sm">
         <table className="w-full border-collapse text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (

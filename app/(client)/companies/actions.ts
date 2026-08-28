@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { syncDeadlinesForCompany } from "@/lib/deadlines";
 import { logAudit } from "@/lib/audit";
 import { type ActionState, zodFieldErrors } from "@/lib/action-state";
@@ -39,6 +40,28 @@ export async function createCompany(
     .select()
     .single();
   if (error) return { error: error.message };
+
+  // Every company gets a subscription row up front (trial/standard defaults
+  // from the schema) so /admin/billing never has to special-case a company
+  // that hasn't been invoiced yet. subscriptions is staff-write-only by RLS
+  // (see 0001_init.sql), so this one insert goes through the admin client —
+  // same reasoning as the avatar upload: the owner's identity and the new
+  // company_id are already verified above, and no client-supplied data
+  // reaches this insert.
+  const admin = createAdminClient();
+  const { error: subscriptionErr } = await admin
+    .from("subscriptions")
+    .insert({ company_id: data.id });
+  if (subscriptionErr) {
+    // Compensating rollback: without this, a transient failure here (e.g. a
+    // network blip) leaves an orphaned company with no subscription row —
+    // invisible on /admin/billing (which joins from subscriptions) until
+    // someone manually reruns 0006_backfill_subscriptions.sql. There's no
+    // delete policy on companies for the regular client (RLS defaults to
+    // deny), so this goes through the admin client too.
+    await admin.from("companies").delete().eq("id", data.id);
+    return { error: subscriptionErr.message };
+  }
 
   await logAudit(supabase, {
     actorUserId: user.id,

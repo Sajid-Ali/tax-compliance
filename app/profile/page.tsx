@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { UserRound, KeyRound } from "lucide-react";
+import { UserRound, KeyRound, Phone } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { getRoleNavConfig } from "@/lib/role-nav";
@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SectionLabel } from "@/components/ui/section-label";
 import { AvatarUploadForm } from "@/components/forms/avatar-upload-form";
 import { NameForm } from "@/components/forms/name-form";
+import { PhoneForm } from "@/components/forms/phone-form";
 import { ChangePasswordForm } from "@/components/forms/change-password-form";
 
 export default async function ProfilePage() {
@@ -52,6 +53,15 @@ export default async function ProfilePage() {
           </CardHeader>
           <CardContent>
             <NameForm defaultName={profile.full_name ?? ""} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <SectionLabel icon={Phone} label="Phone" />
+          </CardHeader>
+          <CardContent>
+            <PhoneForm defaultPhone={profile.phone ?? ""} />
           </CardContent>
         </Card>
 

@@ -18,6 +18,7 @@ export interface Profile {
   full_name: string | null;
   role: UserRole;
   has_password: boolean;
+  phone: string | null;
   created_at: string;
 }
 

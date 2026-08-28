@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Inbox } from "lucide-react";
 import type { Company, FilingDeadline } from "@/lib/types";
+import { effectiveStatus } from "@/lib/rules-engine";
 import { generateDraft, markFiled, sendToReviewer } from "@/app/admin/filing-queue/actions";
 import { DataTable } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badge";
@@ -116,8 +117,12 @@ export function FilingQueueTable({ rowsWithUrls }: { rowsWithUrls: RowWithUrl[] 
       {
         id: "status",
         header: "Status",
-        accessorFn: (r) => r.row.status,
-        cell: ({ row }) => <StatusBadge status={row.original.row.status} />,
+        accessorFn: (r) => effectiveStatus(r.row.status, r.row.due_date),
+        cell: ({ row }) => (
+          <StatusBadge
+            status={effectiveStatus(row.original.row.status, row.original.row.due_date)}
+          />
+        ),
       },
       {
         id: "actions",

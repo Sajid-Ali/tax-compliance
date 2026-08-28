@@ -42,6 +42,51 @@ export async function updateName(
   return { success: true, message: "Name updated." };
 }
 
+// E.164 check: leading +, 8-15 digits. The + is required (not optional) —
+// Twilio's `to` param requires E.164, and a bare local-format number like
+// "03001234567" would pass a looser regex but fail at send time in the
+// cron, silently dropping that client's SMS reminders.
+const phoneSchema = z.object({
+  phone: z
+    .string()
+    .trim()
+    .regex(
+      /^\+[0-9]{8,15}$/,
+      "Enter a valid phone number in international format, e.g. +923001234567."
+    )
+    .optional()
+    .or(z.literal("")),
+});
+
+export async function updatePhone(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "You've been signed out — refresh and sign in again." };
+
+  const parsed = phoneSchema.safeParse({ phone: formData.get("phone") ?? "" });
+  if (!parsed.success) return { fieldErrors: zodFieldErrors(parsed.error) };
+
+  const phone = parsed.data.phone || null;
+  const { error } = await supabase.from("profiles").update({ phone }).eq("id", user.id);
+  if (error) return { error: error.message };
+
+  await logAudit(supabase, {
+    actorUserId: user.id,
+    action: "profile_phone_updated",
+    entity: "profiles",
+    entityId: user.id,
+    after: { phone },
+  });
+
+  revalidatePath("/profile");
+  return { success: true, message: phone ? "Phone number saved." : "Phone number removed." };
+}
+
 const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 const ALLOWED_AVATAR_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 

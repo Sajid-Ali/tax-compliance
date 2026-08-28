@@ -5,6 +5,7 @@ import {
   MissingBaseDateError,
   reminderDatesFor,
   isOverdue,
+  effectiveStatus,
 } from "../rules-engine";
 import type { AgmRecord, Company, ComplianceRule } from "../types";
 
@@ -116,5 +117,32 @@ describe("isOverdue", () => {
   it("is true on or after the due date", () => {
     expect(isOverdue("2026-07-30", new Date("2026-07-30T00:00:00Z"))).toBe(true);
     expect(isOverdue("2026-07-30", new Date("2026-08-01T00:00:00Z"))).toBe(true);
+  });
+});
+
+describe("effectiveStatus", () => {
+  it("shows overdue for a past due date even though the stored status hasn't been synced by the cron yet", () => {
+    // Regression: a deadline whose due_date has passed still read "upcoming"
+    // in the UI until the once-daily cron happened to run and flip the
+    // stored column.
+    expect(effectiveStatus("upcoming", "2025-01-11", new Date("2026-08-29T00:00:00Z"))).toBe(
+      "overdue"
+    );
+  });
+
+  it("leaves in-progress statuses alone before the due date", () => {
+    expect(effectiveStatus("draft_ready", "2026-07-30", new Date("2026-07-29T00:00:00Z"))).toBe(
+      "draft_ready"
+    );
+  });
+
+  it("never overrides a filed status, even past the due date", () => {
+    expect(effectiveStatus("filed", "2025-01-11", new Date("2026-08-29T00:00:00Z"))).toBe("filed");
+  });
+
+  it("is a no-op when already overdue", () => {
+    expect(effectiveStatus("overdue", "2025-01-11", new Date("2026-08-29T00:00:00Z"))).toBe(
+      "overdue"
+    );
   });
 });
