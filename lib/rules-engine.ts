@@ -1,5 +1,5 @@
 import { addDays, formatISO, parseISO, subDays } from "date-fns";
-import type { AgmRecord, Company, ComplianceRule } from "./types";
+import type { AgmRecord, Company, ComplianceRule, FilingStatus } from "./types";
 
 export class MissingBaseDateError extends Error {
   constructor(ruleKey: string, offsetFrom: string) {
@@ -109,4 +109,22 @@ export function reminderDatesFor(
 /** True if today (or the given date) is on/after the due date with no filing yet. */
 export function isOverdue(dueDateISO: string, today: Date = new Date()): boolean {
   return parseISO(dueDateISO).getTime() <= today.getTime();
+}
+
+/**
+ * Status to show, self-healing between cron runs. `filing_deadlines.status`
+ * is only flipped to "overdue" by the once-daily cron
+ * (app/api/cron/reminders/route.ts), so a deadline that crossed its due date
+ * since the last run would otherwise still read "upcoming" (or whatever
+ * workflow state it was in) until the next run. This computes the same
+ * overdue check live for display, without writing anything to the DB —
+ * the cron remains the source of truth that persists it.
+ */
+export function effectiveStatus(
+  status: FilingStatus,
+  dueDateISO: string,
+  today: Date = new Date()
+): FilingStatus {
+  if (status === "filed" || status === "overdue") return status;
+  return isOverdue(dueDateISO, today) ? "overdue" : status;
 }
