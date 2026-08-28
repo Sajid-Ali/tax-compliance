@@ -32,7 +32,7 @@ export function DialogContent({
         className={cn(
           "fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2",
           sizeClasses[size],
-          "rounded-xl border border-border bg-surface p-6 shadow-elevation-lg",
+          "rounded-xl bg-surface p-6 shadow-elevation-lg",
           "focus:outline-none",
           "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:zoom-in-95 data-[state=open]:duration-200",
           "data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 data-[state=closed]:duration-150",
