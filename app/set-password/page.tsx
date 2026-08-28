@@ -56,7 +56,9 @@ function SetPasswordForm() {
         <div className="flex flex-col items-center gap-7 text-center">
           <Logo size="lg" />
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">Set a password</h1>
+            <h1 className="text-4xl font-extrabold tracking-tighter text-foreground">
+              Set a password
+            </h1>
             <p className="text-sm text-muted-foreground">
               You&apos;re in — set a password so next time you can sign in with your email instead
               of waiting on a link.
@@ -64,7 +66,7 @@ function SetPasswordForm() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-border bg-surface p-6 shadow-elevation-lg">
+        <div className="rounded-xl bg-surface p-6 shadow-elevation-lg">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Field label="New password" htmlFor="password">
               <div className="relative">
