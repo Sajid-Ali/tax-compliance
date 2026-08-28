@@ -171,12 +171,14 @@ function LoginCard() {
         <div className="flex flex-col items-center gap-7 text-center">
           <Logo size="lg" />
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
+            <h1 className="text-4xl font-extrabold tracking-tighter text-foreground">
+              Welcome back
+            </h1>
             <p className="text-sm text-muted-foreground">Sign in to Compliance Reminders.</p>
           </div>
         </div>
 
-        <div className="flex flex-col gap-5 rounded-xl border border-border bg-surface p-6 shadow-elevation-lg">
+        <div className="flex flex-col gap-5 rounded-xl bg-surface p-6 shadow-elevation-lg">
           <div
             role="tablist"
             className="grid grid-cols-2 gap-1 rounded-md bg-surface-secondary p-1 text-sm"
