@@ -1,8 +1,18 @@
 /**
  * End-to-end smoke test against a real Supabase project: creates a throwaway
  * user, exercises the exact client flow (create company -> record AGM date
- * -> sync deadlines), verifies the computed due date, then deletes
- * everything it created.
+ * -> sync deadlines -> generate draft -> send to reviewer -> approve ->
+ * mark filed), verifies the computed due date and every status/audit_log
+ * transition along the way, then deletes everything it created.
+ *
+ * Steps 8+ (draft through filed) write the same rows the real admin/reviewer
+ * server actions write (lib/documents/form-a-template.ts + generateDraft /
+ * sendToReviewer / approveFiling / markFiled in their respective actions.ts
+ * files), but do so directly via the admin (service-role) client instead of
+ * calling those "use server" functions — this is a standalone script with no
+ * request/cookie session for requireAdmin()/requireReviewer() to read, same
+ * reasoning already documented for the admin client below. It verifies the
+ * pipeline's data/audit mechanics, not the role-gate checks themselves.
  *
  * Usage: npm run smoke-test   (reads Supabase creds from .env.local)
  */
@@ -10,6 +20,8 @@ import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { syncDeadlinesForCompany } from "../lib/deadlines";
+import { generateFormADraft } from "../lib/documents/form-a-template";
+import type { Company, CompanyDirector, FilingDeadline } from "../lib/types";
 
 // Minimal inline .env.local loader — tsx's --env-file forwarding is
 // unreliable when executing a file (vs. -e), and a full dotenv dependency
@@ -55,6 +67,8 @@ async function main() {
   const testEmail = `smoke-test-${Date.now()}@example.com`;
   const testPassword = randomUUID();
   let userId: string | null = null;
+  let draftPath: string | undefined;
+  let receiptPath: string | undefined;
 
   try {
     console.log("1. Creating throwaway test user...");
@@ -140,11 +154,182 @@ async function main() {
     console.log(
       `   OK deadline correct: rule=${deadline.rule_key} due_date=${deadline.due_date} status=${deadline.status}`
     );
+
+    console.log("8. Adding a director (mirrors addDirector action)...");
+    const { error: directorErr } = await client.from("company_directors").insert({
+      company_id: company.id,
+      name: "Test Director",
+      cnic: "12345-1234567-1",
+      designation: "Director",
+    });
+    if (directorErr) throw directorErr;
+    const { data: directors } = await client
+      .from("company_directors")
+      .select("*")
+      .eq("company_id", company.id);
+    console.log(`   OK ${directors?.length ?? 0} director(s) recorded`);
+
+    console.log("9. Generating the Form A draft (mirrors generateDraft action)...");
+    const pdfBytes = await generateFormADraft({
+      company: company as Company,
+      directors: (directors ?? []) as CompanyDirector[],
+      deadline: deadline as FilingDeadline,
+    });
+    draftPath = `${company.id}/${deadline.id}/form-a-draft.pdf`;
+    const { error: uploadErr } = await admin.storage
+      .from("filings")
+      .upload(draftPath, Buffer.from(pdfBytes), { contentType: "application/pdf", upsert: true });
+    if (uploadErr) throw uploadErr;
+    const { error: draftUpsertErr } = await admin
+      .from("filings")
+      .upsert(
+        { filing_deadline_id: deadline.id, draft_document_url: draftPath },
+        { onConflict: "filing_deadline_id" }
+      );
+    if (draftUpsertErr) throw draftUpsertErr;
+    const { error: draftStatusErr } = await admin
+      .from("filing_deadlines")
+      .update({ status: "draft_ready" })
+      .eq("id", deadline.id);
+    if (draftStatusErr) throw draftStatusErr;
+    await admin.from("audit_log").insert({
+      actor_user_id: userId,
+      action: "draft_generated",
+      entity: "filing_deadlines",
+      entity_id: deadline.id,
+      after: { draft_document_url: draftPath },
+    });
+    console.log("   OK draft generated, uploaded, status=draft_ready");
+
+    console.log("10. Sending to reviewer (mirrors sendToReviewer action)...");
+    const { error: reviewStatusErr } = await admin
+      .from("filing_deadlines")
+      .update({ status: "in_review" })
+      .eq("id", deadline.id);
+    if (reviewStatusErr) throw reviewStatusErr;
+    await admin.from("audit_log").insert({
+      actor_user_id: userId,
+      action: "sent_to_reviewer",
+      entity: "filing_deadlines",
+      entity_id: deadline.id,
+    });
+    console.log("   OK status=in_review");
+
+    console.log("11. Approving the filing (mirrors approveFiling action)...");
+    const approvedAt = new Date().toISOString();
+    const { error: approveErr } = await admin.from("filings").upsert(
+      {
+        filing_deadline_id: deadline.id,
+        reviewer_id: userId,
+        approved_at: approvedAt,
+        reviewer_notes: null,
+      },
+      { onConflict: "filing_deadline_id" }
+    );
+    if (approveErr) throw approveErr;
+    const { error: approveStatusErr } = await admin
+      .from("filing_deadlines")
+      .update({ status: "approved" })
+      .eq("id", deadline.id);
+    if (approveStatusErr) throw approveStatusErr;
+    await admin.from("audit_log").insert({
+      actor_user_id: userId,
+      action: "filing_approved",
+      entity: "filing_deadlines",
+      entity_id: deadline.id,
+    });
+    console.log("   OK status=approved");
+
+    console.log("12. Marking filed (mirrors markFiled action)...");
+    const filedAt = new Date().toISOString();
+    receiptPath = `${deadline.id}/confirmation-receipt-${Date.now()}.pdf`;
+    const { error: receiptUploadErr } = await admin.storage
+      .from("filings")
+      .upload(receiptPath, Buffer.from("smoke-test-receipt"), {
+        contentType: "application/pdf",
+        upsert: true,
+      });
+    if (receiptUploadErr) throw receiptUploadErr;
+    const { error: filedErr } = await admin.from("filings").upsert(
+      {
+        filing_deadline_id: deadline.id,
+        filed_at: filedAt,
+        filed_by: userId,
+        confirmation_receipt_url: receiptPath,
+      },
+      { onConflict: "filing_deadline_id" }
+    );
+    if (filedErr) throw filedErr;
+    const { error: filedStatusErr } = await admin
+      .from("filing_deadlines")
+      .update({ status: "filed" })
+      .eq("id", deadline.id);
+    if (filedStatusErr) throw filedStatusErr;
+    await admin.from("audit_log").insert({
+      actor_user_id: userId,
+      action: "marked_filed",
+      entity: "filing_deadlines",
+      entity_id: deadline.id,
+      after: { confirmation_receipt_url: receiptPath },
+    });
+    console.log("   OK status=filed");
+
+    console.log("13. Verifying final state + audit trail...");
+    const { data: finalDeadline, error: finalErr } = await admin
+      .from("filing_deadlines")
+      .select("*")
+      .eq("id", deadline.id)
+      .single();
+    if (finalErr || !finalDeadline) throw finalErr ?? new Error("Deadline vanished");
+    if (finalDeadline.status !== "filed") {
+      throw new Error(`Expected status "filed", got "${finalDeadline.status}"`);
+    }
+
+    const { data: finalFiling, error: finalFilingErr } = await admin
+      .from("filings")
+      .select("*")
+      .eq("filing_deadline_id", deadline.id)
+      .single();
+    if (finalFilingErr || !finalFiling) throw finalFilingErr ?? new Error("Filing row missing");
+    if (!finalFiling.filed_at || !finalFiling.approved_at || !finalFiling.draft_document_url) {
+      throw new Error("Filing row is missing expected fields after the full pipeline");
+    }
+
+    const { data: auditRows, error: auditErr } = await admin
+      .from("audit_log")
+      .select("action")
+      .eq("entity", "filing_deadlines")
+      .eq("entity_id", deadline.id)
+      .order("created_at", { ascending: true });
+    if (auditErr) throw auditErr;
+    const expectedActions = [
+      "draft_generated",
+      "sent_to_reviewer",
+      "filing_approved",
+      "marked_filed",
+    ];
+    const actualActions = (auditRows ?? []).map((r) => r.action);
+    for (const action of expectedActions) {
+      if (!actualActions.includes(action)) {
+        throw new Error(
+          `Missing expected audit_log entry "${action}" — got: ${actualActions.join(", ")}`
+        );
+      }
+    }
+    console.log(`   OK filing pipeline complete, audit_log: ${actualActions.join(" -> ")}`);
+
     console.log("\nSMOKE TEST PASSED\n");
   } finally {
     if (userId) {
       console.log("Cleaning up test data...");
-      await admin.from("companies").delete().eq("owner_user_id", userId); // cascades directors/agm_records/filing_deadlines
+      if (draftPath) await admin.storage.from("filings").remove([draftPath]);
+      if (receiptPath) await admin.storage.from("filings").remove([receiptPath]);
+      // audit_log.actor_user_id has no ON DELETE CASCADE to auth.users (a
+      // liability trail shouldn't silently vanish when an account is
+      // deleted) — clear rows this run created before deleting the user, or
+      // deleteUser below fails on the FK.
+      await admin.from("audit_log").delete().eq("actor_user_id", userId);
+      await admin.from("companies").delete().eq("owner_user_id", userId); // cascades directors/agm_records/filing_deadlines/filings
       await admin.auth.admin.deleteUser(userId);
       console.log("   OK cleanup done");
     }
