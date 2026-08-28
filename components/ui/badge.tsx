@@ -6,9 +6,11 @@ import {
   ShieldCheck,
   AlertTriangle,
   Clock,
+  Ban,
+  Hourglass,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
-import type { FilingStatus } from "@/lib/types";
+import type { FilingStatus, SubscriptionStatus } from "@/lib/types";
 
 type Tone = "neutral" | "info" | "warning" | "success" | "danger";
 
@@ -57,6 +59,33 @@ const STATUS_CONFIG: Record<
 
 export function StatusBadge({ status, className }: { status: FilingStatus; className?: string }) {
   const config = STATUS_CONFIG[status];
+  const Icon = config.icon;
+  return (
+    <Badge tone={config.tone} className={className}>
+      <Icon className="h-3 w-3" />
+      {config.label}
+    </Badge>
+  );
+}
+
+const SUBSCRIPTION_STATUS_CONFIG: Record<
+  SubscriptionStatus,
+  { label: string; tone: Tone; icon: React.ComponentType<{ className?: string }> }
+> = {
+  trial: { label: "Trial", tone: "info", icon: Hourglass },
+  active: { label: "Active", tone: "success", icon: CheckCircle2 },
+  past_due: { label: "Past due", tone: "danger", icon: AlertTriangle },
+  cancelled: { label: "Cancelled", tone: "neutral", icon: Ban },
+};
+
+export function SubscriptionStatusBadge({
+  status,
+  className,
+}: {
+  status: SubscriptionStatus;
+  className?: string;
+}) {
+  const config = SUBSCRIPTION_STATUS_CONFIG[status];
   const Icon = config.icon;
   return (
     <Badge tone={config.tone} className={className}>
