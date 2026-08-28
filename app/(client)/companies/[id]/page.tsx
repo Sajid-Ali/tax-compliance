@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarClock, ClipboardList, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { effectiveStatus } from "@/lib/rules-engine";
 import type {
   AgmRecord,
   Company,
@@ -96,16 +97,19 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
             </p>
           ) : (
             <Timeline>
-              {typedDeadlines.map((d, i) => (
-                <TimelineItem
-                  key={d.id}
-                  state={TIMELINE_STATE[d.status]}
-                  isLast={i === typedDeadlines.length - 1}
-                  meta={d.due_date}
-                  title={d.compliance_rules?.label ?? d.rule_key}
-                  subtitle={<StatusBadge status={d.status} className="mt-1" />}
-                />
-              ))}
+              {typedDeadlines.map((d, i) => {
+                const status = effectiveStatus(d.status, d.due_date);
+                return (
+                  <TimelineItem
+                    key={d.id}
+                    state={TIMELINE_STATE[status]}
+                    isLast={i === typedDeadlines.length - 1}
+                    meta={d.due_date}
+                    title={d.compliance_rules?.label ?? d.rule_key}
+                    subtitle={<StatusBadge status={status} className="mt-1" />}
+                  />
+                );
+              })}
             </Timeline>
           )}
         </CardContent>
