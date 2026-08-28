@@ -4,8 +4,13 @@ import { cn } from "@/lib/cn";
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
+      // No border — shadow alone separates the card from --background (the
+      // Linear/Vercel trick: a hairline reads as "boxed," a soft deep
+      // shadow against a barely-warm page ground reads as a lifted surface
+      // instead). --surface (#fff) vs --background (#f6f6f4) already gives
+      // enough of a value gap that the border was doing little anyway.
       className={cn(
-        "rounded-xl border border-border bg-surface shadow-elevation-md transition-shadow duration-300",
+        "rounded-xl bg-surface shadow-elevation-md transition-shadow duration-300",
         className
       )}
       {...props}
