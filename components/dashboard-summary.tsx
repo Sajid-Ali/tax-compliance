@@ -1,5 +1,6 @@
 import { Building2, AlertTriangle, Clock, CheckCircle2 } from "lucide-react";
 import type { FilingDeadline } from "@/lib/types";
+import { effectiveStatus } from "@/lib/rules-engine";
 import { cn } from "@/lib/cn";
 import { AnimatedNumber } from "@/components/ui/animated-number";
 
@@ -17,12 +18,12 @@ export function DashboardSummary({
   companies: number;
   deadlines: FilingDeadline[];
 }) {
-  const overdue = deadlines.filter((d) => d.status === "overdue").length;
-  const inProgress = deadlines.filter((d) =>
-    ["draft_ready", "in_review", "approved"].includes(d.status)
-  ).length;
-  const upcoming = deadlines.filter((d) => ["upcoming", "reminder_sent"].includes(d.status)).length;
-  const filed = deadlines.filter((d) => d.status === "filed").length;
+  const statuses = deadlines.map((d) => effectiveStatus(d.status, d.due_date));
+  const overdue = statuses.filter((s) => s === "overdue").length;
+  const inProgress = statuses.filter((s) => ["draft_ready", "in_review", "approved"].includes(s))
+    .length;
+  const upcoming = statuses.filter((s) => ["upcoming", "reminder_sent"].includes(s)).length;
+  const filed = statuses.filter((s) => s === "filed").length;
 
   const tiles = [
     { label: "Companies tracked", value: companies, icon: Building2, tone: "hero" as const },
@@ -55,7 +56,7 @@ export function DashboardSummary({
           style={{ animationDelay: `${i * 70}ms` }}
           className={cn(
             "animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards flex flex-col gap-4 rounded-xl p-5 duration-500 ease-out",
-            "transition-[box-shadow,transform] hover:-translate-y-0.5",
+            "transition-[box-shadow,transform] duration-200 ease-snap hover:-translate-y-1",
             tile.tone === "hero"
               ? "bg-[linear-gradient(135deg,var(--color-primary-btn-from)_0%,var(--color-primary-btn-to)_100%)] shadow-elevation-glow"
               : cn(
@@ -75,7 +76,7 @@ export function DashboardSummary({
           <div className="flex flex-col gap-1.5">
             <p
               className={cn(
-                "font-mono text-4xl font-bold tabular-nums",
+                "font-mono text-5xl font-extrabold tracking-tight tabular-nums",
                 tile.tone === "hero" ? "text-white" : "text-foreground"
               )}
             >
