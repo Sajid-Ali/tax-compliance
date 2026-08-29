@@ -20,8 +20,9 @@ export function DashboardSummary({
 }) {
   const statuses = deadlines.map((d) => effectiveStatus(d.status, d.due_date));
   const overdue = statuses.filter((s) => s === "overdue").length;
-  const inProgress = statuses.filter((s) => ["draft_ready", "in_review", "approved"].includes(s))
-    .length;
+  const inProgress = statuses.filter((s) =>
+    ["draft_ready", "in_review", "approved"].includes(s)
+  ).length;
   const upcoming = statuses.filter((s) => ["upcoming", "reminder_sent"].includes(s)).length;
   const filed = statuses.filter((s) => s === "filed").length;
 
