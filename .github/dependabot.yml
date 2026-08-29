@@ -12,6 +12,17 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    ignore:
+      # eslint-config-next's bundled eslint-plugin-react still targets the
+      # pre-10 ESLint rule context API (context.getFilename), and
+      # typescript-eslint's peer range tops out below TS 6.1 — so eslint 10
+      # and typescript 7 both break lint/typecheck today. Remove these once
+      # eslint-plugin-react and typescript-eslint ship support (see PR that
+      # added this note for the incident).
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
