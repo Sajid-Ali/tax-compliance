@@ -2,7 +2,8 @@ import { cn } from "@/lib/cn";
 
 export function Logo({ className, size = "sm" }: { className?: string; size?: "sm" | "lg" }) {
   const dims = size === "lg" ? 44 : 28;
-  const text = size === "lg" ? "text-xl font-bold tracking-tight" : "text-sm font-semibold tracking-tight";
+  const text =
+    size === "lg" ? "text-xl font-bold tracking-tight" : "text-sm font-semibold tracking-tight";
   const tagline = size === "lg" ? "text-[11px]" : "text-[9px]";
 
   return (

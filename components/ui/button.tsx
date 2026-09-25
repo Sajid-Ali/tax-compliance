@@ -9,7 +9,8 @@ const variantClasses: Record<Variant, string> = {
   // Flat solid fill — Institutional Modernism has no gradient/glow
   // anywhere; the primary action reads as authoritative through color and
   // weight, not shine.
-  primary: "bg-primary text-primary-foreground shadow-elevation-sm hover:bg-primary-hover active:bg-primary-active",
+  primary:
+    "bg-primary text-primary-foreground shadow-elevation-sm hover:bg-primary-hover active:bg-primary-active",
   secondary: "bg-surface-secondary text-foreground hover:bg-border border border-border",
   outline: "bg-surface text-foreground border border-border hover:bg-surface-secondary",
   ghost: "text-foreground hover:bg-surface-secondary",

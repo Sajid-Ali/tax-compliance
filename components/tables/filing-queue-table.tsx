@@ -125,7 +125,11 @@ export function FilingQueueTable({ rowsWithUrls }: { rowsWithUrls: RowWithUrl[] 
             <div
               className={cn(
                 "border-l-2 pl-2",
-                status === "overdue" ? "border-danger" : status === "draft_ready" ? "border-warning" : "border-transparent"
+                status === "overdue"
+                  ? "border-danger"
+                  : status === "draft_ready"
+                    ? "border-warning"
+                    : "border-transparent"
               )}
             >
               <StatusBadge status={status} />

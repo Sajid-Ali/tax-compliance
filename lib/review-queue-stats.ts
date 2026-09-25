@@ -20,7 +20,8 @@ export function computeReviewQueueStats(
   return rows.reduce<ReviewQueueStats>(
     (acc, row) => {
       if (row.status === "in_review") acc.pendingCount += 1;
-      if (row.approved_at && isSameDay(parseISO(row.approved_at), today)) acc.approvedTodayCount += 1;
+      if (row.approved_at && isSameDay(parseISO(row.approved_at), today))
+        acc.approvedTodayCount += 1;
       if (row.status === "draft_ready" && row.reviewer_notes) acc.changesRequestedCount += 1;
       return acc;
     },

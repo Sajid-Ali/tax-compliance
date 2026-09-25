@@ -55,11 +55,13 @@ export default async function ReviewQueuePage() {
   // schema's filings.filing_deadline_id UNIQUE constraint is what actually
   // guarantees the single-object shape at runtime (see supabase/migrations/
   // 0001_init.sql).
-  const statsRows = ((statsData ?? []) as unknown as Array<{
-    status: FilingDeadline["status"];
-    due_date: string;
-    filings: Pick<Filing, "approved_at" | "reviewer_notes"> | null;
-  }>).map((r) => ({
+  const statsRows = (
+    (statsData ?? []) as unknown as Array<{
+      status: FilingDeadline["status"];
+      due_date: string;
+      filings: Pick<Filing, "approved_at" | "reviewer_notes"> | null;
+    }>
+  ).map((r) => ({
     // effectiveStatus, not the raw column — a draft_ready/approved row whose
     // due_date has already passed reads as overdue everywhere else in the
     // app (dashboard-summary, filing-queue-table); the KPI tiles must agree,

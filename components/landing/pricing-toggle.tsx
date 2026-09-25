@@ -79,9 +79,7 @@ export function PricingToggle() {
             onClick={() => setAnnual(false)}
             className={cn(
               "cursor-pointer rounded-full px-4 py-1.5 text-[13px] font-medium transition-colors",
-              !annual
-                ? "bg-surface text-foreground shadow-elevation-sm"
-                : "text-muted-foreground"
+              !annual ? "bg-surface text-foreground shadow-elevation-sm" : "text-muted-foreground"
             )}
           >
             Monthly
@@ -97,9 +95,7 @@ export function PricingToggle() {
             Annual
           </button>
         </div>
-        <span className="text-sm text-muted-foreground">
-          Save {ANNUAL_DISCOUNT_PCT}% annually
-        </span>
+        <span className="text-sm text-muted-foreground">Save {ANNUAL_DISCOUNT_PCT}% annually</span>
       </div>
 
       <div className="mt-11 grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -163,8 +159,8 @@ export function PricingToggle() {
         })}
       </div>
       <p className="mt-6 text-xs text-muted-foreground">
-        Prices exclude sales tax on services. Annual plans are invoiced once and can be paid by
-        bank transfer.
+        Prices exclude sales tax on services. Annual plans are invoiced once and can be paid by bank
+        transfer.
       </p>
     </div>
   );

@@ -59,36 +59,36 @@ both — reconciled toward what's actually visible and what the brand prose inte
 
 ### Light
 
-| Token | Value | Notes |
-|---|---|---|
-| `--background` | `#FAF8FF` | page canvas |
-| `--surface` | `#FFFFFF` | cards, sidebar, header |
-| `--surface-secondary` | `#F2F3FF` | subtle chip/pill backgrounds |
-| `--border` | `#E2E8F0` | card hairline (DESIGN.md Tier 1) |
-| `--border-subtle` | `#EEF1F6` | dividers |
-| `--foreground` | `#0F172A` | deep slate obsidian |
-| `--muted-foreground` | `#64748B` | |
-| `--primary` | `#0D5C3A` | flat, no gradient |
-| `--primary-hover` | `#0A482D` | |
-| `--primary-active` | `#073521` | |
-| `--primary-foreground` | `#FFFFFF` | |
-| `--ring` | `#10B981` | focus ring, matches DESIGN.md button spec |
-| `--success` | `#10B981` | |
-| `--success-bg` | `#ECFDF5` | |
-| `--success-border` | `#A7F3D0` | |
-| `--warning` | `#D97706` | |
-| `--warning-bg` | `#FEF3C7` | |
-| `--warning-border` | `#FDE68A` | |
-| `--danger` | `#DC2626` | |
-| `--danger-bg` | `#FEE2E2` | |
-| `--danger-border` | `#FECACA` | |
-| `--info` | `#2563EB` | not in DESIGN.md; kept for existing `info` status tone (e.g. "in review") — unobtrusive slate-blue consistent with the neutral palette |
-| `--info-bg` | `#EFF6FF` | |
-| `--info-border` | `#BFDBFE` | |
-| `--shadow-sm` | `0 1px 2px rgb(15 23 42 / 0.04)` | near-none; cards rely on border, not shadow |
-| `--shadow-md` | `0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04)` | Tier 2: flyouts/dropdowns (verbatim DESIGN.md) |
-| `--shadow-lg` | `0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06)` | Tier 3: modals (verbatim DESIGN.md) |
-| `--overlay` | `rgb(15 23 42 / 0.6)` | modal backdrop |
+| Token                  | Value                                                                         | Notes                                                                                                                                  |
+| ---------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `--background`         | `#FAF8FF`                                                                     | page canvas                                                                                                                            |
+| `--surface`            | `#FFFFFF`                                                                     | cards, sidebar, header                                                                                                                 |
+| `--surface-secondary`  | `#F2F3FF`                                                                     | subtle chip/pill backgrounds                                                                                                           |
+| `--border`             | `#E2E8F0`                                                                     | card hairline (DESIGN.md Tier 1)                                                                                                       |
+| `--border-subtle`      | `#EEF1F6`                                                                     | dividers                                                                                                                               |
+| `--foreground`         | `#0F172A`                                                                     | deep slate obsidian                                                                                                                    |
+| `--muted-foreground`   | `#64748B`                                                                     |                                                                                                                                        |
+| `--primary`            | `#0D5C3A`                                                                     | flat, no gradient                                                                                                                      |
+| `--primary-hover`      | `#0A482D`                                                                     |                                                                                                                                        |
+| `--primary-active`     | `#073521`                                                                     |                                                                                                                                        |
+| `--primary-foreground` | `#FFFFFF`                                                                     |                                                                                                                                        |
+| `--ring`               | `#10B981`                                                                     | focus ring, matches DESIGN.md button spec                                                                                              |
+| `--success`            | `#10B981`                                                                     |                                                                                                                                        |
+| `--success-bg`         | `#ECFDF5`                                                                     |                                                                                                                                        |
+| `--success-border`     | `#A7F3D0`                                                                     |                                                                                                                                        |
+| `--warning`            | `#D97706`                                                                     |                                                                                                                                        |
+| `--warning-bg`         | `#FEF3C7`                                                                     |                                                                                                                                        |
+| `--warning-border`     | `#FDE68A`                                                                     |                                                                                                                                        |
+| `--danger`             | `#DC2626`                                                                     |                                                                                                                                        |
+| `--danger-bg`          | `#FEE2E2`                                                                     |                                                                                                                                        |
+| `--danger-border`      | `#FECACA`                                                                     |                                                                                                                                        |
+| `--info`               | `#2563EB`                                                                     | not in DESIGN.md; kept for existing `info` status tone (e.g. "in review") — unobtrusive slate-blue consistent with the neutral palette |
+| `--info-bg`            | `#EFF6FF`                                                                     |                                                                                                                                        |
+| `--info-border`        | `#BFDBFE`                                                                     |                                                                                                                                        |
+| `--shadow-sm`          | `0 1px 2px rgb(15 23 42 / 0.04)`                                              | near-none; cards rely on border, not shadow                                                                                            |
+| `--shadow-md`          | `0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04)`   | Tier 2: flyouts/dropdowns (verbatim DESIGN.md)                                                                                         |
+| `--shadow-lg`          | `0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06)` | Tier 3: modals (verbatim DESIGN.md)                                                                                                    |
+| `--overlay`            | `rgb(15 23 42 / 0.6)`                                                         | modal backdrop                                                                                                                         |
 
 `--shadow-elevation-glow` and `--primary-btn-from`/`--primary-btn-to` (gradient stops) are
 **removed** — no glow anywhere in the institutional look. `Button`'s primary variant and
@@ -100,26 +100,26 @@ Keeps the emerald hue family rather than going neutral-gray, so dark mode still 
 the same brand. Status colors (`success`/`warning`/`danger`/`info`) reuse the existing
 dark-theme values since they already sit comfortably in this palette.
 
-| Token | Value | Notes |
-|---|---|---|
-| `--background` | `#0A0F0D` | near-black, faint green tint |
-| `--surface` | `#121815` | |
-| `--surface-secondary` | `#1A211D` | |
-| `--border` | `#2A322D` | |
-| `--border-subtle` | `#212820` | |
-| `--foreground` | `#EFF3F0` | |
-| `--muted-foreground` | `#9AA79E` | |
-| `--primary` | `#34D399` | bright mint — echoes the mockups' secondary/accent mint |
-| `--primary-hover` | `#6EE7B7` | |
-| `--primary-active` | `#10B981` | |
-| `--primary-foreground` | `#052E1C` | dark text on the bright mint fill — white fails contrast at this lightness |
-| `--ring` | `#34D399` | |
-| `--success` | `#37D391` / bg `#0F2A1D` / border `#17402C` | reused from current dark theme |
-| `--warning` | `#F0B64A` / bg `#2E2408` / border `#493A10` | reused from current dark theme |
-| `--danger` | `#EE8479` / bg `#2D1512` / border `#49211A` | reused from current dark theme |
-| `--info` | `#7C92FF` / bg `#171E35` / border `#253158` | reused from current dark theme |
-| `--shadow-sm/md/lg` | same shape as light, `rgb(0 0 0 / …)` in place of `rgb(15 23 42 / …)`, opacities raised ~1.5x per the existing dark-mode pattern | |
-| `--overlay` | `rgb(0 0 0 / 0.7)` | |
+| Token                  | Value                                                                                                                            | Notes                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `--background`         | `#0A0F0D`                                                                                                                        | near-black, faint green tint                                               |
+| `--surface`            | `#121815`                                                                                                                        |                                                                            |
+| `--surface-secondary`  | `#1A211D`                                                                                                                        |                                                                            |
+| `--border`             | `#2A322D`                                                                                                                        |                                                                            |
+| `--border-subtle`      | `#212820`                                                                                                                        |                                                                            |
+| `--foreground`         | `#EFF3F0`                                                                                                                        |                                                                            |
+| `--muted-foreground`   | `#9AA79E`                                                                                                                        |                                                                            |
+| `--primary`            | `#34D399`                                                                                                                        | bright mint — echoes the mockups' secondary/accent mint                    |
+| `--primary-hover`      | `#6EE7B7`                                                                                                                        |                                                                            |
+| `--primary-active`     | `#10B981`                                                                                                                        |                                                                            |
+| `--primary-foreground` | `#052E1C`                                                                                                                        | dark text on the bright mint fill — white fails contrast at this lightness |
+| `--ring`               | `#34D399`                                                                                                                        |                                                                            |
+| `--success`            | `#37D391` / bg `#0F2A1D` / border `#17402C`                                                                                      | reused from current dark theme                                             |
+| `--warning`            | `#F0B64A` / bg `#2E2408` / border `#493A10`                                                                                      | reused from current dark theme                                             |
+| `--danger`             | `#EE8479` / bg `#2D1512` / border `#49211A`                                                                                      | reused from current dark theme                                             |
+| `--info`               | `#7C92FF` / bg `#171E35` / border `#253158`                                                                                      | reused from current dark theme                                             |
+| `--shadow-sm/md/lg`    | same shape as light, `rgb(0 0 0 / …)` in place of `rgb(15 23 42 / …)`, opacities raised ~1.5x per the existing dark-mode pattern |                                                                            |
+| `--overlay`            | `rgb(0 0 0 / 0.7)`                                                                                                               |                                                                            |
 
 Both variants keep the existing `:root[data-theme="…"]` + `prefers-color-scheme` structure
 already in `globals.css` — only the values change, not the mechanism.

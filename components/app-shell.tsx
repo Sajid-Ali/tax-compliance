@@ -27,7 +27,13 @@ export function AppShell({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <NavBar links={links} email={email} avatarUrl={avatarUrl} roleLabel={roleLabel} homeHref={homeHref} />
+      <NavBar
+        links={links}
+        email={email}
+        avatarUrl={avatarUrl}
+        roleLabel={roleLabel}
+        homeHref={homeHref}
+      />
       <main className={cn("pt-16", links.length > 0 && "lg:pl-72")}>
         <div className={cn("mx-auto px-4 py-10 sm:px-6", maxWidth)}>{children}</div>
       </main>

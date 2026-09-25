@@ -53,11 +53,7 @@ function GoogleButton() {
       disabled={status === "redirecting"}
       className="flex w-full items-center justify-center gap-2 rounded-md border border-border bg-surface px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface-secondary disabled:opacity-60"
     >
-      {status === "redirecting" ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
-      ) : (
-        <GoogleIcon />
-      )}
+      {status === "redirecting" ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
       Continue with Google
     </button>
   );

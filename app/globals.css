@@ -45,10 +45,8 @@
      (Tier 3). This is a deliberate reversal of the previous shadow-only
      card treatment. */
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.04);
-  --shadow-md:
-    0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
-  --shadow-lg:
-    0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
+  --shadow-lg: 0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
   --overlay: rgb(15 23 42 / 0.6);
 }
 
@@ -157,10 +155,8 @@
   --info-bg: #eff6ff;
   --info-border: #bfdbfe;
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.04);
-  --shadow-md:
-    0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
-  --shadow-lg:
-    0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
+  --shadow-lg: 0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
   --overlay: rgb(15 23 42 / 0.6);
 }
 

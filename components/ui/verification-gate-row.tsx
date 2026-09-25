@@ -3,9 +3,14 @@ import { cn } from "@/lib/cn";
 import type { GateInfo } from "@/lib/gates";
 
 export function VerificationGateRow({ gate, className }: { gate: GateInfo; className?: string }) {
-  const Icon = gate.status === "passed" ? CheckCircle2 : gate.status === "blocked" ? AlertTriangle : Circle;
+  const Icon =
+    gate.status === "passed" ? CheckCircle2 : gate.status === "blocked" ? AlertTriangle : Circle;
   const iconClass =
-    gate.status === "passed" ? "text-success" : gate.status === "blocked" ? "text-danger" : "text-muted-foreground";
+    gate.status === "passed"
+      ? "text-success"
+      : gate.status === "blocked"
+        ? "text-danger"
+        : "text-muted-foreground";
 
   return (
     <div className={cn("flex items-center justify-between gap-3 py-2", className)}>

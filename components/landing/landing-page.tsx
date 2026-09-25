@@ -63,7 +63,12 @@ const BOARD_ROWS = [
     status: "reminder_sent",
   },
   { name: "Income Tax Return", co: "Karachi Steel", due: "31 Dec", status: "upcoming" },
-  { name: "Form 29 — Change of Officers", co: "Meezan Traders", due: "22 Sep", status: "reminder_sent" },
+  {
+    name: "Form 29 — Change of Officers",
+    co: "Meezan Traders",
+    due: "22 Sep",
+    status: "reminder_sent",
+  },
   { name: "PRA Monthly Return", co: "Indus Logistics", due: "15 Sep", status: "filed" },
 ] as const;
 
@@ -121,8 +126,7 @@ export function LandingPage() {
             </h1>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground text-pretty">
               Pro tracks every filing your company owes, prepares the draft before it is due, and
-              routes it for approval. You see what is due, who is on it, and what a slip would
-              cost.
+              routes it for approval. You see what is due, who is on it, and what a slip would cost.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link href="/login" className={buttonVariants({ variant: "primary" })}>
@@ -373,10 +377,7 @@ export function LandingPage() {
             </p>
           </div>
           <div className="flex flex-none flex-col gap-2.5">
-            <Link
-              href="/login"
-              className={buttonVariants({ variant: "primary" })}
-            >
+            <Link href="/login" className={buttonVariants({ variant: "primary" })}>
               Start 14-day Pro trial
             </Link>
             <a
@@ -392,7 +393,9 @@ export function LandingPage() {
       <footer className="border-t border-border-subtle">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-8 px-5 py-8 text-xs text-muted-foreground sm:px-8">
           <Logo />
-          <span>Sarmaya Compliance is a filing assistant. It does not provide legal or tax advice.</span>
+          <span>
+            Sarmaya Compliance is a filing assistant. It does not provide legal or tax advice.
+          </span>
         </div>
       </footer>
     </div>

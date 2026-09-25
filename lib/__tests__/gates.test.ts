@@ -32,7 +32,11 @@ describe("deriveFilingGates", () => {
 
   it("marks the filed gate passed once filed_at is set", () => {
     const gates = deriveFilingGates(
-      { reviewer_notes: null, approved_at: "2026-09-01T10:00:00Z", filed_at: "2026-09-02T09:00:00Z" },
+      {
+        reviewer_notes: null,
+        approved_at: "2026-09-01T10:00:00Z",
+        filed_at: "2026-09-02T09:00:00Z",
+      },
       "filed"
     );
     expect(gates[2].status).toBe("passed");

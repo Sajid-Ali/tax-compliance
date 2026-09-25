@@ -90,7 +90,13 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
       <StepIndicator
         steps={["Company profile", "Directors added", "AGM recorded", "Deadline computed"]}
         currentIndex={
-          typedDeadlines.length > 0 ? 4 : typedAgm.length > 0 ? 3 : typedDirectors.length > 0 ? 2 : 0
+          typedDeadlines.length > 0
+            ? 4
+            : typedAgm.length > 0
+              ? 3
+              : typedDirectors.length > 0
+                ? 2
+                : 0
         }
         className="rounded-md border border-border bg-surface p-4"
       />

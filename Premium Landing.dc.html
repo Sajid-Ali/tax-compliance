@@ -1,616 +1,1964 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
-<link rel="stylesheet" href="_ds/secp-fbr-compliance-ui-2ff0f4e8-1ff7-45ff-8948-456c0e7d18bf/styles.css">
-<script src="_ds/secp-fbr-compliance-ui-2ff0f4e8-1ff7-45ff-8948-456c0e7d18bf/_ds_bundle.js"></script>
-<style>
-  body { margin: 0; background: var(--background); }
-  a { color: var(--primary); text-decoration: none; }
-  a:hover { color: var(--primary-hover); }
-</style>
-</helmet>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="_ds/secp-fbr-compliance-ui-2ff0f4e8-1ff7-45ff-8948-456c0e7d18bf/styles.css"
+        />
+        <script src="_ds/secp-fbr-compliance-ui-2ff0f4e8-1ff7-45ff-8948-456c0e7d18bf/_ds_bundle.js"></script>
+        <style>
+          body {
+            margin: 0;
+            background: var(--background);
+          }
+          a {
+            color: var(--primary);
+            text-decoration: none;
+          }
+          a:hover {
+            color: var(--primary-hover);
+          }
+        </style>
+      </helmet>
 
-<div style="background: var(--background); color: var(--foreground); font-family: Geist, system-ui, sans-serif; -webkit-font-smoothing: antialiased;">
+      <div
+        style="
+          background: var(--background);
+          color: var(--foreground);
+          font-family: Geist, system-ui, sans-serif;
+          -webkit-font-smoothing: antialiased;
+        "
+      >
+        <header
+          style="
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: color-mix(in srgb, var(--background) 84%, transparent);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+          "
+        >
+          <div
+            style="
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: 10px clamp(18px, 4vw, 40px);
+              min-height: 64px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 20px;
+              flex-wrap: wrap;
+            "
+          >
+            <x-import
+              component-from-global-scope="SecpFbrCompliance.Logo"
+              hint-size="200px,28px"
+            ></x-import>
+            <nav
+              style="
+                display: flex;
+                align-items: center;
+                gap: 28px;
+                font-size: 13px;
+                color: var(--muted-foreground);
+              "
+            >
+              <a
+                href="#features"
+                style="color: inherit"
+                style-hover="color: var(--foreground);"
+                onClick="{{ goFeatures }}"
+                >What you get</a
+              >
+              <a
+                href="#dashboard"
+                style="color: inherit"
+                style-hover="color: var(--foreground);"
+                onClick="{{ goDashboard }}"
+                >Inside Pro</a
+              >
+              <a
+                href="#pricing"
+                style="color: inherit"
+                style-hover="color: var(--foreground);"
+                onClick="{{ goPricing }}"
+                >Plans</a
+              >
+              <a
+                href="#faq"
+                style="color: inherit"
+                style-hover="color: var(--foreground);"
+                onClick="{{ goFaq }}"
+                >Questions</a
+              >
+            </nav>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.Button"
+                variant="ghost"
+                size="sm"
+                on-click="{{ signIn }}"
+                hint-size="auto,32px"
+                >Sign in</x-import
+              >
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.Button"
+                variant="primary"
+                size="sm"
+                on-click="{{ startTrial }}"
+                hint-size="auto,32px"
+                >Start free trial</x-import
+              >
+            </div>
+          </div>
+        </header>
 
-  <header style="position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--background) 84%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-subtle);">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 10px clamp(18px, 4vw, 40px); min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
-      <x-import component-from-global-scope="SecpFbrCompliance.Logo" hint-size="200px,28px"></x-import>
-      <nav style="display: flex; align-items: center; gap: 28px; font-size: 13px; color: var(--muted-foreground);">
-        <a href="#features" style="color: inherit;" style-hover="color: var(--foreground);" onClick="{{ goFeatures }}">What you get</a>
-        <a href="#dashboard" style="color: inherit;" style-hover="color: var(--foreground);" onClick="{{ goDashboard }}">Inside Pro</a>
-        <a href="#pricing" style="color: inherit;" style-hover="color: var(--foreground);" onClick="{{ goPricing }}">Plans</a>
-        <a href="#faq" style="color: inherit;" style-hover="color: var(--foreground);" onClick="{{ goFaq }}">Questions</a>
-      </nav>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="ghost" size="sm" on-click="{{ signIn }}" hint-size="auto,32px">Sign in</x-import>
-        <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="primary" size="sm" on-click="{{ startTrial }}" hint-size="auto,32px">Start free trial</x-import>
-      </div>
-    </div>
-  </header>
-
-  <section style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 7vw, 96px) clamp(18px, 4vw, 40px) clamp(56px, 7vw, 88px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(40px, 5vw, 72px); align-items: center;">
-    <div>
-      <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--pill-bg); color: var(--pill-fg); border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 500; letter-spacing: -0.01em;">
-        <span style="width: 6px; height: 6px; border-radius: 999px; background: var(--primary);"></span>
-        Pro is now open to all companies
-      </div>
-      <h1 style="margin: 24px 0 0; font-size: clamp(38px, 5.4vw, 60px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 600; text-wrap: balance;">Never miss another SECP or FBR deadline.</h1>
-      <p style="margin: 24px 0 0; font-size: 18px; line-height: 1.55; color: var(--muted-foreground); max-width: 520px; text-wrap: pretty;">Pro tracks every filing your company owes, prepares the draft before it is due, and routes it for approval. You see what is due, who is on it, and what a slip would cost.</p>
-      <div style="display: flex; align-items: center; gap: 12px; margin-top: 36px;">
-        <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="primary" size="md" on-click="{{ startTrial }}" hint-size="auto,40px">Start 14-day Pro trial</x-import>
-        <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="outline" size="md" on-click="{{ goPricing }}" hint-size="auto,40px">Compare plans</x-import>
-      </div>
-      <p style="margin: 18px 0 0; font-size: 12px; color: var(--muted-foreground);">No card required. Cancel from the billing page in one click.</p>
-    </div>
-
-    <div style="position: relative;">
-      <div style="position: absolute; inset: -18px -18px auto auto; width: 220px; height: 220px; background: var(--pill-bg); border-radius: 999px; filter: blur(48px); opacity: 0.8;"></div>
-      <div style="position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-md); overflow: hidden;">
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border-subtle);">
+        <section
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(56px, 7vw, 96px) clamp(18px, 4vw, 40px) clamp(56px, 7vw, 88px);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+            gap: clamp(40px, 5vw, 72px);
+            align-items: center;
+          "
+        >
           <div>
-            <div style="font-size: 13px; font-weight: 600; letter-spacing: -0.01em;">Acme Textiles (Pvt) Ltd.</div>
-            <div style="font-size: 11px; color: var(--muted-foreground); font-family: 'Geist Mono', ui-monospace, monospace;">NTN 4821093-6 · CUIN 0098231</div>
+            <div
+              style="
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: var(--pill-bg);
+                color: var(--pill-fg);
+                border-radius: 999px;
+                padding: 6px 14px;
+                font-size: 12px;
+                font-weight: 500;
+                letter-spacing: -0.01em;
+              "
+            >
+              <span
+                style="width: 6px; height: 6px; border-radius: 999px; background: var(--primary)"
+              ></span>
+              Pro is now open to all companies
+            </div>
+            <h1
+              style="
+                margin: 24px 0 0;
+                font-size: clamp(38px, 5.4vw, 60px);
+                line-height: 1.04;
+                letter-spacing: -0.035em;
+                font-weight: 600;
+                text-wrap: balance;
+              "
+            >
+              Never miss another SECP or FBR deadline.
+            </h1>
+            <p
+              style="
+                margin: 24px 0 0;
+                font-size: 18px;
+                line-height: 1.55;
+                color: var(--muted-foreground);
+                max-width: 520px;
+                text-wrap: pretty;
+              "
+            >
+              Pro tracks every filing your company owes, prepares the draft before it is due, and
+              routes it for approval. You see what is due, who is on it, and what a slip would cost.
+            </p>
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 36px">
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.Button"
+                variant="primary"
+                size="md"
+                on-click="{{ startTrial }}"
+                hint-size="auto,40px"
+                >Start 14-day Pro trial</x-import
+              >
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.Button"
+                variant="outline"
+                size="md"
+                on-click="{{ goPricing }}"
+                hint-size="auto,40px"
+                >Compare plans</x-import
+              >
+            </div>
+            <p style="margin: 18px 0 0; font-size: 12px; color: var(--muted-foreground)">
+              No card required. Cancel from the billing page in one click.
+            </p>
           </div>
-          <x-import component-from-global-scope="SecpFbrCompliance.Badge" tone="info" hint-size="auto,20px">Pro</x-import>
-        </div>
-        <div style="display: flex; flex-direction: column;">
-          <sc-for list="{{ heroRows }}" as="row" hint-placeholder-count="4">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--border-subtle);">
-              <div style="min-width: 0;">
-                <div style="font-size: 13px; font-weight: 500; letter-spacing: -0.01em;">{{ row.title }}</div>
-                <div style="font-size: 11px; color: var(--muted-foreground); margin-top: 2px; font-family: 'Geist Mono', ui-monospace, monospace;">{{ row.due }}</div>
+
+          <div style="position: relative">
+            <div
+              style="
+                position: absolute;
+                inset: -18px -18px auto auto;
+                width: 220px;
+                height: 220px;
+                background: var(--pill-bg);
+                border-radius: 999px;
+                filter: blur(48px);
+                opacity: 0.8;
+              "
+            ></div>
+            <div
+              style="
+                position: relative;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                box-shadow: var(--shadow-md);
+                overflow: hidden;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  padding: 16px 20px;
+                  border-bottom: 1px solid var(--border-subtle);
+                "
+              >
+                <div>
+                  <div style="font-size: 13px; font-weight: 600; letter-spacing: -0.01em">
+                    Acme Textiles (Pvt) Ltd.
+                  </div>
+                  <div
+                    style="
+                      font-size: 11px;
+                      color: var(--muted-foreground);
+                      font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                    "
+                  >
+                    NTN 4821093-6 · CUIN 0098231
+                  </div>
+                </div>
+                <x-import
+                  component-from-global-scope="SecpFbrCompliance.Badge"
+                  tone="info"
+                  hint-size="auto,20px"
+                  >Pro</x-import
+                >
               </div>
-              <x-import component-from-global-scope="SecpFbrCompliance.StatusBadge" status="{{ row.status }}" hint-size="88px,20px"></x-import>
+              <div style="display: flex; flex-direction: column">
+                <sc-for list="{{ heroRows }}" as="row" hint-placeholder-count="4">
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      gap: 16px;
+                      padding: 14px 20px;
+                      border-bottom: 1px solid var(--border-subtle);
+                    "
+                  >
+                    <div style="min-width: 0">
+                      <div style="font-size: 13px; font-weight: 500; letter-spacing: -0.01em">
+                        {{ row.title }}
+                      </div>
+                      <div
+                        style="
+                          font-size: 11px;
+                          color: var(--muted-foreground);
+                          margin-top: 2px;
+                          font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                        "
+                      >
+                        {{ row.due }}
+                      </div>
+                    </div>
+                    <x-import
+                      component-from-global-scope="SecpFbrCompliance.StatusBadge"
+                      status="{{ row.status }}"
+                      hint-size="88px,20px"
+                    ></x-import>
+                  </div>
+                </sc-for>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: baseline;
+                  justify-content: space-between;
+                  padding: 16px 20px;
+                  background: var(--surface-secondary);
+                "
+              >
+                <span style="font-size: 12px; color: var(--muted-foreground)"
+                  >Penalty exposure avoided this year</span
+                >
+                <span
+                  style="
+                    font-size: 15px;
+                    font-weight: 600;
+                    font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                  "
+                  >Rs 1,240,000</span
+                >
+              </div>
             </div>
-          </sc-for>
-        </div>
-        <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 16px 20px; background: var(--surface-secondary);">
-          <span style="font-size: 12px; color: var(--muted-foreground);">Penalty exposure avoided this year</span>
-          <span style="font-size: 15px; font-weight: 600; font-family: 'Geist Mono', ui-monospace, monospace;">Rs 1,240,000</span>
-        </div>
-      </div>
-    </div>
-  </section>
+          </div>
+        </section>
 
-  <div style="border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 22px clamp(18px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
-      <span style="font-size: 12px; color: var(--muted-foreground);">Filing calendars maintained for</span>
-      <div style="display: flex; align-items: center; gap: 32px; font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: var(--muted-foreground); text-transform: uppercase;">
-        <span>SECP</span>
-        <span>FBR / IRIS</span>
-        <span>PRA</span>
-        <span>SRB</span>
-        <span>EOBI</span>
-        <span>PESSI</span>
-      </div>
-    </div>
-  </div>
-
-  <section id="features" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-    <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconLayers }}" label="What you get" hint-size="160px,28px"></x-import>
-    <h2 style="margin: 20px 0 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; max-width: 620px; text-wrap: balance;">The free plan reminds you. Pro does the work.</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 288px), 1fr)); gap: 24px; margin-top: 56px;">
-      <sc-for list="{{ features }}" as="f" hint-placeholder-count="3">
-        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px;">
-          <div style="width: 34px; height: 34px; border-radius: 10px; background: var(--pill-bg); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; font-family: 'Geist Mono', ui-monospace, monospace;">{{ f.n }}</div>
-          <h3 style="margin: 20px 0 0; font-size: 17px; font-weight: 600; letter-spacing: -0.02em;">{{ f.title }}</h3>
-          <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.6; color: var(--muted-foreground); text-wrap: pretty;">{{ f.body }}</p>
-          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-subtle); font-size: 11px; color: var(--muted-foreground); font-family: 'Geist Mono', ui-monospace, monospace;">{{ f.meta }}</div>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-
-  <section id="dashboard" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-    <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconMonitor }}" label="Inside Pro" hint-size="140px,28px"></x-import>
-    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-top: 20px;">
-      <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; max-width: 520px; text-wrap: balance;">One board for every company you are responsible for.</h2>
-      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted-foreground); max-width: 360px; text-wrap: pretty;">Sorted by what bites first. Overdue at the top, then the returns whose windows close this month.</p>
-    </div>
-
-    <div style="margin-top: 48px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-md); overflow-x: auto; overflow-y: hidden;">
-      <div style="display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border-subtle); background: var(--surface-secondary);">
-        <span style="width: 10px; height: 10px; border-radius: 999px; background: var(--border);"></span>
-        <span style="width: 10px; height: 10px; border-radius: 999px; background: var(--border);"></span>
-        <span style="width: 10px; height: 10px; border-radius: 999px; background: var(--border);"></span>
-        <span style="margin-left: 12px; font-size: 11px; color: var(--muted-foreground); font-family: 'Geist Mono', ui-monospace, monospace;">app.compliancereminders.pk/board</span>
-      </div>
-      <div style="display: grid; grid-template-columns: 232px 1fr; min-width: 880px; min-height: 460px;">
-        <aside style="border-right: 1px solid var(--border-subtle); padding: 22px 18px; display: flex; flex-direction: column; gap: 6px;">
-          <div style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-foreground); padding: 0 10px 8px;">Companies</div>
-          <sc-for list="{{ sidebar }}" as="s" hint-placeholder-count="5">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 10px; border-radius: 8px; font-size: 13px; letter-spacing: -0.01em;">
-              <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ s.name }}</span>
-              <span style="font-size: 11px; color: var(--muted-foreground); font-family: 'Geist Mono', ui-monospace, monospace;">{{ s.count }}</span>
+        <div
+          style="
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+          "
+        >
+          <div
+            style="
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: 22px clamp(18px, 4vw, 40px);
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 32px;
+              flex-wrap: wrap;
+            "
+          >
+            <span style="font-size: 12px; color: var(--muted-foreground)"
+              >Filing calendars maintained for</span
+            >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 32px;
+                font-size: 12px;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                color: var(--muted-foreground);
+                text-transform: uppercase;
+              "
+            >
+              <span>SECP</span>
+              <span>FBR / IRIS</span>
+              <span>PRA</span>
+              <span>SRB</span>
+              <span>EOBI</span>
+              <span>PESSI</span>
             </div>
-          </sc-for>
-          <div style="margin-top: auto; padding: 14px 10px 0; border-top: 1px solid var(--border-subtle); font-size: 11px; color: var(--muted-foreground); line-height: 1.5;">Firm plan adds unlimited client companies and a shared inbox.</div>
-        </aside>
-        <div style="padding: 26px 28px;">
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
-            <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
-              <div style="border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; background: var(--surface-secondary);">
-                <div style="font-size: 11px; color: var(--muted-foreground);">{{ st.label }}</div>
-                <div style="margin-top: 6px; font-size: 22px; font-weight: 600; letter-spacing: -0.03em; font-family: 'Geist Mono', ui-monospace, monospace;">{{ st.value }}</div>
+          </div>
+        </div>
+
+        <section
+          id="features"
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+          "
+        >
+          <x-import
+            component-from-global-scope="SecpFbrCompliance.PillHeader"
+            icon="{{ iconLayers }}"
+            label="What you get"
+            hint-size="160px,28px"
+          ></x-import>
+          <h2
+            style="
+              margin: 20px 0 0;
+              font-size: clamp(28px, 3.6vw, 40px);
+              line-height: 1.12;
+              letter-spacing: -0.03em;
+              font-weight: 600;
+              max-width: 620px;
+              text-wrap: balance;
+            "
+          >
+            The free plan reminds you. Pro does the work.
+          </h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(min(100%, 288px), 1fr));
+              gap: 24px;
+              margin-top: 56px;
+            "
+          >
+            <sc-for list="{{ features }}" as="f" hint-placeholder-count="3">
+              <div
+                style="
+                  background: var(--surface);
+                  border: 1px solid var(--border);
+                  border-radius: 16px;
+                  padding: 28px;
+                "
+              >
+                <div
+                  style="
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 10px;
+                    background: var(--pill-bg);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 13px;
+                    font-weight: 600;
+                    font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                  "
+                >
+                  {{ f.n }}
+                </div>
+                <h3
+                  style="
+                    margin: 20px 0 0;
+                    font-size: 17px;
+                    font-weight: 600;
+                    letter-spacing: -0.02em;
+                  "
+                >
+                  {{ f.title }}
+                </h3>
+                <p
+                  style="
+                    margin: 10px 0 0;
+                    font-size: 13px;
+                    line-height: 1.6;
+                    color: var(--muted-foreground);
+                    text-wrap: pretty;
+                  "
+                >
+                  {{ f.body }}
+                </p>
+                <div
+                  style="
+                    margin-top: 20px;
+                    padding-top: 16px;
+                    border-top: 1px solid var(--border-subtle);
+                    font-size: 11px;
+                    color: var(--muted-foreground);
+                    font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                  "
+                >
+                  {{ f.meta }}
+                </div>
               </div>
             </sc-for>
           </div>
+        </section>
 
-          <div style="margin-top: 26px; border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden;">
-            <div style="display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr; gap: 16px; padding: 11px 16px; background: var(--surface-secondary); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground);">
-              <span>Obligation</span>
-              <span>Company</span>
-              <span>Due</span>
-              <span>Status</span>
+        <section
+          id="dashboard"
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+          "
+        >
+          <x-import
+            component-from-global-scope="SecpFbrCompliance.PillHeader"
+            icon="{{ iconMonitor }}"
+            label="Inside Pro"
+            hint-size="140px,28px"
+          ></x-import>
+          <div
+            style="
+              display: flex;
+              align-items: flex-end;
+              justify-content: space-between;
+              gap: 32px;
+              flex-wrap: wrap;
+              margin-top: 20px;
+            "
+          >
+            <h2
+              style="
+                margin: 0;
+                font-size: clamp(28px, 3.6vw, 40px);
+                line-height: 1.12;
+                letter-spacing: -0.03em;
+                font-weight: 600;
+                max-width: 520px;
+                text-wrap: balance;
+              "
+            >
+              One board for every company you are responsible for.
+            </h2>
+            <p
+              style="
+                margin: 0;
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--muted-foreground);
+                max-width: 360px;
+                text-wrap: pretty;
+              "
+            >
+              Sorted by what bites first. Overdue at the top, then the returns whose windows close
+              this month.
+            </p>
+          </div>
+
+          <div
+            style="
+              margin-top: 48px;
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: 20px;
+              box-shadow: var(--shadow-md);
+              overflow-x: auto;
+              overflow-y: hidden;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 20px;
+                border-bottom: 1px solid var(--border-subtle);
+                background: var(--surface-secondary);
+              "
+            >
+              <span
+                style="width: 10px; height: 10px; border-radius: 999px; background: var(--border)"
+              ></span>
+              <span
+                style="width: 10px; height: 10px; border-radius: 999px; background: var(--border)"
+              ></span>
+              <span
+                style="width: 10px; height: 10px; border-radius: 999px; background: var(--border)"
+              ></span>
+              <span
+                style="
+                  margin-left: 12px;
+                  font-size: 11px;
+                  color: var(--muted-foreground);
+                  font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                "
+                >app.compliancereminders.pk/board</span
+              >
             </div>
-            <sc-for list="{{ boardRows }}" as="b" hint-placeholder-count="6">
-              <div style="display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr; gap: 16px; align-items: center; padding: 13px 16px; border-top: 1px solid var(--border-subtle); font-size: 12.5px;">
-                <span style="font-weight: 500; letter-spacing: -0.01em;">{{ b.name }}</span>
-                <span style="color: var(--muted-foreground);">{{ b.co }}</span>
-                <span style="color: var(--muted-foreground); font-family: 'Geist Mono', ui-monospace, monospace;">{{ b.due }}</span>
-                <span><x-import component-from-global-scope="SecpFbrCompliance.StatusBadge" status="{{ b.status }}" hint-size="88px,20px"></x-import></span>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 232px 1fr;
+                min-width: 880px;
+                min-height: 460px;
+              "
+            >
+              <aside
+                style="
+                  border-right: 1px solid var(--border-subtle);
+                  padding: 22px 18px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 6px;
+                "
+              >
+                <div
+                  style="
+                    font-size: 10px;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: var(--muted-foreground);
+                    padding: 0 10px 8px;
+                  "
+                >
+                  Companies
+                </div>
+                <sc-for list="{{ sidebar }}" as="s" hint-placeholder-count="5">
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      gap: 8px;
+                      padding: 9px 10px;
+                      border-radius: 8px;
+                      font-size: 13px;
+                      letter-spacing: -0.01em;
+                    "
+                  >
+                    <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                      >{{ s.name }}</span
+                    >
+                    <span
+                      style="
+                        font-size: 11px;
+                        color: var(--muted-foreground);
+                        font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                      "
+                      >{{ s.count }}</span
+                    >
+                  </div>
+                </sc-for>
+                <div
+                  style="
+                    margin-top: auto;
+                    padding: 14px 10px 0;
+                    border-top: 1px solid var(--border-subtle);
+                    font-size: 11px;
+                    color: var(--muted-foreground);
+                    line-height: 1.5;
+                  "
+                >
+                  Firm plan adds unlimited client companies and a shared inbox.
+                </div>
+              </aside>
+              <div style="padding: 26px 28px">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px">
+                  <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+                    <div
+                      style="
+                        border: 1px solid var(--border-subtle);
+                        border-radius: 12px;
+                        padding: 14px 16px;
+                        background: var(--surface-secondary);
+                      "
+                    >
+                      <div style="font-size: 11px; color: var(--muted-foreground)">
+                        {{ st.label }}
+                      </div>
+                      <div
+                        style="
+                          margin-top: 6px;
+                          font-size: 22px;
+                          font-weight: 600;
+                          letter-spacing: -0.03em;
+                          font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                        "
+                      >
+                        {{ st.value }}
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div
+                  style="
+                    margin-top: 26px;
+                    border: 1px solid var(--border-subtle);
+                    border-radius: 12px;
+                    overflow: hidden;
+                  "
+                >
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: 2.2fr 1fr 1fr 1fr;
+                      gap: 16px;
+                      padding: 11px 16px;
+                      background: var(--surface-secondary);
+                      font-size: 10px;
+                      letter-spacing: 0.06em;
+                      text-transform: uppercase;
+                      color: var(--muted-foreground);
+                    "
+                  >
+                    <span>Obligation</span>
+                    <span>Company</span>
+                    <span>Due</span>
+                    <span>Status</span>
+                  </div>
+                  <sc-for list="{{ boardRows }}" as="b" hint-placeholder-count="6">
+                    <div
+                      style="
+                        display: grid;
+                        grid-template-columns: 2.2fr 1fr 1fr 1fr;
+                        gap: 16px;
+                        align-items: center;
+                        padding: 13px 16px;
+                        border-top: 1px solid var(--border-subtle);
+                        font-size: 12.5px;
+                      "
+                    >
+                      <span style="font-weight: 500; letter-spacing: -0.01em">{{ b.name }}</span>
+                      <span style="color: var(--muted-foreground)">{{ b.co }}</span>
+                      <span
+                        style="
+                          color: var(--muted-foreground);
+                          font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                        "
+                        >{{ b.due }}</span
+                      >
+                      <span
+                        ><x-import
+                          component-from-global-scope="SecpFbrCompliance.StatusBadge"
+                          status="{{ b.status }}"
+                          hint-size="88px,20px"
+                        ></x-import
+                      ></span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="pricing"
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+          "
+        >
+          <x-import
+            component-from-global-scope="SecpFbrCompliance.PillHeader"
+            icon="{{ iconTag }}"
+            label="Plans"
+            hint-size="110px,28px"
+          ></x-import>
+          <div
+            style="
+              display: flex;
+              align-items: flex-end;
+              justify-content: space-between;
+              gap: 32px;
+              flex-wrap: wrap;
+              margin-top: 20px;
+            "
+          >
+            <h2
+              style="
+                margin: 0;
+                font-size: clamp(28px, 3.6vw, 40px);
+                line-height: 1.12;
+                letter-spacing: -0.03em;
+                font-weight: 600;
+                max-width: 520px;
+                text-wrap: balance;
+              "
+            >
+              Priced per company, not per filing.
+            </h2>
+            <div style="display: flex; align-items: center; gap: 14px">
+              <div
+                style="
+                  display: inline-flex;
+                  padding: 4px;
+                  border-radius: 999px;
+                  background: var(--surface-secondary);
+                  border: 1px solid var(--border);
+                "
+              >
+                <sc-if value="{{ isMonthly }}" hint-placeholder-val="{{ true }}">
+                  <button
+                    style="
+                      border: 0;
+                      cursor: pointer;
+                      border-radius: 999px;
+                      padding: 7px 18px;
+                      font-size: 12.5px;
+                      font-weight: 500;
+                      font-family: inherit;
+                      background: var(--surface);
+                      color: var(--foreground);
+                      box-shadow: var(--shadow-sm);
+                    "
+                    onClick="{{ setMonthly }}"
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    style="
+                      border: 0;
+                      cursor: pointer;
+                      border-radius: 999px;
+                      padding: 7px 18px;
+                      font-size: 12.5px;
+                      font-weight: 500;
+                      font-family: inherit;
+                      background: transparent;
+                      color: var(--muted-foreground);
+                    "
+                    onClick="{{ setAnnual }}"
+                  >
+                    Annual
+                  </button>
+                </sc-if>
+                <sc-if value="{{ isAnnual }}">
+                  <button
+                    style="
+                      border: 0;
+                      cursor: pointer;
+                      border-radius: 999px;
+                      padding: 7px 18px;
+                      font-size: 12.5px;
+                      font-weight: 500;
+                      font-family: inherit;
+                      background: transparent;
+                      color: var(--muted-foreground);
+                    "
+                    onClick="{{ setMonthly }}"
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    style="
+                      border: 0;
+                      cursor: pointer;
+                      border-radius: 999px;
+                      padding: 7px 18px;
+                      font-size: 12.5px;
+                      font-weight: 500;
+                      font-family: inherit;
+                      background: var(--surface);
+                      color: var(--foreground);
+                      box-shadow: var(--shadow-sm);
+                    "
+                    onClick="{{ setAnnual }}"
+                  >
+                    Annual
+                  </button>
+                </sc-if>
+              </div>
+              <span style="font-size: 12px; color: var(--muted-foreground)"
+                >Save {{ discountLabel }} annually</span
+              >
+            </div>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(min(100%, 288px), 1fr));
+              gap: 24px;
+              margin-top: 44px;
+              align-items: start;
+            "
+          >
+            <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+              <div
+                style="
+                  position: relative;
+                  background: var(--surface);
+                  border: 1px solid var(--border);
+                  border-radius: 18px;
+                  padding: 30px 28px 32px;
+                "
+              >
+                <sc-if value="{{ p.featured }}">
+                  <div
+                    style="
+                      position: absolute;
+                      inset: -1px;
+                      border: 1.5px solid var(--primary);
+                      border-radius: 18px;
+                      pointer-events: none;
+                    "
+                  ></div>
+                  <div
+                    style="
+                      position: absolute;
+                      top: -11px;
+                      left: 28px;
+                      background: var(--primary);
+                      color: var(--primary-foreground);
+                      border-radius: 999px;
+                      padding: 4px 12px;
+                      font-size: 10.5px;
+                      font-weight: 600;
+                      letter-spacing: 0.04em;
+                      text-transform: uppercase;
+                    "
+                  >
+                    Most popular
+                  </div>
+                </sc-if>
+                <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.02em">
+                  {{ p.name }}
+                </div>
+                <p
+                  style="
+                    margin: 8px 0 0;
+                    font-size: 13px;
+                    line-height: 1.55;
+                    color: var(--muted-foreground);
+                    min-height: 40px;
+                    text-wrap: pretty;
+                  "
+                >
+                  {{ p.tagline }}
+                </p>
+                <div
+                  style="
+                    margin-top: 24px;
+                    display: flex;
+                    align-items: baseline;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 38px;
+                      font-weight: 600;
+                      letter-spacing: -0.04em;
+                      white-space: nowrap;
+                      font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                    "
+                    >{{ p.price }}</span
+                  >
+                  <span style="font-size: 13px; color: var(--muted-foreground); white-space: nowrap"
+                    >{{ p.unit }}</span
+                  >
+                </div>
+                <div
+                  style="
+                    margin-top: 6px;
+                    font-size: 11.5px;
+                    color: var(--muted-foreground);
+                    font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                    min-height: 16px;
+                  "
+                >
+                  {{ p.sub }}
+                </div>
+                <div style="margin-top: 24px">
+                  <x-import
+                    component-from-global-scope="SecpFbrCompliance.Button"
+                    variant="{{ p.variant }}"
+                    size="md"
+                    class-name="w-full"
+                    on-click="{{ p.select }}"
+                    hint-size="100%,40px"
+                    >{{ p.cta }}</x-import
+                  >
+                </div>
+                <div
+                  style="
+                    margin-top: 26px;
+                    padding-top: 22px;
+                    border-top: 1px solid var(--border-subtle);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 11px;
+                  "
+                >
+                  <div
+                    style="
+                      font-size: 11px;
+                      letter-spacing: 0.06em;
+                      text-transform: uppercase;
+                      color: var(--muted-foreground);
+                    "
+                  >
+                    {{ p.includes }}
+                  </div>
+                  <sc-for list="{{ p.features }}" as="ft" hint-placeholder-count="6">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 10px;
+                        font-size: 13px;
+                        line-height: 1.5;
+                      "
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        style="
+                          width: 14px;
+                          height: 14px;
+                          margin-top: 3px;
+                          flex: 0 0 auto;
+                          color: var(--primary);
+                        "
+                      >
+                        <path d="m4 12 5 5L20 6"></path>
+                      </svg>
+                      <span style="text-wrap: pretty">{{ ft }}</span>
+                    </div>
+                  </sc-for>
+                </div>
               </div>
             </sc-for>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+          <p style="margin: 24px 0 0; font-size: 12px; color: var(--muted-foreground)">
+            Prices exclude sales tax on services. Annual plans are invoiced once and can be paid by
+            bank transfer.
+          </p>
+        </section>
 
-  <section id="pricing" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-    <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconTag }}" label="Plans" hint-size="110px,28px"></x-import>
-    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-top: 20px;">
-      <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; max-width: 520px; text-wrap: balance;">Priced per company, not per filing.</h2>
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <div style="display: inline-flex; padding: 4px; border-radius: 999px; background: var(--surface-secondary); border: 1px solid var(--border);">
-          <sc-if value="{{ isMonthly }}" hint-placeholder-val="{{ true }}">
-            <button style="border: 0; cursor: pointer; border-radius: 999px; padding: 7px 18px; font-size: 12.5px; font-weight: 500; font-family: inherit; background: var(--surface); color: var(--foreground); box-shadow: var(--shadow-sm);" onClick="{{ setMonthly }}">Monthly</button>
-            <button style="border: 0; cursor: pointer; border-radius: 999px; padding: 7px 18px; font-size: 12.5px; font-weight: 500; font-family: inherit; background: transparent; color: var(--muted-foreground);" onClick="{{ setAnnual }}">Annual</button>
-          </sc-if>
-          <sc-if value="{{ isAnnual }}">
-            <button style="border: 0; cursor: pointer; border-radius: 999px; padding: 7px 18px; font-size: 12.5px; font-weight: 500; font-family: inherit; background: transparent; color: var(--muted-foreground);" onClick="{{ setMonthly }}">Monthly</button>
-            <button style="border: 0; cursor: pointer; border-radius: 999px; padding: 7px 18px; font-size: 12.5px; font-weight: 500; font-family: inherit; background: var(--surface); color: var(--foreground); box-shadow: var(--shadow-sm);" onClick="{{ setAnnual }}">Annual</button>
-          </sc-if>
-        </div>
-        <span style="font-size: 12px; color: var(--muted-foreground);">Save {{ discountLabel }} annually</span>
-      </div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 288px), 1fr)); gap: 24px; margin-top: 44px; align-items: start;">
-      <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
-        <div style="position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 30px 28px 32px;">
-          <sc-if value="{{ p.featured }}">
-            <div style="position: absolute; inset: -1px; border: 1.5px solid var(--primary); border-radius: 18px; pointer-events: none;"></div>
-            <div style="position: absolute; top: -11px; left: 28px; background: var(--primary); color: var(--primary-foreground); border-radius: 999px; padding: 4px 12px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;">Most popular</div>
-          </sc-if>
-          <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.02em;">{{ p.name }}</div>
-          <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.55; color: var(--muted-foreground); min-height: 40px; text-wrap: pretty;">{{ p.tagline }}</p>
-          <div style="margin-top: 24px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
-            <span style="font-size: 38px; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; font-family: 'Geist Mono', ui-monospace, monospace;">{{ p.price }}</span>
-            <span style="font-size: 13px; color: var(--muted-foreground); white-space: nowrap;">{{ p.unit }}</span>
-          </div>
-          <div style="margin-top: 6px; font-size: 11.5px; color: var(--muted-foreground); font-family: 'Geist Mono', ui-monospace, monospace; min-height: 16px;">{{ p.sub }}</div>
-          <div style="margin-top: 24px;">
-            <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="{{ p.variant }}" size="md" class-name="w-full" on-click="{{ p.select }}" hint-size="100%,40px">{{ p.cta }}</x-import>
-          </div>
-          <div style="margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 11px;">
-            <div style="font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground);">{{ p.includes }}</div>
-            <sc-for list="{{ p.features }}" as="ft" hint-placeholder-count="6">
-              <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; margin-top: 3px; flex: 0 0 auto; color: var(--primary);"><path d="m4 12 5 5L20 6"></path></svg>
-                <span style="text-wrap: pretty;">{{ ft }}</span>
-              </div>
-            </sc-for>
-          </div>
-        </div>
-      </sc-for>
-    </div>
-    <p style="margin: 24px 0 0; font-size: 12px; color: var(--muted-foreground);">Prices exclude sales tax on services. Annual plans are invoiced once and can be paid by bank transfer.</p>
-  </section>
-
-  <section style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-    <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconUpgrade }}" label="Upgrading" hint-size="140px,28px"></x-import>
-    <h2 style="margin: 20px 0 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; max-width: 560px; text-wrap: balance;">Three steps, and your calendar is already populated.</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(40px, 5vw, 64px); margin-top: 52px; align-items: start;">
-      <div>
-        <x-import component-from-global-scope="SecpFbrCompliance.Timeline" hint-size="100%,240px">
-          <x-import component-from-global-scope="SecpFbrCompliance.TimelineItem" state="done" title="Pick a plan" subtitle="Company count decides the tier. You can change it mid-cycle and we prorate." meta="1 min" hint-size="100%,72px"></x-import>
-          <x-import component-from-global-scope="SecpFbrCompliance.TimelineItem" state="current" title="Confirm company details" subtitle="CUIN, NTN, financial year end and registrations. We build the calendar from these." meta="3 min" hint-size="100%,72px"></x-import>
-          <x-import component-from-global-scope="SecpFbrCompliance.TimelineItem" state="upcoming" title="Pay and invite your team" subtitle="Card, bank transfer or Raast. Invoices are issued the same day." meta="2 min" is-last="{{ true }}" hint-size="100%,72px"></x-import>
-        </x-import>
-      </div>
-
-      <div id="checkout" style="background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-md); overflow: hidden;">
-        <sc-if value="{{ checkoutOpen }}" hint-placeholder-val="{{ true }}">
-          <div style="padding: 24px 28px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <section
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+          "
+        >
+          <x-import
+            component-from-global-scope="SecpFbrCompliance.PillHeader"
+            icon="{{ iconUpgrade }}"
+            label="Upgrading"
+            hint-size="140px,28px"
+          ></x-import>
+          <h2
+            style="
+              margin: 20px 0 0;
+              font-size: clamp(28px, 3.6vw, 40px);
+              line-height: 1.12;
+              letter-spacing: -0.03em;
+              font-weight: 600;
+              max-width: 560px;
+              text-wrap: balance;
+            "
+          >
+            Three steps, and your calendar is already populated.
+          </h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+              gap: clamp(40px, 5vw, 64px);
+              margin-top: 52px;
+              align-items: start;
+            "
+          >
             <div>
-              <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.02em;">{{ checkoutTitle }}</div>
-              <div style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px;">{{ checkoutSub }}</div>
-            </div>
-            <x-import component-from-global-scope="SecpFbrCompliance.Badge" tone="info" hint-size="auto,20px">Step 3 of 3</x-import>
-          </div>
-          <div style="padding: 26px clamp(20px, 3vw, 28px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 18px;">
-            <div style="grid-column: 1 / -1;">
-              <x-import component-from-global-scope="SecpFbrCompliance.Field" label="Billed to" hint="Appears on the FBR-compliant invoice" hint-size="100%,66px">
-                <x-import component-from-global-scope="SecpFbrCompliance.Input" placeholder="Registered company name" value="{{ company }}" on-change="{{ setCompany }}" hint-size="100%,36px"></x-import>
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.Timeline"
+                hint-size="100%,240px"
+              >
+                <x-import
+                  component-from-global-scope="SecpFbrCompliance.TimelineItem"
+                  state="done"
+                  title="Pick a plan"
+                  subtitle="Company count decides the tier. You can change it mid-cycle and we prorate."
+                  meta="1 min"
+                  hint-size="100%,72px"
+                ></x-import>
+                <x-import
+                  component-from-global-scope="SecpFbrCompliance.TimelineItem"
+                  state="current"
+                  title="Confirm company details"
+                  subtitle="CUIN, NTN, financial year end and registrations. We build the calendar from these."
+                  meta="3 min"
+                  hint-size="100%,72px"
+                ></x-import>
+                <x-import
+                  component-from-global-scope="SecpFbrCompliance.TimelineItem"
+                  state="upcoming"
+                  title="Pay and invite your team"
+                  subtitle="Card, bank transfer or Raast. Invoices are issued the same day."
+                  meta="2 min"
+                  is-last="{{ true }}"
+                  hint-size="100%,72px"
+                ></x-import>
               </x-import>
             </div>
-            <x-import component-from-global-scope="SecpFbrCompliance.Field" label="NTN" hint-size="100%,66px">
-              <x-import component-from-global-scope="SecpFbrCompliance.Input" placeholder="0000000-0" value="{{ ntn }}" on-change="{{ setNtn }}" hint-size="100%,36px"></x-import>
-            </x-import>
-            <sc-if value="{{ needsPayment }}" hint-placeholder-val="{{ true }}">
-              <x-import component-from-global-scope="SecpFbrCompliance.Field" label="Payment method" hint-size="100%,66px">
-                <x-import component-from-global-scope="SecpFbrCompliance.Select" value="{{ method }}" on-change="{{ setMethod }}" hint-size="100%,36px">
-                  <option value="card">Card ending 4417</option>
-                  <option value="bank">Bank transfer (HBL)</option>
-                  <option value="raast">Raast</option>
-                </x-import>
-              </x-import>
-            </sc-if>
-            <div style="grid-column: 1 / -1; margin-top: 4px; border-top: 1px solid var(--border-subtle); padding-top: 18px; display: flex; flex-direction: column; gap: 10px;">
-              <div style="display: flex; align-items: baseline; justify-content: space-between; font-size: 13px;">
-                <span style="color: var(--muted-foreground);">{{ checkoutLine }}</span>
-                <span style="font-family: 'Geist Mono', ui-monospace, monospace;">{{ checkoutSubtotal }}</span>
-              </div>
-              <div style="display: flex; align-items: baseline; justify-content: space-between; font-size: 13px;">
-                <span style="color: var(--muted-foreground);">Sales tax on services (16%)</span>
-                <span style="font-family: 'Geist Mono', ui-monospace, monospace;">{{ checkoutTax }}</span>
-              </div>
-              <div style="display: flex; align-items: baseline; justify-content: space-between; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px;">
-                <span>Due today</span>
-                <span style="font-family: 'Geist Mono', ui-monospace, monospace;">{{ checkoutTotal }}</span>
-              </div>
+
+            <div
+              id="checkout"
+              style="
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                box-shadow: var(--shadow-md);
+                overflow: hidden;
+              "
+            >
+              <sc-if value="{{ checkoutOpen }}" hint-placeholder-val="{{ true }}">
+                <div
+                  style="
+                    padding: 24px 28px;
+                    border-bottom: 1px solid var(--border-subtle);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <div>
+                    <div style="font-size: 15px; font-weight: 600; letter-spacing: -0.02em">
+                      {{ checkoutTitle }}
+                    </div>
+                    <div style="font-size: 12px; color: var(--muted-foreground); margin-top: 2px">
+                      {{ checkoutSub }}
+                    </div>
+                  </div>
+                  <x-import
+                    component-from-global-scope="SecpFbrCompliance.Badge"
+                    tone="info"
+                    hint-size="auto,20px"
+                    >Step 3 of 3</x-import
+                  >
+                </div>
+                <div
+                  style="
+                    padding: 26px clamp(20px, 3vw, 28px);
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+                    gap: 18px;
+                  "
+                >
+                  <div style="grid-column: 1 / -1">
+                    <x-import
+                      component-from-global-scope="SecpFbrCompliance.Field"
+                      label="Billed to"
+                      hint="Appears on the FBR-compliant invoice"
+                      hint-size="100%,66px"
+                    >
+                      <x-import
+                        component-from-global-scope="SecpFbrCompliance.Input"
+                        placeholder="Registered company name"
+                        value="{{ company }}"
+                        on-change="{{ setCompany }}"
+                        hint-size="100%,36px"
+                      ></x-import>
+                    </x-import>
+                  </div>
+                  <x-import
+                    component-from-global-scope="SecpFbrCompliance.Field"
+                    label="NTN"
+                    hint-size="100%,66px"
+                  >
+                    <x-import
+                      component-from-global-scope="SecpFbrCompliance.Input"
+                      placeholder="0000000-0"
+                      value="{{ ntn }}"
+                      on-change="{{ setNtn }}"
+                      hint-size="100%,36px"
+                    ></x-import>
+                  </x-import>
+                  <sc-if value="{{ needsPayment }}" hint-placeholder-val="{{ true }}">
+                    <x-import
+                      component-from-global-scope="SecpFbrCompliance.Field"
+                      label="Payment method"
+                      hint-size="100%,66px"
+                    >
+                      <x-import
+                        component-from-global-scope="SecpFbrCompliance.Select"
+                        value="{{ method }}"
+                        on-change="{{ setMethod }}"
+                        hint-size="100%,36px"
+                      >
+                        <option value="card">Card ending 4417</option>
+                        <option value="bank">Bank transfer (HBL)</option>
+                        <option value="raast">Raast</option>
+                      </x-import>
+                    </x-import>
+                  </sc-if>
+                  <div
+                    style="
+                      grid-column: 1 / -1;
+                      margin-top: 4px;
+                      border-top: 1px solid var(--border-subtle);
+                      padding-top: 18px;
+                      display: flex;
+                      flex-direction: column;
+                      gap: 10px;
+                    "
+                  >
+                    <div
+                      style="
+                        display: flex;
+                        align-items: baseline;
+                        justify-content: space-between;
+                        font-size: 13px;
+                      "
+                    >
+                      <span style="color: var(--muted-foreground)">{{ checkoutLine }}</span>
+                      <span style="font-family: &quot;Geist Mono&quot;, ui-monospace, monospace"
+                        >{{ checkoutSubtotal }}</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: baseline;
+                        justify-content: space-between;
+                        font-size: 13px;
+                      "
+                    >
+                      <span style="color: var(--muted-foreground)"
+                        >Sales tax on services (16%)</span
+                      >
+                      <span style="font-family: &quot;Geist Mono&quot;, ui-monospace, monospace"
+                        >{{ checkoutTax }}</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: baseline;
+                        justify-content: space-between;
+                        font-size: 16px;
+                        font-weight: 600;
+                        letter-spacing: -0.02em;
+                        margin-top: 4px;
+                      "
+                    >
+                      <span>Due today</span>
+                      <span style="font-family: &quot;Geist Mono&quot;, ui-monospace, monospace"
+                        >{{ checkoutTotal }}</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      grid-column: 1 / -1;
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;
+                      margin-top: 6px;
+                    "
+                  >
+                    <x-import
+                      component-from-global-scope="SecpFbrCompliance.Button"
+                      variant="primary"
+                      size="md"
+                      disabled="{{ confirmDisabled }}"
+                      on-click="{{ confirm }}"
+                      hint-size="auto,40px"
+                      >{{ confirmLabel }}</x-import
+                    >
+                    <span style="font-size: 11.5px; color: var(--muted-foreground)"
+                      >{{ confirmNote }}</span
+                    >
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ checkoutDone }}">
+                <div style="padding: 56px 40px; text-align: center">
+                  <div
+                    style="
+                      width: 46px;
+                      height: 46px;
+                      border-radius: 999px;
+                      background: var(--success-bg);
+                      border: 1px solid var(--success-border);
+                      display: inline-flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      style="width: 20px; height: 20px; color: var(--success)"
+                    >
+                      <path d="m4 12 5 5L20 6"></path>
+                    </svg>
+                  </div>
+                  <div
+                    style="
+                      margin: 18px 0 0;
+                      font-size: 18px;
+                      font-weight: 600;
+                      letter-spacing: -0.02em;
+                    "
+                  >
+                    {{ successTitle }}
+                  </div>
+                  <p
+                    style="
+                      margin: 10px auto 0;
+                      font-size: 13px;
+                      line-height: 1.6;
+                      color: var(--muted-foreground);
+                      max-width: 340px;
+                    "
+                  >
+                    {{ successBody }}
+                  </p>
+                  <div style="margin-top: 22px">
+                    <x-import
+                      component-from-global-scope="SecpFbrCompliance.Button"
+                      variant="outline"
+                      size="sm"
+                      on-click="{{ reset }}"
+                      hint-size="auto,32px"
+                      >Replay checkout</x-import
+                    >
+                  </div>
+                </div>
+              </sc-if>
             </div>
-            <div style="grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; margin-top: 6px;">
-              <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="primary" size="md" disabled="{{ confirmDisabled }}" on-click="{{ confirm }}" hint-size="auto,40px">{{ confirmLabel }}</x-import>
-              <span style="font-size: 11.5px; color: var(--muted-foreground);">{{ confirmNote }}</span>
+          </div>
+        </section>
+
+        <section
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+          "
+        >
+          <x-import
+            component-from-global-scope="SecpFbrCompliance.PillHeader"
+            icon="{{ iconReceipt }}"
+            label="Billing"
+            hint-size="120px,28px"
+          ></x-import>
+          <div
+            style="
+              display: flex;
+              align-items: flex-end;
+              justify-content: space-between;
+              gap: 32px;
+              flex-wrap: wrap;
+              margin-top: 20px;
+            "
+          >
+            <h2
+              style="
+                margin: 0;
+                font-size: clamp(28px, 3.6vw, 40px);
+                line-height: 1.12;
+                letter-spacing: -0.03em;
+                font-weight: 600;
+                max-width: 520px;
+                text-wrap: balance;
+              "
+            >
+              Invoices your accountant will accept.
+            </h2>
+            <p
+              style="
+                margin: 0;
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--muted-foreground);
+                max-width: 340px;
+                text-wrap: pretty;
+              "
+            >
+              Every charge is issued as a tax invoice with your NTN on it, downloadable as PDF from
+              the billing page.
+            </p>
+          </div>
+          <div
+            style="
+              margin-top: 44px;
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: 16px;
+              overflow-x: auto;
+              overflow-y: hidden;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1.1fr 1.6fr 1fr 0.9fr 0.7fr;
+                min-width: 660px;
+                gap: 20px;
+                padding: 13px 24px;
+                background: var(--surface-secondary);
+                font-size: 10px;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--muted-foreground);
+              "
+            >
+              <span>Invoice</span>
+              <span>Period</span>
+              <span>Amount</span>
+              <span>Status</span>
+              <span style="text-align: right">PDF</span>
             </div>
+            <sc-for list="{{ invoices }}" as="inv" hint-placeholder-count="4">
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1.1fr 1.6fr 1fr 0.9fr 0.7fr;
+                  min-width: 660px;
+                  gap: 20px;
+                  align-items: center;
+                  padding: 15px 24px;
+                  border-top: 1px solid var(--border-subtle);
+                  font-size: 13px;
+                "
+              >
+                <span style="font-family: &quot;Geist Mono&quot;, ui-monospace, monospace"
+                  >{{ inv.id }}</span
+                >
+                <span style="color: var(--muted-foreground)">{{ inv.period }}</span>
+                <span style="font-family: &quot;Geist Mono&quot;, ui-monospace, monospace"
+                  >{{ inv.amount }}</span
+                >
+                <span
+                  ><x-import
+                    component-from-global-scope="SecpFbrCompliance.Badge"
+                    tone="{{ inv.tone }}"
+                    hint-size="auto,20px"
+                    >{{ inv.status }}</x-import
+                  ></span
+                >
+                <span style="text-align: right"
+                  ><button
+                    style="
+                      background: transparent;
+                      border: 0;
+                      padding: 0;
+                      cursor: pointer;
+                      font-family: inherit;
+                      font-size: 12.5px;
+                      color: var(--primary);
+                    "
+                    style-hover="color: var(--primary-hover);"
+                    onClick="{{ inv.download }}"
+                  >
+                    Download
+                  </button></span
+                >
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <sc-if value="{{ showTestimonials }}" hint-placeholder-val="{{ true }}">
+          <section
+            style="
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+            "
+          >
+            <x-import
+              component-from-global-scope="SecpFbrCompliance.PillHeader"
+              icon="{{ iconQuote }}"
+              label="Customers"
+              hint-size="140px,28px"
+            ></x-import>
+            <h2
+              style="
+                margin: 20px 0 0;
+                font-size: clamp(28px, 3.6vw, 40px);
+                line-height: 1.12;
+                letter-spacing: -0.03em;
+                font-weight: 600;
+                max-width: 560px;
+                text-wrap: balance;
+              "
+            >
+              Bought by the people who get the notice.
+            </h2>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, 288px), 1fr));
+                gap: 24px;
+                margin-top: 52px;
+              "
+            >
+              <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+                <figure
+                  style="
+                    margin: 0;
+                    background: var(--surface);
+                    border: 1px solid var(--border);
+                    border-radius: 16px;
+                    padding: 28px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 22px;
+                  "
+                >
+                  <blockquote
+                    style="
+                      margin: 0;
+                      font-size: 15px;
+                      line-height: 1.6;
+                      letter-spacing: -0.015em;
+                      text-wrap: pretty;
+                    "
+                  >
+                    {{ t.quote }}
+                  </blockquote>
+                  <figcaption
+                    style="
+                      margin-top: auto;
+                      padding-top: 18px;
+                      border-top: 1px solid var(--border-subtle);
+                      font-size: 12.5px;
+                    "
+                  >
+                    <div style="font-weight: 600">{{ t.name }}</div>
+                    <div style="color: var(--muted-foreground); margin-top: 2px">{{ t.role }}</div>
+                  </figcaption>
+                </figure>
+              </sc-for>
+            </div>
+          </section>
+        </sc-if>
+
+        <section
+          id="faq"
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;
+          "
+        >
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+              gap: clamp(36px, 5vw, 64px);
+              align-items: start;
+            "
+          >
+            <div>
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.PillHeader"
+                icon="{{ iconHelp }}"
+                label="Questions"
+                hint-size="140px,28px"
+              ></x-import>
+              <h2
+                style="
+                  margin: 20px 0 0;
+                  font-size: clamp(28px, 3.6vw, 40px);
+                  line-height: 1.12;
+                  letter-spacing: -0.03em;
+                  font-weight: 600;
+                  text-wrap: balance;
+                "
+              >
+                Before you upgrade.
+              </h2>
+              <p
+                style="
+                  margin: 16px 0 0;
+                  font-size: 13.5px;
+                  line-height: 1.6;
+                  color: var(--muted-foreground);
+                  max-width: 300px;
+                "
+              >
+                Anything else, write to support@compliancereminders.pk — answered within a working
+                day.
+              </p>
+            </div>
+            <div style="border-top: 1px solid var(--border)">
+              <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+                <div style="border-bottom: 1px solid var(--border)">
+                  <button
+                    style="
+                      width: 100%;
+                      background: transparent;
+                      border: 0;
+                      cursor: pointer;
+                      font-family: inherit;
+                      color: inherit;
+                      text-align: left;
+                      padding: 20px 0;
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      gap: 24px;
+                      font-size: 15px;
+                      font-weight: 500;
+                      letter-spacing: -0.015em;
+                    "
+                    onClick="{{ q.toggle }}"
+                  >
+                    <span>{{ q.q }}</span>
+                    <span
+                      style="
+                        font-size: 18px;
+                        color: var(--muted-foreground);
+                        flex: 0 0 auto;
+                        font-family: &quot;Geist Mono&quot;, ui-monospace, monospace;
+                      "
+                      >{{ q.sign }}</span
+                    >
+                  </button>
+                  <sc-if value="{{ q.open }}">
+                    <p
+                      style="
+                        margin: 0;
+                        padding: 0 40px 22px 0;
+                        font-size: 13.5px;
+                        line-height: 1.65;
+                        color: var(--muted-foreground);
+                        text-wrap: pretty;
+                      "
+                    >
+                      {{ q.a }}
+                    </p>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+
+        <section
+          style="
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) clamp(64px, 7vw, 96px);
+          "
+        >
+          <div
+            style="
+              background: var(--foreground);
+              border-radius: 22px;
+              padding: clamp(40px, 5vw, 72px) clamp(28px, 4vw, 64px);
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: clamp(32px, 4vw, 56px);
+              flex-wrap: wrap;
+            "
+          >
+            <div>
+              <h2
+                style="
+                  margin: 0;
+                  font-size: clamp(28px, 3.4vw, 38px);
+                  line-height: 1.12;
+                  letter-spacing: -0.03em;
+                  font-weight: 600;
+                  color: var(--background);
+                  max-width: 520px;
+                  text-wrap: balance;
+                "
+              >
+                Start the trial before the next return window opens.
+              </h2>
+              <p
+                style="
+                  margin: 16px 0 0;
+                  font-size: 15px;
+                  line-height: 1.55;
+                  color: var(--background);
+                  opacity: 0.72;
+                  max-width: 460px;
+                "
+              >
+                Fourteen days of Pro on one company. We import your obligations on day one.
+              </p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; flex: 0 0 auto">
+              <x-import
+                component-from-global-scope="SecpFbrCompliance.Button"
+                variant="primary"
+                size="md"
+                on-click="{{ startTrial }}"
+                hint-size="auto,40px"
+                >Start 14-day Pro trial</x-import
+              >
+              <a
+                href="mailto:sales@compliancereminders.pk"
+                style="
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 40px;
+                  padding: 0 18px;
+                  border-radius: 999px;
+                  border: 1px solid color-mix(in srgb, var(--background) 38%, transparent);
+                  color: var(--background);
+                  font-size: 13.5px;
+                  font-weight: 500;
+                "
+                style-hover="border-color: var(--background);"
+                >Talk to sales</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <footer style="border-top: 1px solid var(--border-subtle)">
+          <div
+            style="
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: 32px clamp(18px, 4vw, 40px);
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 32px;
+              font-size: 12px;
+              color: var(--muted-foreground);
+            "
+          >
+            <x-import
+              component-from-global-scope="SecpFbrCompliance.Logo"
+              hint-size="200px,28px"
+            ></x-import>
+            <span
+              >Compliance Reminders is a filing assistant. It does not provide legal or tax
+              advice.</span
+            >
+          </div>
+        </footer>
+
+        <sc-if value="{{ toastOpen }}">
+          <div
+            style="
+              position: fixed;
+              left: 50%;
+              bottom: 28px;
+              transform: translateX(-50%);
+              z-index: 100;
+              background: var(--foreground);
+              color: var(--background);
+              border-radius: 999px;
+              padding: 11px 22px;
+              font-size: 13px;
+              letter-spacing: -0.01em;
+              box-shadow: var(--shadow-md);
+            "
+          >
+            {{ toast }}
           </div>
         </sc-if>
-        <sc-if value="{{ checkoutDone }}">
-          <div style="padding: 56px 40px; text-align: center;">
-            <div style="width: 46px; height: 46px; border-radius: 999px; background: var(--success-bg); border: 1px solid var(--success-border); display: inline-flex; align-items: center; justify-content: center;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: var(--success);"><path d="m4 12 5 5L20 6"></path></svg>
-            </div>
-            <div style="margin: 18px 0 0; font-size: 18px; font-weight: 600; letter-spacing: -0.02em;">{{ successTitle }}</div>
-            <p style="margin: 10px auto 0; font-size: 13px; line-height: 1.6; color: var(--muted-foreground); max-width: 340px;">{{ successBody }}</p>
-            <div style="margin-top: 22px;">
-              <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="outline" size="sm" on-click="{{ reset }}" hint-size="auto,32px">Replay checkout</x-import>
-            </div>
-          </div>
-        </sc-if>
       </div>
-    </div>
-  </section>
+    </x-dc>
+    <script
+      type="text/x-dc"
+      data-dc-script
+      data-props='{"highlightPlan":{"editor":"enum","options":["starter","pro","firm"],"default":"pro","tsType":"string","section":"Pricing"},"annualDiscountPct":{"editor":"int","default":20,"min":0,"max":50,"unit":"%","tsType":"number","section":"Pricing"},"showTestimonials":{"editor":"boolean","default":true,"tsType":"boolean","section":"Sections"}}'
+    >
+      const ICONS = {
+        layers: ["M12 2 2 7l10 5 10-5-10-5", "m2 17 10 5 10-5", "m2 12 10 5 10-5"],
+        monitor: ["M3 4h18v12H3z", "M8 20h8", "M12 16v4"],
+        tag: ["M3 3h7l11 11-7 7L3 10z", "M7.5 7.5h.01"],
+        upgrade: ["M7 17 17 7", "M8 7h9v9"],
+        receipt: ["M5 3v18l2-1 2 1 2-1 2 1 2-1 2 1V3z", "M9 8h6", "M9 12h6"],
+        quote: ["M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"],
+        help: ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z", "M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3", "M12 17h.01"]
+      };
 
-  <section style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-    <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconReceipt }}" label="Billing" hint-size="120px,28px"></x-import>
-    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; margin-top: 20px;">
-      <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; max-width: 520px; text-wrap: balance;">Invoices your accountant will accept.</h2>
-      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted-foreground); max-width: 340px; text-wrap: pretty;">Every charge is issued as a tax invoice with your NTN on it, downloadable as PDF from the billing page.</p>
-    </div>
-    <div style="margin-top: 44px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow-x: auto; overflow-y: hidden;">
-      <div style="display: grid; grid-template-columns: 1.1fr 1.6fr 1fr 0.9fr 0.7fr; min-width: 660px; gap: 20px; padding: 13px 24px; background: var(--surface-secondary); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground);">
-        <span>Invoice</span>
-        <span>Period</span>
-        <span>Amount</span>
-        <span>Status</span>
-        <span style="text-align: right;">PDF</span>
-      </div>
-      <sc-for list="{{ invoices }}" as="inv" hint-placeholder-count="4">
-        <div style="display: grid; grid-template-columns: 1.1fr 1.6fr 1fr 0.9fr 0.7fr; min-width: 660px; gap: 20px; align-items: center; padding: 15px 24px; border-top: 1px solid var(--border-subtle); font-size: 13px;">
-          <span style="font-family: 'Geist Mono', ui-monospace, monospace;">{{ inv.id }}</span>
-          <span style="color: var(--muted-foreground);">{{ inv.period }}</span>
-          <span style="font-family: 'Geist Mono', ui-monospace, monospace;">{{ inv.amount }}</span>
-          <span><x-import component-from-global-scope="SecpFbrCompliance.Badge" tone="{{ inv.tone }}" hint-size="auto,20px">{{ inv.status }}</x-import></span>
-          <span style="text-align: right;"><button style="background: transparent; border: 0; padding: 0; cursor: pointer; font-family: inherit; font-size: 12.5px; color: var(--primary);" style-hover="color: var(--primary-hover);" onClick="{{ inv.download }}">Download</button></span>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-
-  <sc-if value="{{ showTestimonials }}" hint-placeholder-val="{{ true }}">
-    <section style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-      <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconQuote }}" label="Customers" hint-size="140px,28px"></x-import>
-      <h2 style="margin: 20px 0 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; max-width: 560px; text-wrap: balance;">Bought by the people who get the notice.</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 288px), 1fr)); gap: 24px; margin-top: 52px;">
-        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
-          <figure style="margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px;">
-            <blockquote style="margin: 0; font-size: 15px; line-height: 1.6; letter-spacing: -0.015em; text-wrap: pretty;">{{ t.quote }}</blockquote>
-            <figcaption style="margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 12.5px;">
-              <div style="font-weight: 600;">{{ t.name }}</div>
-              <div style="color: var(--muted-foreground); margin-top: 2px;">{{ t.role }}</div>
-            </figcaption>
-          </figure>
-        </sc-for>
-      </div>
-    </section>
-  </sc-if>
-
-  <section id="faq" style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) 0;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(36px, 5vw, 64px); align-items: start;">
-      <div>
-        <x-import component-from-global-scope="SecpFbrCompliance.PillHeader" icon="{{ iconHelp }}" label="Questions" hint-size="140px,28px"></x-import>
-        <h2 style="margin: 20px 0 0; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; text-wrap: balance;">Before you upgrade.</h2>
-        <p style="margin: 16px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--muted-foreground); max-width: 300px;">Anything else, write to support@compliancereminders.pk — answered within a working day.</p>
-      </div>
-      <div style="border-top: 1px solid var(--border);">
-        <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
-          <div style="border-bottom: 1px solid var(--border);">
-            <button style="width: 100%; background: transparent; border: 0; cursor: pointer; font-family: inherit; color: inherit; text-align: left; padding: 20px 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; font-size: 15px; font-weight: 500; letter-spacing: -0.015em;" onClick="{{ q.toggle }}">
-              <span>{{ q.q }}</span>
-              <span style="font-size: 18px; color: var(--muted-foreground); flex: 0 0 auto; font-family: 'Geist Mono', ui-monospace, monospace;">{{ q.sign }}</span>
-            </button>
-            <sc-if value="{{ q.open }}">
-              <p style="margin: 0; padding: 0 40px 22px 0; font-size: 13.5px; line-height: 1.65; color: var(--muted-foreground); text-wrap: pretty;">{{ q.a }}</p>
-            </sc-if>
-          </div>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <section style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(18px, 4vw, 40px) clamp(64px, 7vw, 96px);">
-    <div style="background: var(--foreground); border-radius: 22px; padding: clamp(40px, 5vw, 72px) clamp(28px, 4vw, 64px); display: flex; align-items: center; justify-content: space-between; gap: clamp(32px, 4vw, 56px); flex-wrap: wrap;">
-      <div>
-        <h2 style="margin: 0; font-size: clamp(28px, 3.4vw, 38px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 600; color: var(--background); max-width: 520px; text-wrap: balance;">Start the trial before the next return window opens.</h2>
-        <p style="margin: 16px 0 0; font-size: 15px; line-height: 1.55; color: var(--background); opacity: 0.72; max-width: 460px;">Fourteen days of Pro on one company. We import your obligations on day one.</p>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 10px; flex: 0 0 auto;">
-        <x-import component-from-global-scope="SecpFbrCompliance.Button" variant="primary" size="md" on-click="{{ startTrial }}" hint-size="auto,40px">Start 14-day Pro trial</x-import>
-        <a href="mailto:sales@compliancereminders.pk" style="display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 18px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--background) 38%, transparent); color: var(--background); font-size: 13.5px; font-weight: 500;" style-hover="border-color: var(--background);">Talk to sales</a>
-      </div>
-    </div>
-  </section>
-
-  <footer style="border-top: 1px solid var(--border-subtle);">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 32px clamp(18px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 32px; font-size: 12px; color: var(--muted-foreground);">
-      <x-import component-from-global-scope="SecpFbrCompliance.Logo" hint-size="200px,28px"></x-import>
-      <span>Compliance Reminders is a filing assistant. It does not provide legal or tax advice.</span>
-    </div>
-  </footer>
-
-  <sc-if value="{{ toastOpen }}">
-    <div style="position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 100; background: var(--foreground); color: var(--background); border-radius: 999px; padding: 11px 22px; font-size: 13px; letter-spacing: -0.01em; box-shadow: var(--shadow-md);">{{ toast }}</div>
-  </sc-if>
-
-</div>
-
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;highlightPlan&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;starter&quot;,&quot;pro&quot;,&quot;firm&quot;],&quot;default&quot;:&quot;pro&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pricing&quot;},&quot;annualDiscountPct&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:20,&quot;min&quot;:0,&quot;max&quot;:50,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Pricing&quot;},&quot;showTestimonials&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
-const ICONS = {
-  layers: ["M12 2 2 7l10 5 10-5-10-5", "m2 17 10 5 10-5", "m2 12 10 5 10-5"],
-  monitor: ["M3 4h18v12H3z", "M8 20h8", "M12 16v4"],
-  tag: ["M3 3h7l11 11-7 7L3 10z", "M7.5 7.5h.01"],
-  upgrade: ["M7 17 17 7", "M8 7h9v9"],
-  receipt: ["M5 3v18l2-1 2 1 2-1 2 1 2-1 2 1V3z", "M9 8h6", "M9 12h6"],
-  quote: ["M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"],
-  help: ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z", "M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3", "M12 17h.01"]
-};
-
-function mkIcon(paths) {
-  return function Icon(props) {
-    return React.createElement("svg", {
-      className: props.className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor",
-      strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round"
-    }, paths.map((d, i) => React.createElement("path", { key: i, d: d })));
-  };
-}
-
-const RS = (n) => "Rs " + n.toLocaleString("en-US");
-
-class Component extends DCLogic {
-  state = { billing: "annual", openFaq: 0, done: false, selectedPlan: "pro", company: "Acme Textiles (Pvt) Ltd.", ntn: "4821093-6", method: "card", toast: "" };
-
-  componentWillUnmount() { clearTimeout(this._toastTimer); clearInterval(this._scrollTimer); }
-
-  notify(msg) {
-    clearTimeout(this._toastTimer);
-    this.setState({ toast: msg });
-    this._toastTimer = setTimeout(() => this.setState({ toast: "" }), 2800);
-  }
-
-  scrollToEl(id) {
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      let c = el.parentElement;
-      while (c) {
-        const s = getComputedStyle(c);
-        if (/(auto|scroll)/.test(s.overflowY) && c.scrollHeight > c.clientHeight + 4) break;
-        c = c.parentElement;
+      function mkIcon(paths) {
+        return function Icon(props) {
+          return React.createElement("svg", {
+            className: props.className, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor",
+            strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round"
+          }, paths.map((d, i) => React.createElement("path", { key: i, d: d })));
+        };
       }
-      const rect = el.getBoundingClientRect();
-      const get = () => (c ? c.scrollTop : (window.scrollY || document.documentElement.scrollTop || 0));
-      const set = (v) => {
-        if (c) c.scrollTop = v;
-        else { window.scrollTo(0, v); document.documentElement.scrollTop = v; document.body.scrollTop = v; }
-      };
-      const from = get();
-      const target = Math.max(0, from + rect.top - (c ? c.getBoundingClientRect().top : 0) - 84);
-      // requestAnimationFrame (and therefore behavior:"smooth") does not run in this host,
-      // so the easing is driven off an interval instead.
-      clearInterval(this._scrollTimer);
-      const start = Date.now();
-      const dur = 420;
-      this._scrollTimer = setInterval(() => {
-        const t = Math.min(1, (Date.now() - start) / dur);
-        const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        set(from + (target - from) * e);
-        if (t >= 1) { clearInterval(this._scrollTimer); set(target); }
-      }, 16);
-    }, 0);
-  }
 
-  jump(id) {
-    return (e) => { if (e && e.preventDefault) e.preventDefault(); this.scrollToEl(id); };
-  }
+      const RS = (n) => "Rs " + n.toLocaleString("en-US");
 
-  icons = Object.fromEntries(Object.entries(ICONS).map(([k, v]) => [k, mkIcon(v)]));
+      class Component extends DCLogic {
+        state = { billing: "annual", openFaq: 0, done: false, selectedPlan: "pro", company: "Acme Textiles (Pvt) Ltd.", ntn: "4821093-6", method: "card", toast: "" };
 
-  renderVals() {
-    const annual = this.state.billing === "annual";
-    const disc = this.props.annualDiscountPct ?? 20;
-    const highlight = this.props.highlightPlan ?? "pro";
-    const eff = (m) => Math.round(m * (1 - disc / 100) / 100) * 100;
+        componentWillUnmount() { clearTimeout(this._toastTimer); clearInterval(this._scrollTimer); }
 
-    const base = [
-      { id: "starter", name: "Starter", monthly: 0, tagline: "One company, watched. Reminders by email and WhatsApp.",
-        cta: "Use Starter", includes: "Includes",
-        features: ["1 company", "Full SECP + FBR calendar", "Email and WhatsApp reminders", "2 users", "Filing history log"] },
-      { id: "pro", name: "Pro", monthly: 7500, tagline: "Drafts, approvals and an audit trail for a growing company.",
-        cta: "Start 14-day trial", includes: "Everything in Starter, plus",
-        features: ["Up to 3 companies", "Pre-filled draft returns", "Approval workflow with audit trail", "Penalty exposure tracking", "Document vault with retention", "10 users", "Priority support"] },
-      { id: "firm", name: "Firm", monthly: 24000, tagline: "For consultants filing on behalf of a book of clients.",
-        cta: "Choose Firm", includes: "Everything in Pro, plus",
-        features: ["Unlimited client companies", "Client portal with branded reminders", "Bulk filing dashboard", "Per-client billing export", "API and Excel import", "Unlimited users", "Named account manager"] }
-    ];
+        notify(msg) {
+          clearTimeout(this._toastTimer);
+          this.setState({ toast: msg });
+          this._toastTimer = setTimeout(() => this.setState({ toast: "" }), 2800);
+        }
 
-    const plans = base.map((p) => {
-      const m = annual ? eff(p.monthly) : p.monthly;
-      return {
-        name: p.name, tagline: p.tagline, cta: p.cta, includes: p.includes, features: p.features,
-        select: () => { this.setState({ done: false, selectedPlan: p.id }); this.scrollToEl("checkout"); },
-        featured: p.id === highlight,
-        variant: p.id === highlight ? "primary" : "outline",
-        price: p.monthly === 0 ? "Rs 0" : RS(m),
-        unit: p.monthly === 0 ? "forever" : "/ month",
-        sub: p.monthly === 0 ? "" : (annual ? "billed annually · " + RS(m * 12) + "/yr" : "billed monthly")
-      };
-    });
+        scrollToEl(id) {
+          setTimeout(() => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let c = el.parentElement;
+            while (c) {
+              const s = getComputedStyle(c);
+              if (/(auto|scroll)/.test(s.overflowY) && c.scrollHeight > c.clientHeight + 4) break;
+              c = c.parentElement;
+            }
+            const rect = el.getBoundingClientRect();
+            const get = () => (c ? c.scrollTop : (window.scrollY || document.documentElement.scrollTop || 0));
+            const set = (v) => {
+              if (c) c.scrollTop = v;
+              else { window.scrollTo(0, v); document.documentElement.scrollTop = v; document.body.scrollTop = v; }
+            };
+            const from = get();
+            const target = Math.max(0, from + rect.top - (c ? c.getBoundingClientRect().top : 0) - 84);
+            // requestAnimationFrame (and therefore behavior:"smooth") does not run in this host,
+            // so the easing is driven off an interval instead.
+            clearInterval(this._scrollTimer);
+            const start = Date.now();
+            const dur = 420;
+            this._scrollTimer = setInterval(() => {
+              const t = Math.min(1, (Date.now() - start) / dur);
+              const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+              set(from + (target - from) * e);
+              if (t >= 1) { clearInterval(this._scrollTimer); set(target); }
+            }, 16);
+          }, 0);
+        }
 
-    const sel = base.find((b) => b.id === this.state.selectedPlan) || base[1];
-    const selMonthly = annual ? eff(sel.monthly) : sel.monthly;
-    const isFree = sel.monthly === 0;
-    const subtotal = isFree ? 0 : (annual ? selMonthly * 12 : selMonthly);
-    const tax = Math.round(subtotal * 0.16);
-    const method = this.state.method;
-    const filled = this.state.company.trim().length > 1 && this.state.ntn.trim().length >= 7;
+        jump(id) {
+          return (e) => { if (e && e.preventDefault) e.preventDefault(); this.scrollToEl(id); };
+        }
 
-    const rawFaqs = [
-      { q: "Do you file on our behalf?", a: "No. We prepare the draft, track the deadline and keep the approval trail. Submission stays with your authorised signatory or your consultant, who files through IRIS or the SECP eServices portal." },
-      { q: "What happens when the trial ends?", a: "Nothing is charged automatically unless you add a payment method. If you do not, the account drops to Starter and keeps your history and documents." },
-      { q: "Can we move between plans mid-cycle?", a: "Yes. Upgrades are prorated to the day and downgrades take effect at the next renewal. Company count is the only thing that changes the tier." },
-      { q: "Where is our data held?", a: "Documents and filing records are encrypted at rest. You can export the full vault as a dated ZIP at any time, and deletion requests are completed within seven days." },
-      { q: "Does the Firm plan support sub-accounts for clients?", a: "Each client company gets its own portal with your firm's branding. Clients see only their own obligations, and approvals from them are recorded against the filing." },
-      { q: "How do we pay from a company account?", a: "Card, bank transfer or Raast. Annual plans can be invoiced ahead of payment so the transfer clears your internal approval first." }
-    ];
+        icons = Object.fromEntries(Object.entries(ICONS).map(([k, v]) => [k, mkIcon(v)]));
 
-    return {
-      iconLayers: this.icons.layers, iconMonitor: this.icons.monitor, iconTag: this.icons.tag,
-      iconUpgrade: this.icons.upgrade, iconReceipt: this.icons.receipt, iconQuote: this.icons.quote,
-      iconHelp: this.icons.help,
+        renderVals() {
+          const annual = this.state.billing === "annual";
+          const disc = this.props.annualDiscountPct ?? 20;
+          const highlight = this.props.highlightPlan ?? "pro";
+          const eff = (m) => Math.round(m * (1 - disc / 100) / 100) * 100;
 
-      showTestimonials: (this.props.showTestimonials ?? true) === true,
+          const base = [
+            { id: "starter", name: "Starter", monthly: 0, tagline: "One company, watched. Reminders by email and WhatsApp.",
+              cta: "Use Starter", includes: "Includes",
+              features: ["1 company", "Full SECP + FBR calendar", "Email and WhatsApp reminders", "2 users", "Filing history log"] },
+            { id: "pro", name: "Pro", monthly: 7500, tagline: "Drafts, approvals and an audit trail for a growing company.",
+              cta: "Start 14-day trial", includes: "Everything in Starter, plus",
+              features: ["Up to 3 companies", "Pre-filled draft returns", "Approval workflow with audit trail", "Penalty exposure tracking", "Document vault with retention", "10 users", "Priority support"] },
+            { id: "firm", name: "Firm", monthly: 24000, tagline: "For consultants filing on behalf of a book of clients.",
+              cta: "Choose Firm", includes: "Everything in Pro, plus",
+              features: ["Unlimited client companies", "Client portal with branded reminders", "Bulk filing dashboard", "Per-client billing export", "API and Excel import", "Unlimited users", "Named account manager"] }
+          ];
 
-      goFeatures: this.jump("features"),
-      goDashboard: this.jump("dashboard"),
-      goPricing: this.jump("pricing"),
-      goFaq: this.jump("faq"),
-      goCheckout: this.jump("checkout"),
-      startTrial: () => { this.setState({ done: false, selectedPlan: "pro" }); this.scrollToEl("checkout"); },
-      signIn: () => this.notify("Taking you to app.compliancereminders.pk"),
-      toast: this.state.toast,
-      toastOpen: this.state.toast !== "",
+          const plans = base.map((p) => {
+            const m = annual ? eff(p.monthly) : p.monthly;
+            return {
+              name: p.name, tagline: p.tagline, cta: p.cta, includes: p.includes, features: p.features,
+              select: () => { this.setState({ done: false, selectedPlan: p.id }); this.scrollToEl("checkout"); },
+              featured: p.id === highlight,
+              variant: p.id === highlight ? "primary" : "outline",
+              price: p.monthly === 0 ? "Rs 0" : RS(m),
+              unit: p.monthly === 0 ? "forever" : "/ month",
+              sub: p.monthly === 0 ? "" : (annual ? "billed annually · " + RS(m * 12) + "/yr" : "billed monthly")
+            };
+          });
 
-      isMonthly: !annual,
-      isAnnual: annual,
-      discountLabel: disc + "%",
-      cycleWord: annual ? "annually" : "monthly",
-      setMonthly: () => this.setState({ billing: "monthly" }),
-      setAnnual: () => this.setState({ billing: "annual" }),
-      plans,
+          const sel = base.find((b) => b.id === this.state.selectedPlan) || base[1];
+          const selMonthly = annual ? eff(sel.monthly) : sel.monthly;
+          const isFree = sel.monthly === 0;
+          const subtotal = isFree ? 0 : (annual ? selMonthly * 12 : selMonthly);
+          const tax = Math.round(subtotal * 0.16);
+          const method = this.state.method;
+          const filled = this.state.company.trim().length > 1 && this.state.ntn.trim().length >= 7;
 
-      checkoutOpen: !this.state.done,
-      checkoutDone: this.state.done,
-      checkoutTitle: isFree ? "Start on Starter" : "Upgrade to " + sel.name,
-      checkoutSub: isFree ? "Free forever · no payment method required" : "Billed " + (annual ? "annually" : "monthly") + " · change or cancel any time",
-      checkoutLine: sel.name + " — " + (isFree ? "free" : (annual ? "annually" : "monthly")),
-      checkoutSubtotal: RS(subtotal),
-      checkoutTax: RS(tax),
-      checkoutTotal: RS(subtotal + tax),
-      needsPayment: !isFree,
-      company: this.state.company,
-      ntn: this.state.ntn,
-      method: method,
-      setCompany: (e) => this.setState({ company: e.target.value }),
-      setNtn: (e) => this.setState({ ntn: e.target.value }),
-      setMethod: (e) => this.setState({ method: e.target.value }),
-      confirmDisabled: !filled,
-      confirmLabel: isFree ? "Create free account" : (method === "bank" ? "Send invoice" : "Confirm upgrade"),
-      confirmNote: !filled ? "Add the company name and NTN to continue." : (isFree ? "No card needed." : (method === "bank" ? "Invoice issued today, payable within 7 days." : "Trial converts on 14 Sep 2026.")),
-      successTitle: "You are on " + sel.name + ".",
-      successBody: isFree ? "Reminders for " + this.state.company + " are switched on. Upgrade whenever you want drafts prepared for you." : "The filing calendar for " + this.state.company + " is built. Two drafts are already waiting for review.",
-      confirm: () => { if (!filled) return; this.setState({ done: true }); },
-      reset: () => this.setState({ done: false }),
+          const rawFaqs = [
+            { q: "Do you file on our behalf?", a: "No. We prepare the draft, track the deadline and keep the approval trail. Submission stays with your authorised signatory or your consultant, who files through IRIS or the SECP eServices portal." },
+            { q: "What happens when the trial ends?", a: "Nothing is charged automatically unless you add a payment method. If you do not, the account drops to Starter and keeps your history and documents." },
+            { q: "Can we move between plans mid-cycle?", a: "Yes. Upgrades are prorated to the day and downgrades take effect at the next renewal. Company count is the only thing that changes the tier." },
+            { q: "Where is our data held?", a: "Documents and filing records are encrypted at rest. You can export the full vault as a dated ZIP at any time, and deletion requests are completed within seven days." },
+            { q: "Does the Firm plan support sub-accounts for clients?", a: "Each client company gets its own portal with your firm's branding. Clients see only their own obligations, and approvals from them are recorded against the filing." },
+            { q: "How do we pay from a company account?", a: "Card, bank transfer or Raast. Annual plans can be invoiced ahead of payment so the transfer clears your internal approval first." }
+          ];
 
-      heroRows: [
-        { title: "Form A — Annual Return", due: "Due 30 Oct 2026", status: "draft_ready" },
-        { title: "Sales Tax Return — Aug 2026", due: "Due 18 Sep 2026", status: "in_review" },
-        { title: "Form 29 — Change of Directors", due: "Filed 04 Aug 2026", status: "filed" },
-        { title: "Withholding Statement u/s 165", due: "Due 11 Sep 2026", status: "reminder_sent" }
-      ],
+          return {
+            iconLayers: this.icons.layers, iconMonitor: this.icons.monitor, iconTag: this.icons.tag,
+            iconUpgrade: this.icons.upgrade, iconReceipt: this.icons.receipt, iconQuote: this.icons.quote,
+            iconHelp: this.icons.help,
 
-      features: [
-        { n: "01", title: "A calendar built from your registrations", body: "Give us the CUIN, financial year end and which tax authorities you are registered with. Every obligation that follows from those is generated and dated, including the ones companies forget.", meta: "SECP · FBR · PRA · SRB · EOBI" },
-        { n: "02", title: "Drafts prepared before the window opens", body: "Pro turns each obligation into a pre-filled draft from last period's figures and your uploaded ledgers, so the work waiting for you is a review rather than a start.", meta: "Reviewed, not retyped" },
-        { n: "03", title: "Approvals that leave a trail", body: "Route a draft to the CFO, the director or the client. Every view, comment and sign-off is timestamped and kept with the filing for the retention period.", meta: "Exportable audit log" }
-      ],
+            showTestimonials: (this.props.showTestimonials ?? true) === true,
 
-      sidebar: [
-        { name: "Acme Textiles (Pvt)", count: "4" },
-        { name: "Lahore Foods Ltd.", count: "2" },
-        { name: "Indus Logistics", count: "6" },
-        { name: "Karachi Steel Works", count: "1" },
-        { name: "Meezan Traders", count: "3" }
-      ],
+            goFeatures: this.jump("features"),
+            goDashboard: this.jump("dashboard"),
+            goPricing: this.jump("pricing"),
+            goFaq: this.jump("faq"),
+            goCheckout: this.jump("checkout"),
+            startTrial: () => { this.setState({ done: false, selectedPlan: "pro" }); this.scrollToEl("checkout"); },
+            signIn: () => this.notify("Taking you to app.compliancereminders.pk"),
+            toast: this.state.toast,
+            toastOpen: this.state.toast !== "",
 
-      stats: [
-        { label: "Due in 30 days", value: "9" },
-        { label: "Drafts ready", value: "4" },
-        { label: "Awaiting approval", value: "2" },
-        { label: "Overdue", value: "1" }
-      ],
+            isMonthly: !annual,
+            isAnnual: annual,
+            discountLabel: disc + "%",
+            cycleWord: annual ? "annually" : "monthly",
+            setMonthly: () => this.setState({ billing: "monthly" }),
+            setAnnual: () => this.setState({ billing: "annual" }),
+            plans,
 
-      boardRows: [
-        { name: "Sales Tax Return", co: "Indus Logistics", due: "18 Sep", status: "overdue" },
-        { name: "Form A — Annual Return", co: "Acme Textiles", due: "30 Oct", status: "draft_ready" },
-        { name: "Withholding Statement u/s 165", co: "Lahore Foods", due: "11 Sep", status: "in_review" },
-        { name: "Income Tax Return", co: "Karachi Steel", due: "31 Dec", status: "upcoming" },
-        { name: "Form 29 — Change of Officers", co: "Meezan Traders", due: "22 Sep", status: "reminder_sent" },
-        { name: "PRA Monthly Return", co: "Indus Logistics", due: "15 Sep", status: "approved" }
-      ],
+            checkoutOpen: !this.state.done,
+            checkoutDone: this.state.done,
+            checkoutTitle: isFree ? "Start on Starter" : "Upgrade to " + sel.name,
+            checkoutSub: isFree ? "Free forever · no payment method required" : "Billed " + (annual ? "annually" : "monthly") + " · change or cancel any time",
+            checkoutLine: sel.name + " — " + (isFree ? "free" : (annual ? "annually" : "monthly")),
+            checkoutSubtotal: RS(subtotal),
+            checkoutTax: RS(tax),
+            checkoutTotal: RS(subtotal + tax),
+            needsPayment: !isFree,
+            company: this.state.company,
+            ntn: this.state.ntn,
+            method: method,
+            setCompany: (e) => this.setState({ company: e.target.value }),
+            setNtn: (e) => this.setState({ ntn: e.target.value }),
+            setMethod: (e) => this.setState({ method: e.target.value }),
+            confirmDisabled: !filled,
+            confirmLabel: isFree ? "Create free account" : (method === "bank" ? "Send invoice" : "Confirm upgrade"),
+            confirmNote: !filled ? "Add the company name and NTN to continue." : (isFree ? "No card needed." : (method === "bank" ? "Invoice issued today, payable within 7 days." : "Trial converts on 14 Sep 2026.")),
+            successTitle: "You are on " + sel.name + ".",
+            successBody: isFree ? "Reminders for " + this.state.company + " are switched on. Upgrade whenever you want drafts prepared for you." : "The filing calendar for " + this.state.company + " is built. Two drafts are already waiting for review.",
+            confirm: () => { if (!filled) return; this.setState({ done: true }); },
+            reset: () => this.setState({ done: false }),
 
-      invoices: [
-        { id: "INV-2026-0412", period: "Pro · Sep 2026 – Aug 2027", amount: RS(83520), status: "Paid", tone: "success" },
-        { id: "INV-2026-0311", period: "Pro · Aug 2026", amount: RS(8700), status: "Paid", tone: "success" },
-        { id: "INV-2026-0288", period: "Pro · Jul 2026", amount: RS(8700), status: "Paid", tone: "success" },
-        { id: "INV-2026-0501", period: "Additional company · Sep 2026", amount: RS(2900), status: "Due 12 Sep", tone: "warning" }
-      ].map((iv) => Object.assign({}, iv, { download: () => this.notify(iv.id + ".pdf downloaded") })),
+            heroRows: [
+              { title: "Form A — Annual Return", due: "Due 30 Oct 2026", status: "draft_ready" },
+              { title: "Sales Tax Return — Aug 2026", due: "Due 18 Sep 2026", status: "in_review" },
+              { title: "Form 29 — Change of Directors", due: "Filed 04 Aug 2026", status: "filed" },
+              { title: "Withholding Statement u/s 165", due: "Due 11 Sep 2026", status: "reminder_sent" }
+            ],
 
-      testimonials: [
-        { quote: "We used to keep the filing calendar in a spreadsheet that only one person understood. Now the board asks about compliance and I answer from one screen.", name: "Sana Iqbal", role: "Company Secretary, Acme Textiles (Pvt) Ltd." },
-        { quote: "The audit trail settled an argument about who approved a late return. That alone paid for the year.", name: "Faraz Ahmed", role: "CFO, Indus Logistics" },
-        { quote: "Forty-one client companies on one board. The bulk dashboard is the reason we moved the whole practice over.", name: "Hina Rauf", role: "Partner, Rauf & Co. Tax Consultants" }
-      ],
+            features: [
+              { n: "01", title: "A calendar built from your registrations", body: "Give us the CUIN, financial year end and which tax authorities you are registered with. Every obligation that follows from those is generated and dated, including the ones companies forget.", meta: "SECP · FBR · PRA · SRB · EOBI" },
+              { n: "02", title: "Drafts prepared before the window opens", body: "Pro turns each obligation into a pre-filled draft from last period's figures and your uploaded ledgers, so the work waiting for you is a review rather than a start.", meta: "Reviewed, not retyped" },
+              { n: "03", title: "Approvals that leave a trail", body: "Route a draft to the CFO, the director or the client. Every view, comment and sign-off is timestamped and kept with the filing for the retention period.", meta: "Exportable audit log" }
+            ],
 
-      faqs: rawFaqs.map((f, i) => ({
-        q: f.q, a: f.a,
-        open: this.state.openFaq === i,
-        sign: this.state.openFaq === i ? "−" : "+",
-        toggle: () => this.setState((s) => ({ openFaq: s.openFaq === i ? -1 : i }))
-      }))
-    };
-  }
-}
+            sidebar: [
+              { name: "Acme Textiles (Pvt)", count: "4" },
+              { name: "Lahore Foods Ltd.", count: "2" },
+              { name: "Indus Logistics", count: "6" },
+              { name: "Karachi Steel Works", count: "1" },
+              { name: "Meezan Traders", count: "3" }
+            ],
 
-</script>
-</body>
+            stats: [
+              { label: "Due in 30 days", value: "9" },
+              { label: "Drafts ready", value: "4" },
+              { label: "Awaiting approval", value: "2" },
+              { label: "Overdue", value: "1" }
+            ],
+
+            boardRows: [
+              { name: "Sales Tax Return", co: "Indus Logistics", due: "18 Sep", status: "overdue" },
+              { name: "Form A — Annual Return", co: "Acme Textiles", due: "30 Oct", status: "draft_ready" },
+              { name: "Withholding Statement u/s 165", co: "Lahore Foods", due: "11 Sep", status: "in_review" },
+              { name: "Income Tax Return", co: "Karachi Steel", due: "31 Dec", status: "upcoming" },
+              { name: "Form 29 — Change of Officers", co: "Meezan Traders", due: "22 Sep", status: "reminder_sent" },
+              { name: "PRA Monthly Return", co: "Indus Logistics", due: "15 Sep", status: "approved" }
+            ],
+
+            invoices: [
+              { id: "INV-2026-0412", period: "Pro · Sep 2026 – Aug 2027", amount: RS(83520), status: "Paid", tone: "success" },
+              { id: "INV-2026-0311", period: "Pro · Aug 2026", amount: RS(8700), status: "Paid", tone: "success" },
+              { id: "INV-2026-0288", period: "Pro · Jul 2026", amount: RS(8700), status: "Paid", tone: "success" },
+              { id: "INV-2026-0501", period: "Additional company · Sep 2026", amount: RS(2900), status: "Due 12 Sep", tone: "warning" }
+            ].map((iv) => Object.assign({}, iv, { download: () => this.notify(iv.id + ".pdf downloaded") })),
+
+            testimonials: [
+              { quote: "We used to keep the filing calendar in a spreadsheet that only one person understood. Now the board asks about compliance and I answer from one screen.", name: "Sana Iqbal", role: "Company Secretary, Acme Textiles (Pvt) Ltd." },
+              { quote: "The audit trail settled an argument about who approved a late return. That alone paid for the year.", name: "Faraz Ahmed", role: "CFO, Indus Logistics" },
+              { quote: "Forty-one client companies on one board. The bulk dashboard is the reason we moved the whole practice over.", name: "Hina Rauf", role: "Partner, Rauf & Co. Tax Consultants" }
+            ],
+
+            faqs: rawFaqs.map((f, i) => ({
+              q: f.q, a: f.a,
+              open: this.state.openFaq === i,
+              sign: this.state.openFaq === i ? "−" : "+",
+              toggle: () => this.setState((s) => ({ openFaq: s.openFaq === i ? -1 : i }))
+            }))
+          };
+        }
+      }
+    </script>
+  </body>
 </html>

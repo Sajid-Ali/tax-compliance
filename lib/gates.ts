@@ -28,6 +28,10 @@ export function deriveFilingGates(
   return [
     { label: "Draft generated", status: draftPending ? "pending" : "passed" },
     { label: "CA / CS review", status: reviewStatus, timestamp: filing?.approved_at ?? null },
-    { label: "Filed with SECP", status: filing?.filed_at ? "passed" : "pending", timestamp: filing?.filed_at ?? null },
+    {
+      label: "Filed with SECP",
+      status: filing?.filed_at ? "passed" : "pending",
+      timestamp: filing?.filed_at ?? null,
+    },
   ];
 }

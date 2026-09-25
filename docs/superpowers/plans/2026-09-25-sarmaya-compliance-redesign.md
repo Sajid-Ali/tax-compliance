@@ -36,10 +36,12 @@
 ### Task 1.1: Rewrite design tokens in `app/globals.css`
 
 **Files:**
+
 - Modify: `app/globals.css` (entire `:root`, dark `@media`/`[data-theme="dark"]` blocks, `:root[data-theme="light"]`, and `@theme inline` blocks — full file currently spans lines 1–290)
 
 **Interfaces:**
-- Produces: CSS custom properties consumed by every component via Tailwind utility classes (`bg-primary`, `text-foreground`, `border-border`, `rounded-md`, `shadow-elevation-sm`, etc.) — same property *names* as before, new *values*. `--primary-btn-from`, `--primary-btn-to`, `--shadow-glow`, `--shadow-elevation-glow` are removed entirely (no replacement name).
+
+- Produces: CSS custom properties consumed by every component via Tailwind utility classes (`bg-primary`, `text-foreground`, `border-border`, `rounded-md`, `shadow-elevation-sm`, etc.) — same property _names_ as before, new _values_. `--primary-btn-from`, `--primary-btn-to`, `--shadow-glow`, `--shadow-elevation-glow` are removed entirely (no replacement name).
 
 - [ ] **Step 1: Replace the light `:root` block (lines 4–65)**
 
@@ -88,10 +90,8 @@
      (Tier 3). This is a deliberate reversal of the previous shadow-only
      card treatment. */
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.04);
-  --shadow-md:
-    0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
-  --shadow-lg:
-    0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
+  --shadow-lg: 0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
   --overlay: rgb(15 23 42 / 0.6);
 }
 ```
@@ -150,13 +150,13 @@
 - [ ] **Step 4: Update the `@theme inline` block (lines 182–237)** — remove the `--color-primary-btn-from`, `--color-primary-btn-to`, and `--shadow-elevation-glow` lines entirely (no replacement), remove `--color-primary-glow` (light/dark palettes above no longer define `--primary-glow`), and change the radius scale:
 
 ```css
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+--radius-sm: 0.25rem;
+--radius-md: 0.5rem;
+--radius-lg: 0.75rem;
+--radius-xl: 1rem;
 ```
 
-  (`--font-sans`/`--font-mono`/`--ease-snap` lines are unchanged here — the font *values* they reference change in Task 1.2, not this file.)
+(`--font-sans`/`--font-mono`/`--ease-snap` lines are unchanged here — the font _values_ they reference change in Task 1.2, not this file.)
 
 - [ ] **Step 5: Verify**
 
@@ -171,30 +171,38 @@ Expected: no matches.
 ### Task 1.2: Switch to Plus Jakarta Sans and rebrand metadata in `app/layout.tsx`
 
 **Files:**
+
 - Modify: `app/layout.tsx` (full file, 51 lines)
 
 **Interfaces:**
+
 - Produces: `--font-plus-jakarta-sans` CSS variable, applied as `--font-sans` (already wired in Task 1.1's untouched `@theme inline` lines: `--font-sans: var(--font-geist-sans);` → must become `--font-sans: var(--font-plus-jakarta-sans);`). Geist Mono stays as `--font-mono`.
 
 - [ ] **Step 1: Update the font imports and variable name**
 
 Replace:
+
 ```tsx
 import { Geist, Geist_Mono } from "next/font/google";
 ```
+
 with:
+
 ```tsx
 import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 ```
 
 Replace:
+
 ```tsx
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 ```
+
 with:
+
 ```tsx
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -207,20 +215,23 @@ Update the `<html>` className from `` `${geistSans.variable} ${geistMono.variabl
 - [ ] **Step 2: Update `app/globals.css`'s `--font-sans` line** (part of the `@theme inline` block from Task 1.1, easy to miss since it's a different file):
 
 ```css
-  --font-sans: var(--font-plus-jakarta-sans);
-  --font-mono: var(--font-geist-mono);
+--font-sans: var(--font-plus-jakarta-sans);
+--font-mono: var(--font-geist-mono);
 ```
 
 - [ ] **Step 3: Rebrand the page metadata**
 
 Replace:
+
 ```tsx
 export const metadata: Metadata = {
   title: "Compliance Reminders — SECP Form A tracking",
   description: "Never miss an SECP annual filing deadline again.",
 };
 ```
+
 with:
+
 ```tsx
 export const metadata: Metadata = {
   title: "Sarmaya Compliance — SECP Form A tracking",
@@ -241,9 +252,11 @@ Expected: Plus Jakarta Sans renders; no FOUC/layout shift (next/font guarantees 
 ### Task 1.3: Rebuild `components/logo.tsx` with the Sarmaya Compliance mark
 
 **Files:**
+
 - Modify: `components/logo.tsx` (full file, 24 lines)
 
 **Interfaces:**
+
 - Consumes: nothing new.
 - Produces: same prop API as before — `Logo({ className?, size?: "sm" | "lg" })` — so `app/login/page.tsx`'s `<Logo size="lg" />` and `NavBar`'s `<Logo />` (Task 3.2) don't need changes.
 
@@ -256,7 +269,8 @@ import { cn } from "@/lib/cn";
 
 export function Logo({ className, size = "sm" }: { className?: string; size?: "sm" | "lg" }) {
   const dims = size === "lg" ? 44 : 28;
-  const text = size === "lg" ? "text-xl font-bold tracking-tight" : "text-sm font-semibold tracking-tight";
+  const text =
+    size === "lg" ? "text-xl font-bold tracking-tight" : "text-sm font-semibold tracking-tight";
   const tagline = size === "lg" ? "text-[11px]" : "text-[9px]";
 
   return (
@@ -305,6 +319,7 @@ Visual check: open `/login` in the dev server — the large logo should show the
 ### Task 1.4: Rename brand text app-wide
 
 **Files:**
+
 - Modify: `README.md:1`
 - Modify: `app/login/page.tsx:229`
 - Modify: `components/landing/landing-page.tsx:395`
@@ -314,10 +329,13 @@ Visual check: open `/login` in the dev server — the large logo should show the
 - [ ] **Step 1: `README.md:1`**
 
 Replace:
+
 ```markdown
 # Compliance Reminders — SECP Form A tracking (V1)
 ```
+
 with:
+
 ```markdown
 # Sarmaya Compliance — SECP Form A tracking (V1)
 ```
@@ -325,23 +343,29 @@ with:
 - [ ] **Step 2: `app/login/page.tsx:229`**
 
 Replace:
+
 ```tsx
-            <p className="text-sm text-muted-foreground">Sign in to Compliance Reminders.</p>
+<p className="text-sm text-muted-foreground">Sign in to Compliance Reminders.</p>
 ```
+
 with:
+
 ```tsx
-            <p className="text-sm text-muted-foreground">Sign in to Sarmaya Compliance.</p>
+<p className="text-sm text-muted-foreground">Sign in to Sarmaya Compliance.</p>
 ```
 
 - [ ] **Step 3: `components/landing/landing-page.tsx:395`**
 
 Replace:
+
 ```tsx
-          <span>Compliance Reminders is a filing assistant. It does not provide legal or tax advice.</span>
+<span>Compliance Reminders is a filing assistant. It does not provide legal or tax advice.</span>
 ```
+
 with:
+
 ```tsx
-          <span>Sarmaya Compliance is a filing assistant. It does not provide legal or tax advice.</span>
+<span>Sarmaya Compliance is a filing assistant. It does not provide legal or tax advice.</span>
 ```
 
 - [ ] **Step 4: Verify**
@@ -357,9 +381,11 @@ Expected: both pass.
 ### Task 1.5: Restyle `Button` — flat primary, no gradient/glow
 
 **Files:**
+
 - Modify: `components/ui/button.tsx:8-18` (the `variantClasses` map)
 
 **Interfaces:**
+
 - Consumes: `--color-primary`, `--color-primary-hover`, `--color-primary-active`, `--color-primary-foreground`, `--shadow-elevation-sm` (all defined in Task 1.1).
 - Produces: same `buttonVariants(opts)` and `<Button>` API as before (`variant`, `size`, `loading`, all existing props unchanged) — no caller changes needed anywhere in the app.
 
@@ -370,7 +396,8 @@ const variantClasses: Record<Variant, string> = {
   // Flat solid fill — Institutional Modernism has no gradient/glow
   // anywhere; the primary action reads as authoritative through color and
   // weight, not shine.
-  primary: "bg-primary text-primary-foreground shadow-elevation-sm hover:bg-primary-hover active:bg-primary-active",
+  primary:
+    "bg-primary text-primary-foreground shadow-elevation-sm hover:bg-primary-hover active:bg-primary-active",
   secondary: "bg-surface-secondary text-foreground hover:bg-border border border-border",
   outline: "bg-surface text-foreground border border-border hover:bg-surface-secondary",
   ghost: "text-foreground hover:bg-surface-secondary",
@@ -378,17 +405,21 @@ const variantClasses: Record<Variant, string> = {
 };
 ```
 
-  (Also remove the lift/press micro-interaction from `buttonVariants`'s base string, lines 28–29 — the institutional tone doesn't use it. Replace:
-  ```tsx
-    "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[background-color,color,transform,box-shadow,filter] duration-150 ease-snap cursor-pointer active:scale-[0.97]",
-    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
-  ```
-  with:
-  ```tsx
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors duration-150 ease-snap cursor-pointer",
-    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
-  ```
-  — note `rounded-lg` → `rounded-md`, matching DESIGN.md's 8px button radius.)
+(Also remove the lift/press micro-interaction from `buttonVariants`'s base string, lines 28–29 — the institutional tone doesn't use it. Replace:
+
+```tsx
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[background-color,color,transform,box-shadow,filter] duration-150 ease-snap cursor-pointer active:scale-[0.97]",
+  "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100",
+```
+
+with:
+
+```tsx
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors duration-150 ease-snap cursor-pointer",
+  "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
+```
+
+— note `rounded-lg` → `rounded-md`, matching DESIGN.md's 8px button radius.)
 
 - [ ] **Step 2: Verify**
 
@@ -405,10 +436,12 @@ Visual check: any page with a primary button (e.g. `/login`'s "Send magic link")
 ### Task 1.6: Restyle `Card` and `DataTable`'s wrapper — bordered, no resting shadow
 
 **Files:**
+
 - Modify: `components/ui/card.tsx:4-19` (the `Card` function only)
 - Modify: `components/ui/data-table.tsx:91` (the table wrapper `<div>`)
 
 **Interfaces:**
+
 - Produces: same `Card`/`CardHeader`/`CardTitle`/`CardDescription`/`CardContent`/`CardFooter` exports and props as before.
 
 - [ ] **Step 1: Replace `Card` in `components/ui/card.tsx`**
@@ -427,15 +460,18 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
 }
 ```
 
-  (`CardHeader`/`CardTitle`/`CardDescription`/`CardContent`/`CardFooter` below it are unchanged — they don't reference shadow or radius.)
+(`CardHeader`/`CardTitle`/`CardDescription`/`CardContent`/`CardFooter` below it are unchanged — they don't reference shadow or radius.)
 
 - [ ] **Step 2: Update the `DataTable` wrapper in `components/ui/data-table.tsx:91`**
 
 Replace:
+
 ```tsx
       <div className="overflow-x-auto rounded-lg bg-surface shadow-elevation-sm">
 ```
+
 with:
+
 ```tsx
       <div className="overflow-x-auto rounded-md border border-border bg-surface">
 ```
@@ -452,6 +488,7 @@ Visual check: any page with a `Card` or `DataTable` (e.g. `/admin/rules`, `/dash
 ### Task 1.7: Restyle `Input`/`Select`/`Textarea` radius
 
 **Files:**
+
 - Modify: `components/ui/input.tsx:10-14` (the `fieldBase` string only)
 
 **Interfaces:** same `Input`/`Textarea`/`Select`/`Label`/`Field` exports and props as before.
@@ -459,17 +496,20 @@ Visual check: any page with a `Card` or `DataTable` (e.g. `/admin/rules`, `/dash
 - [ ] **Step 1: Change the radius in `fieldBase`**
 
 Replace:
+
 ```tsx
 const fieldBase =
   "w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors " +
 ```
+
 with:
+
 ```tsx
 const fieldBase =
   "w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors " +
 ```
 
-  (DESIGN.md: form controls fixed at 4px — `--radius-sm` from Task 1.1 — sharper than cards/buttons, matching the "precision legal instrument" shape language.)
+(DESIGN.md: form controls fixed at 4px — `--radius-sm` from Task 1.1 — sharper than cards/buttons, matching the "precision legal instrument" shape language.)
 
 - [ ] **Step 2: Verify**
 
@@ -485,6 +525,7 @@ Visual check: any form input (e.g. `/login`'s email field) should show visibly s
 This is a **mechanical, minimal** fix only — it exists so Phase 1 doesn't leave these two files rendering an invisible gradient (since Task 1.1 removed `--primary-btn-from`/`--primary-btn-to`/`--shadow-elevation-glow` entirely). Their full restyle happens in Phase 4 (Task 4.1) and Phase 5 (sweep) respectively — do not do more than this here.
 
 **Files:**
+
 - Modify: `components/dashboard-summary.tsx:62`
 - Modify: `components/landing/pricing-toggle.tsx:118`
 
@@ -493,10 +534,13 @@ This is a **mechanical, minimal** fix only — it exists so Phase 1 doesn't leav
 - [ ] **Step 1: `components/dashboard-summary.tsx:62`**
 
 Replace:
+
 ```tsx
               ? "bg-[linear-gradient(135deg,var(--color-primary-btn-from)_0%,var(--color-primary-btn-to)_100%)] shadow-elevation-glow"
 ```
+
 with:
+
 ```tsx
               ? "bg-primary shadow-elevation-sm"
 ```
@@ -504,10 +548,13 @@ with:
 - [ ] **Step 2: `components/landing/pricing-toggle.tsx:118`**
 
 Replace:
+
 ```tsx
                 <div className="absolute -top-3 left-7 rounded-full bg-[linear-gradient(135deg,var(--color-primary-btn-from)_0%,var(--color-primary-btn-to)_100%)] px-3 py-1 text-[10.5px] font-semibold tracking-wide text-primary-foreground uppercase">
 ```
+
 with:
+
 ```tsx
                 <div className="absolute -top-3 left-7 rounded-full bg-primary px-3 py-1 text-[10.5px] font-semibold tracking-wide text-primary-foreground uppercase">
 ```
@@ -527,11 +574,13 @@ Expected: all three pass. This is the Phase 1 exit gate — every file touched s
 ### Task 2.1: `getStepState` pure function + `StepIndicator` component
 
 **Files:**
+
 - Create: `lib/step-state.ts`
 - Create: `lib/__tests__/step-state.test.ts`
 - Create: `components/ui/step-indicator.tsx`
 
 **Interfaces:**
+
 - Produces: `getStepState(stepIndex: number, currentIndex: number): "completed" | "in-progress" | "pending"`, and `StepIndicator({ steps: string[]; currentIndex: number; className?: string })`.
 - Consumed by: Task 4.6 (company detail page setup-completeness rail).
 
@@ -656,11 +705,13 @@ Expected: all pass.
 ### Task 2.2: `deriveFilingGates` pure function + `VerificationGateRow` component
 
 **Files:**
+
 - Create: `lib/gates.ts`
 - Create: `lib/__tests__/gates.test.ts`
 - Create: `components/ui/verification-gate-row.tsx`
 
 **Interfaces:**
+
 - Consumes: `Filing`, `FilingStatus` from `lib/types.ts`; `effectiveStatus` from `lib/rules-engine.ts`.
 - Produces: `type GateStatus = "pending" | "passed" | "blocked"`, `interface GateInfo { label: string; status: GateStatus; timestamp?: string | null }`, `deriveFilingGates(filing: Pick<Filing, "reviewer_notes" | "approved_at" | "filed_at"> | null, deadlineStatus: FilingStatus): GateInfo[]`, and `VerificationGateRow({ gate: GateInfo; className?: string })`.
 - Consumed by: Task 4.2 (review-queue), Task 4.4 (filing-queue).
@@ -703,7 +754,11 @@ describe("deriveFilingGates", () => {
 
   it("marks the filed gate passed once filed_at is set", () => {
     const gates = deriveFilingGates(
-      { reviewer_notes: null, approved_at: "2026-09-01T10:00:00Z", filed_at: "2026-09-02T09:00:00Z" },
+      {
+        reviewer_notes: null,
+        approved_at: "2026-09-01T10:00:00Z",
+        filed_at: "2026-09-02T09:00:00Z",
+      },
       "filed"
     );
     expect(gates[2].status).toBe("passed");
@@ -751,7 +806,11 @@ export function deriveFilingGates(
   return [
     { label: "Draft generated", status: draftPending ? "pending" : "passed" },
     { label: "CA / CS review", status: reviewStatus, timestamp: filing?.approved_at ?? null },
-    { label: "Filed with SECP", status: filing?.filed_at ? "passed" : "pending", timestamp: filing?.filed_at ?? null },
+    {
+      label: "Filed with SECP",
+      status: filing?.filed_at ? "passed" : "pending",
+      timestamp: filing?.filed_at ?? null,
+    },
   ];
 }
 ```
@@ -770,9 +829,14 @@ import { cn } from "@/lib/cn";
 import type { GateInfo } from "@/lib/gates";
 
 export function VerificationGateRow({ gate, className }: { gate: GateInfo; className?: string }) {
-  const Icon = gate.status === "passed" ? CheckCircle2 : gate.status === "blocked" ? AlertTriangle : Circle;
+  const Icon =
+    gate.status === "passed" ? CheckCircle2 : gate.status === "blocked" ? AlertTriangle : Circle;
   const iconClass =
-    gate.status === "passed" ? "text-success" : gate.status === "blocked" ? "text-danger" : "text-muted-foreground";
+    gate.status === "passed"
+      ? "text-success"
+      : gate.status === "blocked"
+        ? "text-danger"
+        : "text-muted-foreground";
 
   return (
     <div className={cn("flex items-center justify-between gap-3 py-2", className)}>
@@ -800,9 +864,11 @@ Expected: all pass.
 ### Task 2.3: `SimulatorSlider` component
 
 **Files:**
+
 - Create: `components/ui/simulator-slider.tsx`
 
 **Interfaces:**
+
 - Produces: `SimulatorSlider({ label: string; value: number; min: number; max: number; step?: number; unit?: string; onChange: (value: number) => void; className?: string })`. Purely presentational/controlled — no derived logic, so no pure-function extraction or test (nothing to unit-test beyond "does onChange fire," which is React-event plumbing already covered by the browser interaction, not business logic).
 
 - [ ] **Step 1: Build the component**
@@ -863,11 +929,13 @@ Expected: both pass. (No usage yet — this primitive is built for future use pe
 ### Task 2.4: `isNavLinkActive` pure function + `SidebarNavItem` component
 
 **Files:**
+
 - Create: `lib/nav-active.ts`
 - Create: `lib/__tests__/nav-active.test.ts`
 - Create: `components/ui/sidebar-nav-item.tsx`
 
 **Interfaces:**
+
 - Produces: `isNavLinkActive(pathname: string | null, href: string): boolean` and `SidebarNavItem({ href: string; label: string; icon: LucideIcon; active: boolean })`.
 - Consumed by: Task 3.2 (`NavBar` rebuild).
 
@@ -975,9 +1043,11 @@ Expected: all pass.
 ### Task 3.1: Add an `icon` field to `RoleNavConfig` in `lib/role-nav.ts`
 
 **Files:**
+
 - Modify: `lib/role-nav.ts` (full file, 27 lines)
 
 **Interfaces:**
+
 - Consumes: `LucideIcon` type from `lucide-react`.
 - Produces: `RoleNavConfig.links` items gain `icon: LucideIcon`; `getRoleNavConfig(role)` signature unchanged.
 - Consumed by: Task 3.2 (`NavBar`).
@@ -1022,7 +1092,7 @@ export function getRoleNavConfig(role: UserRole): RoleNavConfig {
 }
 ```
 
-  (The `reviewer` role keeps an empty `links` array, matching current behavior — `/review-queue` is its only page today, same as before this change. The `client` role previously had `links: []` too, relying on the logo-as-home-link alone; it now gets one explicit `Dashboard` entry since the sidebar shell shows nav items as a list, not a single logo-click — an empty sidebar would look broken. This is a minimal, honest addition: the link already existed as `homeHref`, it's just now also visible as a nav row.)
+(The `reviewer` role keeps an empty `links` array, matching current behavior — `/review-queue` is its only page today, same as before this change. The `client` role previously had `links: []` too, relying on the logo-as-home-link alone; it now gets one explicit `Dashboard` entry since the sidebar shell shows nav items as a list, not a single logo-click — an empty sidebar would look broken. This is a minimal, honest addition: the link already existed as `homeHref`, it's just now also visible as a nav row.)
 
 - [ ] **Step 2: Verify**
 
@@ -1034,9 +1104,11 @@ Expected: both pass — this will show type errors in `nav-bar.tsx` until Task 3
 ### Task 3.2: Rebuild `NavBar` as the fixed sidebar
 
 **Files:**
+
 - Modify: `components/nav-bar.tsx` (full file, 153 lines → replaced)
 
 **Interfaces:**
+
 - Consumes: `RoleNavConfig` (Task 3.1), `SidebarNavItem` (Task 2.4), `isNavLinkActive` (Task 2.4), existing `Logo`, `Avatar`, `ThemeToggle`, `Sheet`/`SheetContent`/`SheetTrigger`/`SheetTitle`.
 - Produces: same `NavBar({ links, email, avatarUrl, roleLabel, homeHref })` prop signature as before — `AppShell` (Task 3.3) doesn't need its call site changed, only its internal composition.
 
@@ -1174,7 +1246,7 @@ export function NavBar({
 }
 ```
 
-  Note: the `reviewer` role (empty `links`) renders the header alone, no sidebar/hamburger — same visible behavior as today's top-nav for that role (it had `links: []` too), just without a sidebar rail. This matches the spec ("role's own nav links only") — an empty list means nothing to show.
+Note: the `reviewer` role (empty `links`) renders the header alone, no sidebar/hamburger — same visible behavior as today's top-nav for that role (it had `links: []` too), just without a sidebar rail. This matches the spec ("role's own nav links only") — an empty list means nothing to show.
 
 - [ ] **Step 2: Verify**
 
@@ -1186,9 +1258,11 @@ Expected: both pass — `AppShell` (Task 3.3) still expects the old `<main class
 ### Task 3.3: Rebuild `AppShell` for the fixed sidebar layout
 
 **Files:**
+
 - Modify: `components/app-shell.tsx` (full file, 39 lines)
 
 **Interfaces:**
+
 - Produces: same `AppShell({ links, email, avatarUrl, roleLabel, homeHref, maxWidth?, children })` prop signature as before — the three role layouts (`app/(client)/layout.tsx`, `app/(reviewer)/layout.tsx`, `app/admin/layout.tsx`) need **no changes**.
 
 - [ ] **Step 1: Replace the file**
@@ -1224,7 +1298,13 @@ export function AppShell({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <NavBar links={links} email={email} avatarUrl={avatarUrl} roleLabel={roleLabel} homeHref={homeHref} />
+      <NavBar
+        links={links}
+        email={email}
+        avatarUrl={avatarUrl}
+        roleLabel={roleLabel}
+        homeHref={homeHref}
+      />
       <main className={cn("pt-16", links.length > 0 && "lg:pl-72")}>
         <div className={cn("mx-auto px-4 py-10 sm:px-6", maxWidth)}>{children}</div>
       </main>
@@ -1243,6 +1323,7 @@ Expected: both pass.
 ### Task 3.4: Confirm the three role layouts against the rebuilt shell
 
 **Files:**
+
 - Verify (no expected changes): `app/(client)/layout.tsx`, `app/(reviewer)/layout.tsx`, `app/admin/layout.tsx`
 
 **Interfaces:** none — this task is a verification-only checkpoint, the phase-exit gate for Phase 3.
@@ -1257,6 +1338,7 @@ Run: `npm run typecheck && npm run lint && npm run test`
 Expected: all three pass. This is the Phase 3 exit gate.
 
 Visual check: run the dev server, sign in as each role (client/reviewer/admin — or inspect via the existing seed script `npm run seed` if you need seeded users), confirm:
+
 - Header is fixed at the top, full width, 64px tall.
 - Client and admin roles show a fixed left sidebar (w-72) with their own nav items only, icons + labels, active item highlighted.
 - Reviewer role shows the header only, no sidebar (empty links list) — same as before this phase.
@@ -1270,6 +1352,7 @@ Visual check: run the dev server, sign in as each role (client/reviewer/admin �
 ### Task 4.1: Dashboard restyle
 
 **Files:**
+
 - Modify: `components/dashboard-summary.tsx` (full visual pass — Task 1.8 already fixed the one dangling gradient reference; this task finishes the restyle)
 - Modify: `components/tables/companies-table.tsx` (visual only — icon container radius)
 
@@ -1277,43 +1360,45 @@ Visual check: run the dev server, sign in as each role (client/reviewer/admin �
 
 - [ ] **Step 1: Finish `dashboard-summary.tsx`'s tile treatment**
 
-The `badgeClasses`/`underlineClasses` gradient maps (lines 36–50) reference `--color-info-bg`/`--color-info-border`/etc. gradients, which still exist as tokens (only the *primary* gradient tokens were removed) — but per the "no gradient anywhere" constraint, flatten these too for consistency with the rest of the redesign. Replace lines 36–50:
+The `badgeClasses`/`underlineClasses` gradient maps (lines 36–50) reference `--color-info-bg`/`--color-info-border`/etc. gradients, which still exist as tokens (only the _primary_ gradient tokens were removed) — but per the "no gradient anywhere" constraint, flatten these too for consistency with the rest of the redesign. Replace lines 36–50:
 
 ```tsx
-  const badgeClasses = {
-    hero: "bg-white/15 text-white",
-    info: "bg-info-bg text-info",
-    warning: "bg-warning-bg text-warning",
-    danger: "bg-danger-bg text-danger",
-  };
+const badgeClasses = {
+  hero: "bg-white/15 text-white",
+  info: "bg-info-bg text-info",
+  warning: "bg-warning-bg text-warning",
+  danger: "bg-danger-bg text-danger",
+};
 
-  const underlineClasses = {
-    hero: "bg-white/40",
-    info: "bg-info",
-    warning: "bg-warning",
-    danger: "bg-danger",
-  };
+const underlineClasses = {
+  hero: "bg-white/40",
+  info: "bg-info",
+  warning: "bg-warning",
+  danger: "bg-danger",
+};
 ```
 
-  And the tile container's tone classes (line 61, already partially fixed in Task 1.8) — confirm it now reads:
+And the tile container's tone classes (line 61, already partially fixed in Task 1.8) — confirm it now reads:
 
 ```tsx
-            tile.tone === "hero"
-              ? "bg-primary shadow-elevation-sm"
-              : cn(
-                  "border bg-surface",
-                  tile.tone === "danger" && overdue > 0 ? "border-danger-border" : "border-border"
-                )
+tile.tone === "hero"
+  ? "bg-primary shadow-elevation-sm"
+  : cn(
+      "border bg-surface",
+      tile.tone === "danger" && overdue > 0 ? "border-danger-border" : "border-border"
+    );
 ```
 
-  (drops `shadow-elevation-sm hover:shadow-elevation-md` from the non-hero branch — flat bordered cards per the Phase 1 `Card` treatment — and `rounded-xl` on line 59 becomes `rounded-md` to match the new radius scale.)
+(drops `shadow-elevation-sm hover:shadow-elevation-md` from the non-hero branch — flat bordered cards per the Phase 1 `Card` treatment — and `rounded-xl` on line 59 becomes `rounded-md` to match the new radius scale.)
 
 - [ ] **Step 2: `companies-table.tsx` icon container radius**
 
 Replace (line 30):
+
 ```tsx
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-surface-secondary text-muted-foreground">
 ```
+
 This is already `rounded-md` — no change needed. Confirm and move on.
 
 - [ ] **Step 3: Verify**
@@ -1330,12 +1415,14 @@ Dark-mode check: toggle `ThemeToggle`, confirm the hero tile's flat `bg-primary`
 ### Task 4.2: Review queue — real KPI stats + gate rows
 
 **Files:**
+
 - Create: `lib/review-queue-stats.ts`
 - Create: `lib/__tests__/review-queue-stats.test.ts`
 - Modify: `app/(reviewer)/review-queue/page.tsx` (broaden the query, compute stats, render a KPI row)
 - Modify: `components/tables/review-queue-table.tsx` (add a gate-row expansion per `VerificationGateRow`)
 
 **Interfaces:**
+
 - Consumes: `Filing`, `FilingDeadline`, `FilingStatus` from `lib/types.ts`; `effectiveStatus` from `lib/rules-engine.ts`; `deriveFilingGates` (Task 2.2).
 - Produces: `interface ReviewQueueStats { pendingCount: number; approvedTodayCount: number; changesRequestedCount: number }`, `computeReviewQueueStats(rows: Array<{ status: FilingStatus; approved_at: string | null; reviewer_notes: string | null }>, today?: Date): ReviewQueueStats`.
 
@@ -1415,7 +1502,8 @@ export function computeReviewQueueStats(
   return rows.reduce<ReviewQueueStats>(
     (acc, row) => {
       if (row.status === "in_review") acc.pendingCount += 1;
-      if (row.approved_at && isSameDay(parseISO(row.approved_at), today)) acc.approvedTodayCount += 1;
+      if (row.approved_at && isSameDay(parseISO(row.approved_at), today))
+        acc.approvedTodayCount += 1;
       if (row.status === "draft_ready" && row.reviewer_notes) acc.changesRequestedCount += 1;
       return acc;
     },
@@ -1486,11 +1574,13 @@ export default async function ReviewQueuePage() {
     .from("filing_deadlines")
     .select("status, due_date, filings(approved_at, reviewer_notes)")
     .in("status", ["in_review", "draft_ready", "approved"]);
-  const statsRows = ((statsData ?? []) as Array<{
-    status: FilingDeadline["status"];
-    due_date: string;
-    filings: Pick<Filing, "approved_at" | "reviewer_notes"> | null;
-  }>).map((r) => ({
+  const statsRows = (
+    (statsData ?? []) as Array<{
+      status: FilingDeadline["status"];
+      due_date: string;
+      filings: Pick<Filing, "approved_at" | "reviewer_notes"> | null;
+    }>
+  ).map((r) => ({
     // effectiveStatus, not the raw column — a draft_ready/approved row whose
     // due_date has already passed reads as overdue everywhere else in the
     // app (dashboard-summary, filing-queue-table); the KPI tiles must agree,
@@ -1538,7 +1628,7 @@ import { deriveFilingGates } from "@/lib/gates";
 import { VerificationGateRow } from "@/components/ui/verification-gate-row";
 ```
 
-  Also confirm `effectiveStatus` is imported (it isn't currently, since this file only reads raw `.status`/`.due_date` today) — add `import { effectiveStatus } from "@/lib/rules-engine";` alongside the other imports.
+Also confirm `effectiveStatus` is imported (it isn't currently, since this file only reads raw `.status`/`.due_date` today) — add `import { effectiveStatus } from "@/lib/rules-engine";` alongside the other imports.
 
 Replace the `"company"` column's `cell` (lines 54–62) with:
 
@@ -1562,7 +1652,7 @@ Replace the `"company"` column's `cell` (lines 54–62) with:
         ),
 ```
 
-  (`effectiveStatus`, not the raw `.status` column — consistent with Review Focus item #4 and the fix applied to `computeReviewQueueStats`'s inputs above. Functionally this table's query already filters to `status = "in_review"` so the two are equivalent today, but deriving from raw status here would silently break the moment this table's query ever widens, so it's fixed at the source.)
+(`effectiveStatus`, not the raw `.status` column — consistent with Review Focus item #4 and the fix applied to `computeReviewQueueStats`'s inputs above. Functionally this table's query already filters to `status = "in_review"` so the two are equivalent today, but deriving from raw status here would silently break the moment this table's query ever widens, so it's fixed at the source.)
 
 - [ ] **Step 7: Verify**
 
@@ -1576,6 +1666,7 @@ Visual check: `/review-queue` (as a reviewer/admin user) shows 3 real KPI tiles 
 ### Task 4.3: Rules page restyle + static penalty preview
 
 **Files:**
+
 - Modify: `app/admin/rules/page.tsx` (full file, 48 lines)
 
 **Interfaces:** no changes to `EditRuleForm`/`CreateRuleForm` prop signatures — they're wrapped, not modified.
@@ -1585,28 +1676,28 @@ Visual check: `/review-queue` (as a reviewer/admin user) shows 3 real KPI tiles 
 Replace the rule-mapping block (lines 28–35):
 
 ```tsx
-      <div className="flex flex-col gap-3">
-        {rules.map((rule) => (
-          <Card key={rule.id}>
-            <CardContent className="flex flex-col gap-4 pt-5 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex-1">
-                <EditRuleForm rule={rule} />
-              </div>
-              {rule.penalty_text && (
-                <div className="w-full shrink-0 rounded-md border border-warning-border bg-warning-bg p-3 sm:w-64">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-warning">
-                    Penalty if missed
-                  </p>
-                  <p className="mt-1 text-sm text-foreground">{rule.penalty_text}</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+<div className="flex flex-col gap-3">
+  {rules.map((rule) => (
+    <Card key={rule.id}>
+      <CardContent className="flex flex-col gap-4 pt-5 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex-1">
+          <EditRuleForm rule={rule} />
+        </div>
+        {rule.penalty_text && (
+          <div className="w-full shrink-0 rounded-md border border-warning-border bg-warning-bg p-3 sm:w-64">
+            <p className="text-xs font-semibold uppercase tracking-wide text-warning">
+              Penalty if missed
+            </p>
+            <p className="mt-1 text-sm text-foreground">{rule.penalty_text}</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  ))}
+</div>
 ```
 
-  (This is a **static** preview of the rule's real `penalty_text` string — not an interactive slider simulator. `SimulatorSlider` from Task 2.3 is not used here; there is no fine-calculation engine to drive it, per the spec's out-of-scope list.)
+(This is a **static** preview of the rule's real `penalty_text` string — not an interactive slider simulator. `SimulatorSlider` from Task 2.3 is not used here; there is no fine-calculation engine to drive it, per the spec's out-of-scope list.)
 
 - [ ] **Step 2: Verify**
 
@@ -1622,10 +1713,12 @@ Visual check: `/admin/rules` — each rule card now shows its edit form plus a b
 While researching this task, `lib/audit.ts` and the `audit_log` table (migration `0001_init.sql:193-204`, RLS policy `audit_staff_select` granting `select` to `is_staff()`) were found to already exist and are already written to by `approveFiling`/`requestChanges` (`app/(reviewer)/review-queue/actions.ts`). This is real data the spec's "no cryptographic audit trail" exclusion didn't know about — so this task adds an honest (non-cryptographic, no SHA256 claim) audit panel backed by it, which is a small positive deviation from the spec's out-of-scope list, not a fabrication.
 
 **Files:**
+
 - Modify: `app/admin/filing-queue/page.tsx` (full file, 45 lines)
 - Modify: `components/tables/filing-queue-table.tsx` (visual pass only — status-colored left border)
 
 **Interfaces:**
+
 - Consumes: `deriveFilingGates` (Task 2.2), `VerificationGateRow` (Task 2.2).
 
 - [ ] **Step 1: Restructure the page into a two-column layout with a real audit panel**
@@ -1715,7 +1808,7 @@ export default async function FilingQueuePage() {
 }
 ```
 
-  (Uses `rows[0]`'s gates via `deriveFilingGates` is intentionally **not** wired here as a separate per-row detail drawer — that would require client-side row-selection state, which is a bigger structural change than this task's "two-column layout" scope calls for. Instead, `FilingQueueTable`'s existing per-row `ActionsCell` (unchanged) already surfaces the equivalent real state inline. If a future task wants the full "select a row, see its gates in a side panel" interaction from the mockup, that's a follow-up, not part of this restyle.)
+(Uses `rows[0]`'s gates via `deriveFilingGates` is intentionally **not** wired here as a separate per-row detail drawer — that would require client-side row-selection state, which is a bigger structural change than this task's "two-column layout" scope calls for. Instead, `FilingQueueTable`'s existing per-row `ActionsCell` (unchanged) already surfaces the equivalent real state inline. If a future task wants the full "select a row, see its gates in a side panel" interaction from the mockup, that's a follow-up, not part of this restyle.)
 
 - [ ] **Step 2: Status-colored left border on `filing-queue-table.tsx` rows**
 
@@ -1742,7 +1835,7 @@ In `components/tables/filing-queue-table.tsx`, `DataTable` doesn't currently exp
       },
 ```
 
-  (This file does not currently import `cn` — add `import { cn } from "@/lib/cn";` to its import block.)
+(This file does not currently import `cn` — add `import { cn } from "@/lib/cn";` to its import block.)
 
 - [ ] **Step 3: Verify**
 
@@ -1756,6 +1849,7 @@ Visual check: `/admin/filing-queue` shows the table on the left (2/3 width) and 
 ### Task 4.5: Login page restyle
 
 **Files:**
+
 - Modify: `app/login/page.tsx:213-285` (the `LoginCard` function's JSX only — auth logic in `GoogleButton`/`MagicLinkForm`/`PasswordForm` is untouched)
 
 **Interfaces:** none — visual only, no prop/behavior changes.
@@ -1780,7 +1874,7 @@ Replace lines 213–233 (the `<main>` open through the card's opening `<div>`):
         <div className="flex flex-col gap-5 rounded-md border border-border bg-surface p-6">
 ```
 
-  (Drops the `overflow-hidden` and the two blurred gradient-glow `<div>`s entirely — no glow anywhere per the Global Constraints. `shadow-elevation-lg` → `border border-border`, no shadow, consistent with the flat-card treatment. The `Welcome back` / brand text stays as already updated in Task 1.4.)
+(Drops the `overflow-hidden` and the two blurred gradient-glow `<div>`s entirely — no glow anywhere per the Global Constraints. `shadow-elevation-lg` → `border border-border`, no shadow, consistent with the flat-card treatment. The `Welcome back` / brand text stays as already updated in Task 1.4.)
 
 - [ ] **Step 2: Verify**
 
@@ -1798,9 +1892,11 @@ Dark-mode check: toggle `ThemeToggle` on this page — card border and text shou
 Correction from the spec: the spec described a "2-step `StepIndicator` wrapping `add-company-form` + `director-form` on `companies/new`." Researching `app/(client)/companies/new/page.tsx` during planning found it only renders `AddCompanyForm` — `DirectorForm` lives on the separate `companies/[id]` detail/management page instead, alongside AGM records and the filing-deadlines timeline. There is no single-page 2-step wizard to wrap. The honest mapping is a **setup-completeness rail on `companies/[id]`**, driven by real data (a company profile always exists once this page renders; directors/AGM/deadlines are each present-or-not) — using the same `StepIndicator` component, applied where the real flow actually lives.
 
 **Files:**
+
 - Modify: `app/(client)/companies/[id]/page.tsx` (add one rail; existing sections unchanged)
 
 **Interfaces:**
+
 - Consumes: `StepIndicator` (Task 2.1).
 
 - [ ] **Step 1: Insert the rail below the page header**
@@ -1808,22 +1904,22 @@ Correction from the spec: the spec described a "2-step `StepIndicator` wrapping 
 After the header `<div>` block (ends at line 87, right before the "Filing deadlines" `<Card>` at line 89), insert:
 
 ```tsx
-      <StepIndicator
-        steps={["Company profile", "Directors added", "AGM recorded", "Deadline computed"]}
-        currentIndex={
-          typedDeadlines.length > 0 ? 4 : typedAgm.length > 0 ? 2 : typedDirectors.length > 0 ? 1 : 0
-        }
-        className="rounded-md border border-border bg-surface p-4"
-      />
+<StepIndicator
+  steps={["Company profile", "Directors added", "AGM recorded", "Deadline computed"]}
+  currentIndex={
+    typedDeadlines.length > 0 ? 4 : typedAgm.length > 0 ? 2 : typedDirectors.length > 0 ? 1 : 0
+  }
+  className="rounded-md border border-border bg-surface p-4"
+/>
 ```
 
-  Add the import alongside the other component imports near the top of the file:
+Add the import alongside the other component imports near the top of the file:
 
 ```tsx
 import { StepIndicator } from "@/components/ui/step-indicator";
 ```
 
-  (`currentIndex` logic: company profile is step 0 and is always complete by the time this page renders (the row exists), so the rail starts at least "in progress" on step 0. Once directors exist, step 1 is done and step 2 ("AGM recorded") becomes in-progress → `currentIndex: 1`. Once an AGM record exists, `currentIndex: 2` marks step 2 done and step 3 in-progress. Once a deadline is computed, `currentIndex: 4` marks all 4 steps complete — there's no step 5, so `getStepState` treats every index as `< 4`, all "completed," which is correct: nothing left pending.)
+(`currentIndex` logic: company profile is step 0 and is always complete by the time this page renders (the row exists), so the rail starts at least "in progress" on step 0. Once directors exist, step 1 is done and step 2 ("AGM recorded") becomes in-progress → `currentIndex: 1`. Once an AGM record exists, `currentIndex: 2` marks step 2 done and step 3 in-progress. Once a deadline is computed, `currentIndex: 4` marks all 4 steps complete — there's no step 5, so `getStepState` treats every index as `< 4`, all "completed," which is correct: nothing left pending.)
 
 - [ ] **Step 2: Verify**
 
@@ -1841,6 +1937,7 @@ Visual check: open a company detail page for a company with no directors/AGM/dea
 These pages/components already read the CSS custom properties changed in Phase 1 and inherit the new tokens automatically — this task is verification plus small class-level fixes only, no structural rewrites, per the spec.
 
 **Files (verify, fix only if a visual issue is found):**
+
 - `app/admin/billing/page.tsx`, `app/profile/page.tsx`, `app/set-password/page.tsx`, `app/(client)/companies/new/page.tsx`, `components/landing/landing-page.tsx`, `components/landing/faq-accordion.tsx`, `components/landing/pricing-toggle.tsx`
 - `components/forms/*.tsx` (`add-company-form`, `agm-form`, `avatar-upload-form`, `change-password-form`, `director-form`, `edit-subscription-form`, `name-form`, `phone-form`)
 - `components/tables/agm-table.tsx`, `components/tables/directors-table.tsx`
