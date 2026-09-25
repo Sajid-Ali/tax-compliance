@@ -21,22 +21,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: TEMP DEBUG tanstack resolution
-        run: |
-          node --version
-          npm --version
-          echo "--- npm ls ---"
-          npm ls @tanstack/react-table @tanstack/table-core --all || true
-          echo "--- installed package.json ---"
-          cat node_modules/@tanstack/react-table/package.json
-          echo "--- resolved path via node ---"
-          node -e "console.log(require.resolve('@tanstack/react-table'))"
-          echo "--- types file head ---"
-          head -30 node_modules/@tanstack/react-table/build/lib/index.d.ts
-          echo "--- grep for getCoreRowModel across all @tanstack copies ---"
-          find node_modules -path "*/@tanstack/*" -name "*.d.ts" | xargs grep -l "getCoreRowModel" 2>/dev/null || true
-          echo "--- any second copy of react-table anywhere in the tree ---"
-          find node_modules -type d -name "react-table"
       - run: npm run lint
       - run: npm run format:check
       - run: npm run typecheck
