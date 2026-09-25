@@ -6,10 +6,9 @@ import { AnimatedNumber } from "@/components/ui/animated-number";
 
 /**
  * Summary strip shown above the company list — the "value immediately after
- * login" surface called for in the reference design's gradient hero card.
- * The first tile carries the gradient/glow treatment as the one hero moment
- * on this screen; the other three stay quieter by comparison so the accent
- * still reads as an accent.
+ * login" surface. The first tile carries a flat primary fill as the one
+ * accent moment on this screen; the other three stay quieter by comparison
+ * so the accent still reads as an accent.
  */
 export function DashboardSummary({
   companies,
@@ -34,19 +33,17 @@ export function DashboardSummary({
   ];
 
   const badgeClasses = {
-    hero: "bg-white/15 text-white",
-    info: "bg-[linear-gradient(135deg,var(--color-info-bg)_0%,var(--color-info-border)_100%)] text-info",
-    warning:
-      "bg-[linear-gradient(135deg,var(--color-warning-bg)_0%,var(--color-warning-border)_100%)] text-warning",
-    danger:
-      "bg-[linear-gradient(135deg,var(--color-danger-bg)_0%,var(--color-danger-border)_100%)] text-danger",
+    hero: "bg-primary-foreground/15 text-primary-foreground",
+    info: "bg-info-bg text-info",
+    warning: "bg-warning-bg text-warning",
+    danger: "bg-danger-bg text-danger",
   };
 
   const underlineClasses = {
-    hero: "bg-white/40",
-    info: "bg-[linear-gradient(90deg,var(--color-info)_0%,transparent_100%)]",
-    warning: "bg-[linear-gradient(90deg,var(--color-warning)_0%,transparent_100%)]",
-    danger: "bg-[linear-gradient(90deg,var(--color-danger)_0%,transparent_100%)]",
+    hero: "bg-primary-foreground/40",
+    info: "bg-info",
+    warning: "bg-warning",
+    danger: "bg-danger",
   };
 
   return (
@@ -56,12 +53,12 @@ export function DashboardSummary({
           key={tile.label}
           style={{ animationDelay: `${i * 70}ms` }}
           className={cn(
-            "animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards flex flex-col gap-4 rounded-xl p-5 duration-500 ease-out",
+            "animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards flex flex-col gap-4 rounded-md p-5 duration-500 ease-out",
             "transition-[box-shadow,transform] duration-200 ease-snap hover:-translate-y-1",
             tile.tone === "hero"
-              ? "bg-[linear-gradient(135deg,var(--color-primary-btn-from)_0%,var(--color-primary-btn-to)_100%)] shadow-elevation-glow"
+              ? "bg-primary shadow-elevation-sm"
               : cn(
-                  "border bg-surface shadow-elevation-sm hover:shadow-elevation-md",
+                  "border bg-surface",
                   tile.tone === "danger" && overdue > 0 ? "border-danger-border" : "border-border"
                 )
           )}
@@ -78,7 +75,7 @@ export function DashboardSummary({
             <p
               className={cn(
                 "font-mono text-5xl font-extrabold tracking-tight tabular-nums",
-                tile.tone === "hero" ? "text-white" : "text-foreground"
+                tile.tone === "hero" ? "text-primary-foreground" : "text-foreground"
               )}
             >
               <AnimatedNumber value={tile.value} />
@@ -86,7 +83,7 @@ export function DashboardSummary({
             <p
               className={cn(
                 "text-xs font-medium",
-                tile.tone === "hero" ? "text-white/90" : "text-muted-foreground"
+                tile.tone === "hero" ? "text-primary-foreground/90" : "text-muted-foreground"
               )}
             >
               {tile.label}

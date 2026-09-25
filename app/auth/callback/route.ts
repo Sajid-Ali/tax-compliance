@@ -5,7 +5,14 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const redirectTo = searchParams.get("redirectTo");
+  // Only accept a same-origin relative path — this is user-controlled input
+  // reflected straight into a redirect below, so anything else (an absolute
+  // URL, "//evil.com", "/\evil.com", or an "@" that turns the eventual
+  // `${origin}${redirectTo}` string into a different authority) is an open
+  // redirect and gets dropped in favor of the role-based default.
+  const rawRedirectTo = searchParams.get("redirectTo");
+  const redirectTo =
+    rawRedirectTo && /^\/(?!\/|\\)[^\s@]*$/.test(rawRedirectTo) ? rawRedirectTo : null;
 
   if (code) {
     const supabase = await createClient();
@@ -38,14 +45,15 @@ export async function GET(request: NextRequest) {
             : "/dashboard");
 
       // First login via magic link: prompt to set a password so future
-      // sign-ins don't require waiting on another email. Best-effort — if
-      // has_password isn't queryable yet (migration not applied), skip the
-      // prompt rather than breaking the login.
-      const { data: passwordFlag, error: passwordFlagErr } = await supabase
-        .from("profiles")
-        .select("has_password")
-        .eq("id", user?.id)
-        .single();
+      // sign-ins don't require waiting on another email. Skipped for OAuth
+      // providers (e.g. Google) — they already have a durable auth method
+      // and don't need a password fallback. Best-effort — if has_password
+      // isn't queryable yet (migration not applied), skip the prompt rather
+      // than breaking the login.
+      const isOAuth = user?.app_metadata?.provider !== "email";
+      const { data: passwordFlag, error: passwordFlagErr } = isOAuth
+        ? { data: null, error: null }
+        : await supabase.from("profiles").select("has_password").eq("id", user?.id).single();
       if (passwordFlagErr) {
         console.error(
           "auth/callback: couldn't read has_password (is migration 0005_password_login.sql applied?)",
