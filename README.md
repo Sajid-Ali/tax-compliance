@@ -47,6 +47,7 @@ update public.profiles set role = 'reviewer' where id = '<ca-auth-user-id>';
 - **`audit_log` exists specifically for liability defense.** Every state transition (draft generated, sent to reviewer, approved, filed) writes a row — this is what lets you prove a client's own data, or their CA's sign-off, drove an outcome, not your process.
 - **Billing is fully manual for V1** — `/admin/billing` lets you edit plan/status/amount and mark invoiced/paid, but there's no payment gateway integration until there's enough volume to justify the work.
 - **Auth starts as magic-link-only**; `/profile` lets a client add a password after their first sign-in via `app/set-password`, so later logins don't require email round-trips.
+- **Google sign-in** is also available on `/login`. It requires the Google provider to be enabled in Supabase Dashboard → Authentication → Providers, with a Google Cloud OAuth Client ID/Secret and the redirect URI set to `<your-supabase-project>.supabase.co/auth/v1/callback` — this is dashboard config, not code.
 
 ## Adding a new filing type (e.g. FBR income tax)
 
