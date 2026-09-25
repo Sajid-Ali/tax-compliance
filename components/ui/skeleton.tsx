@@ -18,7 +18,7 @@ export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 /** Matches the dashboard/filing-queue/review-queue row shape so loading.tsx doesn't jump on load. */
 export function RowSkeleton() {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-surface p-4 shadow-elevation-sm">
+    <div className="flex items-center justify-between gap-4 rounded-md border border-border bg-surface p-4">
       <div className="flex items-center gap-3">
         <Skeleton className="h-10 w-10 rounded-md" />
         <div className="flex flex-col gap-2">

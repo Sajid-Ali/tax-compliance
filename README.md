@@ -1,4 +1,4 @@
-# Compliance Reminders — SECP Form A tracking (V1)
+# Sarmaya Compliance — SECP Form A tracking (V1)
 
 Never-miss-a-deadline SaaS for SECP-registered private limited companies. V1 covers SECP Form A/29 annual return tracking only; FBR filing types are a fast-follow (see "Adding a new filing type" below).
 

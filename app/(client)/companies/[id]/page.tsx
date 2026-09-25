@@ -19,6 +19,7 @@ import { DirectorsTable } from "@/components/tables/directors-table";
 import { AgmTable } from "@/components/tables/agm-table";
 import { DirectorForm } from "@/components/forms/director-form";
 import { AgmForm } from "@/components/forms/agm-form";
+import { StepIndicator } from "@/components/ui/step-indicator";
 
 const TIMELINE_STATE: Record<FilingStatus, "done" | "current" | "upcoming" | "danger"> = {
   upcoming: "upcoming",
@@ -85,6 +86,14 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
           </p>
         </div>
       </div>
+
+      <StepIndicator
+        steps={["Company profile", "Directors added", "AGM recorded", "Deadline computed"]}
+        currentIndex={
+          typedDeadlines.length > 0 ? 4 : typedAgm.length > 0 ? 3 : typedDirectors.length > 0 ? 2 : 0
+        }
+        className="rounded-md border border-border bg-surface p-4"
+      />
 
       <Card>
         <CardHeader>

@@ -1,7 +1,7 @@
 import type { UserRole } from "@/lib/types";
 
 export interface RoleNavConfig {
-  links: { href: string; label: string }[];
+  links: { href: string; label: string; icon: "grid" | "send" | "scale" | "credit-card" }[];
   roleLabel: string;
   homeHref: string;
 }
@@ -12,9 +12,9 @@ export function getRoleNavConfig(role: UserRole): RoleNavConfig {
     case "admin":
       return {
         links: [
-          { href: "/admin/filing-queue", label: "Filing queue" },
-          { href: "/admin/rules", label: "Rules" },
-          { href: "/admin/billing", label: "Billing" },
+          { href: "/admin/filing-queue", label: "Filing queue", icon: "send" },
+          { href: "/admin/rules", label: "Rules", icon: "scale" },
+          { href: "/admin/billing", label: "Billing", icon: "credit-card" },
         ],
         roleLabel: "Admin",
         homeHref: "/admin/filing-queue",
@@ -23,6 +23,10 @@ export function getRoleNavConfig(role: UserRole): RoleNavConfig {
       return { links: [], roleLabel: "CA reviewer", homeHref: "/review-queue" };
     case "client":
     default:
-      return { links: [], roleLabel: "Company owner", homeHref: "/dashboard" };
+      return {
+        links: [{ href: "/dashboard", label: "Dashboard", icon: "grid" }],
+        roleLabel: "Company owner",
+        homeHref: "/dashboard",
+      };
   }
 }

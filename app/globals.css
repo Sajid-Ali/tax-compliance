@@ -2,90 +2,80 @@
 @import "tw-animate-css";
 
 :root {
-  /* Surfaces — crisp, precise neutrals. A compliance/governance product
-     reads as trustworthy through precision, not coziness: a barely-warm
-     page ground with pure-white cards layered on top (the same trick
-     Linear/Stripe use), not a beige "notebook" background. */
-  --background: #f6f6f4;
+  /* Surfaces — Institutional Modernism: flat white cards on a barely-tinted
+     canvas, separated by a 1px hairline border, not a soft shadow. Ground
+     truth is the Stitch mockup screenshots + DESIGN.md, reconciled where
+     the two drifted (see spec). */
+  --background: #faf8ff;
   --surface: #ffffff;
-  --surface-secondary: #f0f0ee;
-  --border: #e3e3df;
-  --border-subtle: #ececea;
+  --surface-secondary: #f2f3ff;
+  --border: #e2e8f0;
+  --border-subtle: #eef1f6;
 
-  /* Text — cool near-black, not warm brown-black */
-  --foreground: #0b0d12;
-  --muted-foreground: #62676f;
+  /* Text — deep slate obsidian, not warm black */
+  --foreground: #0f172a;
+  --muted-foreground: #64748b;
 
-  /* Brand — indigo kept as the anchor; violet added as its gradient
-     partner for hero moments and primary actions (buttons, glows,
-     underline accents) — confident and rich rather than a single flat hue.
-     2026 rebrand: pushed more saturated/electric and widened the gradient's
-     hue swing (indigo → violet, not indigo → near-indigo) for a punchier,
-     more "bold modern SaaS" read. Contrast re-verified below, same 4.5:1
-     text-on-gradient bar as before. */
-  --primary: #4133f0;
-  --primary-hover: #2e21d9;
-  --primary-glow: #a855f7;
+  /* Brand — flat statutory emerald. No gradient, no glow: the institutional
+     tone reads as sovereign/restrained, not "bold modern SaaS." */
+  --primary: #0d5c3a;
+  --primary-hover: #0a482d;
+  --primary-active: #073521;
   --primary-foreground: #ffffff;
-  --ring: #4133f0;
-
-  /* Gradient stops for surfaces that carry white text/icons (buttons, the
-     hero KPI tile) — deliberately deeper than --primary-glow. That token
-     only needs to clear WCAG's 3:1 non-text bar (ambient blobs, icon
-     badges); anything with actual text on it needs 4.5:1 at BOTH gradient
-     stops. #4133f0 clears 7.10:1, #9022e8 clears 5.87:1 with white text. */
-  --primary-btn-from: #4133f0;
-  --primary-btn-to: #9022e8;
+  --ring: #10b981;
 
   /* Status */
-  --success: #15803d;
-  --success-bg: #eafaf0;
-  --success-border: #bfe8d0;
-  --warning: #a1650a;
-  --warning-bg: #fdf3e0;
-  --warning-border: #f2ddac;
-  --danger: #c8433a;
-  --danger-bg: #fceeec;
-  --danger-border: #f2cec9;
-  --info: #3e64e0;
-  --info-bg: #eaf0fe;
-  --info-border: #cbdafb;
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+  --warning: #d97706;
+  --warning-bg: #fef3c7;
+  --warning-border: #fde68a;
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+  --danger-border: #fecaca;
+  /* Not in DESIGN.md — kept for the existing "info" status tone (e.g. "in
+     review"). An unobtrusive slate-blue consistent with the neutral palette. */
+  --info: #2563eb;
+  --info-bg: #eff6ff;
+  --info-border: #bfdbfe;
 
-  /* Elevation — deep, soft, layered shadows so cards read as lifted
-     surfaces with real weight, not flat panels with a hairline. */
-  --shadow-sm: 0 2px 6px -2px rgb(11 13 18 / 0.08), 0 1px 2px rgb(11 13 18 / 0.05);
-  --shadow-md: 0 16px 32px -8px rgb(11 13 18 / 0.16), 0 6px 12px -4px rgb(11 13 18 / 0.08);
-  --shadow-lg: 0 40px 80px -16px rgb(11 13 18 / 0.32), 0 16px 32px -8px rgb(11 13 18 / 0.16);
-  /* Colored glow — reserved for hero surfaces and primary CTAs, the one
-     place per screen that's allowed to be loud. Deepened alongside the
-     brand hue push above (rgb equivalents of --primary / --primary-glow),
-     with a touch more spread for a more confident glow. */
-  --shadow-glow: 0 14px 44px -8px rgb(65 51 240 / 0.45), 0 5px 14px -2px rgb(168 85 247 / 0.3);
-  --overlay: rgb(11 13 18 / 0.4);
+  /* Elevation — DESIGN.md Tier 1/2/3: cards get a hairline border and ZERO
+     resting shadow; shadow is reserved for flyouts (Tier 2) and modals
+     (Tier 3). This is a deliberate reversal of the previous shadow-only
+     card treatment. */
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.04);
+  --shadow-md:
+    0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
+  --shadow-lg:
+    0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
+  --overlay: rgb(15 23 42 / 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --background: #0a0a0c;
-    --surface: #131318;
-    --surface-secondary: #1b1b21;
-    --border: #26262e;
-    --border-subtle: #1e1e24;
+    /* Derived, not sourced from a mockup — keeps the emerald hue family
+       rather than going neutral-gray, so dark mode still reads as the same
+       brand. Status colors reuse the previous dark theme's values since
+       they already sit comfortably in this palette. */
+    --background: #0a0f0d;
+    --surface: #121815;
+    --surface-secondary: #1a211d;
+    --border: #2a322d;
+    --border-subtle: #212820;
 
-    --foreground: #f2f2f0;
-    --muted-foreground: #9a9ca5;
+    --foreground: #eff3f0;
+    --muted-foreground: #9aa79e;
 
-    --primary: #7c6fff;
-    --primary-hover: #9b90ff;
-    --primary-glow: #b98cfa;
-    --primary-foreground: #ffffff;
-    --ring: #9b90ff;
-
-    /* Deeper than the raw --primary above, same reason as before: dark
-       mode's brighter accent doesn't clear 4.5:1 with white text on its
-       own. #5a3ef0 clears 6.21:1, #8f2ae0 clears 5.87:1. */
-    --primary-btn-from: #5a3ef0;
-    --primary-btn-to: #8f2ae0;
+    /* Bright mint on dark, not the deep light-mode emerald — that hue is
+       too dark to read as an accent against a near-black background. Text
+       on it is dark, not white: #34D399 is light enough that white text
+       fails 4.5:1 contrast. */
+    --primary: #34d399;
+    --primary-hover: #6ee7b7;
+    --primary-active: #10b981;
+    --primary-foreground: #052e1c;
+    --ring: #34d399;
 
     --success: #37d391;
     --success-bg: #0f2a1d;
@@ -100,11 +90,10 @@
     --info-bg: #171e35;
     --info-border: #253158;
 
-    --shadow-sm: 0 2px 6px -2px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.3);
-    --shadow-md: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 6px 14px -4px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 44px 88px -16px rgb(0 0 0 / 0.75), 0 18px 36px -8px rgb(0 0 0 / 0.55);
-    --shadow-glow: 0 14px 48px -6px rgb(124 111 255 / 0.55), 0 5px 16px -2px rgb(185 140 250 / 0.4);
-    --overlay: rgb(0 0 0 / 0.6);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.4), 0 2px 6px -1px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.55), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    --overlay: rgb(0 0 0 / 0.7);
   }
 }
 
@@ -112,20 +101,18 @@
    data-theme attribute on <html> wins in both directions over the OS
    preference above, so a user's explicit choice always sticks. */
 :root[data-theme="dark"] {
-  --background: #0a0a0c;
-  --surface: #131318;
-  --surface-secondary: #1b1b21;
-  --border: #26262e;
-  --border-subtle: #1e1e24;
-  --foreground: #f2f2f0;
-  --muted-foreground: #9a9ca5;
-  --primary: #7c6fff;
-  --primary-hover: #9b90ff;
-  --primary-glow: #b98cfa;
-  --primary-foreground: #ffffff;
-  --ring: #9b90ff;
-  --primary-btn-from: #5a3ef0;
-  --primary-btn-to: #8f2ae0;
+  --background: #0a0f0d;
+  --surface: #121815;
+  --surface-secondary: #1a211d;
+  --border: #2a322d;
+  --border-subtle: #212820;
+  --foreground: #eff3f0;
+  --muted-foreground: #9aa79e;
+  --primary: #34d399;
+  --primary-hover: #6ee7b7;
+  --primary-active: #10b981;
+  --primary-foreground: #052e1c;
+  --ring: #34d399;
   --success: #37d391;
   --success-bg: #0f2a1d;
   --success-border: #17402c;
@@ -138,45 +125,43 @@
   --info: #7c92ff;
   --info-bg: #171e35;
   --info-border: #253158;
-  --shadow-sm: 0 2px 6px -2px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.3);
-  --shadow-md: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 6px 14px -4px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 44px 88px -16px rgb(0 0 0 / 0.75), 0 18px 36px -8px rgb(0 0 0 / 0.55);
-  --shadow-glow: 0 14px 48px -6px rgb(124 111 255 / 0.55), 0 5px 16px -2px rgb(185 140 250 / 0.4);
-  --overlay: rgb(0 0 0 / 0.6);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.4), 0 2px 6px -1px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.55), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+  --overlay: rgb(0 0 0 / 0.7);
 }
 
 :root[data-theme="light"] {
-  --background: #f6f6f4;
+  --background: #faf8ff;
   --surface: #ffffff;
-  --surface-secondary: #f0f0ee;
-  --border: #e3e3df;
-  --border-subtle: #ececea;
-  --foreground: #0b0d12;
-  --muted-foreground: #62676f;
-  --primary: #4133f0;
-  --primary-hover: #2e21d9;
-  --primary-glow: #a855f7;
+  --surface-secondary: #f2f3ff;
+  --border: #e2e8f0;
+  --border-subtle: #eef1f6;
+  --foreground: #0f172a;
+  --muted-foreground: #64748b;
+  --primary: #0d5c3a;
+  --primary-hover: #0a482d;
+  --primary-active: #073521;
   --primary-foreground: #ffffff;
-  --ring: #4133f0;
-  --primary-btn-from: #4133f0;
-  --primary-btn-to: #9022e8;
-  --success: #15803d;
-  --success-bg: #eafaf0;
-  --success-border: #bfe8d0;
-  --warning: #a1650a;
-  --warning-bg: #fdf3e0;
-  --warning-border: #f2ddac;
-  --danger: #c8433a;
-  --danger-bg: #fceeec;
-  --danger-border: #f2cec9;
-  --info: #3e64e0;
-  --info-bg: #eaf0fe;
-  --info-border: #cbdafb;
-  --shadow-sm: 0 2px 6px -2px rgb(11 13 18 / 0.08), 0 1px 2px rgb(11 13 18 / 0.05);
-  --shadow-md: 0 16px 32px -8px rgb(11 13 18 / 0.16), 0 6px 12px -4px rgb(11 13 18 / 0.08);
-  --shadow-lg: 0 40px 80px -16px rgb(11 13 18 / 0.32), 0 16px 32px -8px rgb(11 13 18 / 0.16);
-  --shadow-glow: 0 14px 44px -8px rgb(65 51 240 / 0.45), 0 5px 14px -2px rgb(168 85 247 / 0.3);
-  --overlay: rgb(11 13 18 / 0.4);
+  --ring: #10b981;
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+  --warning: #d97706;
+  --warning-bg: #fef3c7;
+  --warning-border: #fde68a;
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+  --danger-border: #fecaca;
+  --info: #2563eb;
+  --info-bg: #eff6ff;
+  --info-border: #bfdbfe;
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.04);
+  --shadow-md:
+    0 4px 12px -2px rgb(15 23 42 / 0.06), 0 2px 6px -1px rgb(15 23 42 / 0.04);
+  --shadow-lg:
+    0 20px 25px -5px rgb(15 23 42 / 0.12), 0 8px 10px -6px rgb(15 23 42 / 0.06);
+  --overlay: rgb(15 23 42 / 0.6);
 }
 
 @theme inline {
@@ -191,9 +176,7 @@
 
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
-  --color-primary-glow: var(--primary-glow);
-  --color-primary-btn-from: var(--primary-btn-from);
-  --color-primary-btn-to: var(--primary-btn-to);
+  --color-primary-active: var(--primary-active);
   --color-primary-foreground: var(--primary-foreground);
   --color-ring: var(--ring);
 
@@ -213,19 +196,18 @@
   --shadow-elevation-sm: var(--shadow-sm);
   --shadow-elevation-md: var(--shadow-md);
   --shadow-elevation-lg: var(--shadow-lg);
-  --shadow-elevation-glow: var(--shadow-glow);
   --color-overlay: var(--overlay);
 
   /* Static — radius doesn't switch between light/dark, so no :root
      indirection here (that indirection previously caused an accidental
      var(--radius-sm) self-reference; keeping these declared only once,
      only here, avoids that class of bug entirely). */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.625rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
 
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-plus-jakarta-sans);
   --font-mono: var(--font-geist-mono);
 
   /* Snap easing — a sharper, more confident curve than plain ease-out for
@@ -276,13 +258,11 @@ body {
    forced this: (1) outline: none here with no ring declared elsewhere left
    several interactive elements (e.g. the login mode tabs) with zero visible
    focus indicator — an easy thing to forget per-component; (2) box-shadow
-   ring utilities lose a CSS property fight against any element that also
-   carries its own permanent shadow-elevation-* utility (both compose
-   through the single `box-shadow` property — Tailwind's ring layers ended
-   up zeroed out on the primary button, which also has shadow-elevation-glow).
-   `outline` is a fully separate rendering layer from box-shadow, so it can
-   never lose that fight, and modern browsers already round it to match the
-   element's border-radius automatically. */
+   and ring utilities compose through the same CSS property, causing potential
+   conflicts on elements that carry both permanent elevation shadows and
+   interactive ring styles. `outline` is a fully separate rendering layer
+   from box-shadow, so it can never lose that fight, and modern browsers
+   already round it to match the element's border-radius automatically. */
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;

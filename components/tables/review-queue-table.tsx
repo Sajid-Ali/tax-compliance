@@ -4,7 +4,10 @@ import { useMemo, useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { FileCheck2, FileX2 } from "lucide-react";
 import type { Company, Filing, FilingDeadline } from "@/lib/types";
+import { deriveFilingGates } from "@/lib/gates";
+import { effectiveStatus } from "@/lib/rules-engine";
 import { approveFiling, requestChanges } from "@/app/(reviewer)/review-queue/actions";
+import { VerificationGateRow } from "@/components/ui/verification-gate-row";
 import { DataTable } from "@/components/ui/data-table";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
@@ -52,12 +55,20 @@ export function ReviewQueueTable({
         header: "Company",
         accessorFn: (r) => r.row.companies.name,
         cell: ({ row }) => (
-          <div>
+          <div className="flex flex-col gap-1">
             <p className="font-medium text-foreground">{row.original.row.companies.name}</p>
             <p className="text-xs text-muted-foreground">
               SECP #{row.original.row.companies.secp_registration_no} · Due{" "}
               {row.original.row.due_date}
             </p>
+            <div className="mt-1 flex flex-col divide-y divide-border-subtle">
+              {deriveFilingGates(
+                row.original.row.filings,
+                effectiveStatus(row.original.row.status, row.original.row.due_date)
+              ).map((gate) => (
+                <VerificationGateRow key={gate.label} gate={gate} />
+              ))}
+            </div>
           </div>
         ),
       },

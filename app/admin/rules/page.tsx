@@ -28,8 +28,18 @@ export default async function RulesPage() {
       <div className="flex flex-col gap-3">
         {rules.map((rule) => (
           <Card key={rule.id}>
-            <CardContent className="pt-5">
-              <EditRuleForm rule={rule} />
+            <CardContent className="flex flex-col gap-4 pt-5 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex-1">
+                <EditRuleForm rule={rule} />
+              </div>
+              {rule.penalty_text && (
+                <div className="w-full shrink-0 rounded-md border border-warning-border bg-warning-bg p-3 sm:w-64">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-warning">
+                    Penalty if missed
+                  </p>
+                  <p className="mt-1 text-sm text-foreground">{rule.penalty_text}</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}

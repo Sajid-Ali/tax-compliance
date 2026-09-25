@@ -8,7 +8,7 @@ import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const fieldBase =
-  "w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors " +
+  "w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors " +
   "focus:border-primary " +
   "disabled:cursor-not-allowed disabled:opacity-50 " +
   "aria-invalid:border-danger aria-invalid:focus:border-danger";
